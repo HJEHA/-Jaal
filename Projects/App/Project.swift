@@ -10,22 +10,30 @@ let targets: [Target] = [
       infoPlist: .extendingDefault(
         with: [
           "UIRequiredDeviceCapabilities": [
-            "ARKit"
+            .string("ARKit")
           ],
-          "UIUserInterfaceStyle": "Dark",
-          "CFBundleShortVersionString": "1.2",
-          "CFBundleVersion": "1",
+          "UIUserInterfaceStyle": .string("Dark"),
+          "CFBundleShortVersionString": Project.Environment.marketingVersion,
+          "CFBundleVersion": Project.Environment.buildVersion,
+          "CFBundleDisplayName": .string("$(APP_NAME)"),
           "CFBundleName": "WaistUp",
-          "CFBundleIconName": "AppIcon",
-          "UILaunchStoryboardName": "LaunchScreen",
+          "CFBundleIconName": .string("$(PRODUCT_NAME)"),
+          "UILaunchStoryboardName": .string("LaunchScreen"),
           "UIApplicationSceneManifest": [
-            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationSupportsMultipleScenes": .boolean(false),
             "UISceneConfigurations": []
           ],
-          "NSCameraUsageDescription": "이 앱은 카메라를 통해 사용자의 자세를 판단합니다.",
+          "UISupportedInterfaceOrientations": [
+            .string("UIInterfaceOrientationPortrait")
+          ],
+          "NSCameraUsageDescription": .string("이 앱은 카메라를 통해 사용자의 자세를 판단합니다."),
         ]),
       dependencies: [
         .feature
+      ],
+      configurations: [
+        .debug,
+        .release
       ]
     )
   ),
@@ -33,5 +41,13 @@ let targets: [Target] = [
 
 let project: Project = .makeModule(
   name: "WaistUp",
-  targets: targets
+  targets: targets,
+  configurations: [
+    .debug,
+    .release
+  ],
+  schemes: [
+    .debug,
+    .release
+  ]
 )

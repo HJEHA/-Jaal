@@ -16,5 +16,6 @@ let targets: [Target] = [
 
 let project: Project = .makeModule(
   name: "Shared",
-  targets: targets
+  targets: targets,
+  configurations: [.debug, .release]
 )

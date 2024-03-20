@@ -18,11 +18,10 @@ public struct TargetFactory {
   var entitlements: Path?
   var scripts: [TargetScript]
   var dependencies: [TargetDependency]
-  var settings: Settings?
-  var coreDataModels: [CoreDataModel]
   var environment: [String: String]
   var launchArguments: [LaunchArgument]
   var additionalFiles: [FileElement]
+  var configurations: [Configuration]
   
   public init(
     name: String = "",
@@ -40,34 +39,39 @@ public struct TargetFactory {
     scripts: [TargetScript] = [],
     dependencies: [TargetDependency] = [],
     settings: Settings? = nil,
-    coreDataModels: [CoreDataModel] = [],
     environment: [String : String] = [:],
     launchArguments: [LaunchArgument] = [],
-    additionalFiles: [FileElement] = []) {
-      self.name = name
-      self.platform = platform
-      self.product = product
-      self.productName = productName
-      self.deploymentTarget = Project.Environment.deploymentTarget
-      self.bundleId = bundleId
-      self.infoPlist = infoPlist
-      self.sources = sources
-      self.resources = resources
-      self.copyFiles = copyFiles
-      self.headers = headers
-      self.entitlements = entitlements
-      self.scripts = scripts
-      self.dependencies = dependencies
-      self.settings = settings
-      self.coreDataModels = coreDataModels
-      self.environment = environment
-      self.launchArguments = launchArguments
-      self.additionalFiles = additionalFiles
-    }
+    additionalFiles: [FileElement] = [],
+    configurations: [Configuration] = []
+  ) {
+    self.name = name
+    self.platform = platform
+    self.product = product
+    self.productName = productName
+    self.deploymentTarget = Project.Environment.deploymentTarget
+    self.bundleId = bundleId
+    self.infoPlist = infoPlist
+    self.sources = sources
+    self.resources = resources
+    self.copyFiles = copyFiles
+    self.headers = headers
+    self.entitlements = entitlements
+    self.scripts = scripts
+    self.dependencies = dependencies
+    self.environment = environment
+    self.launchArguments = launchArguments
+    self.additionalFiles = additionalFiles
+    self.configurations = configurations
+  }
 }
 
 public extension Target {
   private static func make(factory: TargetFactory) -> Self {
+    let settings: Settings = .settings(
+      configurations: factory.configurations,
+      defaultSettings: .recommended
+    )
+    
     return .init(
       name: factory.name,
       platform: factory.platform,
@@ -83,8 +87,7 @@ public extension Target {
       entitlements: factory.entitlements,
       scripts: factory.scripts,
       dependencies: factory.dependencies,
-      settings: factory.settings,
-      coreDataModels: factory.coreDataModels,
+      settings: settings,
       environment: factory.environment,
       launchArguments: factory.launchArguments,
       additionalFiles: factory.additionalFiles
@@ -95,9 +98,11 @@ public extension Target {
 // MARK: Target + App
 
 public extension Target {
-  static func app(implements module: ModulePath.App, factory: TargetFactory) -> Self {
+  static func app(
+    implements module: ModulePath.App,
+    factory: TargetFactory
+  ) -> Self {
     var newFactory = factory
-    newFactory.name = ModulePath.App.name + module.rawValue
     
     switch module {
       case .IOS:
@@ -106,7 +111,7 @@ public extension Target {
         newFactory.name = Project.Environment.appName
         newFactory.bundleId = Project.Environment.bundlePrefix
         newFactory.resources = ["Resources/**"]
-        newFactory.productName = "WaistUp"
+        newFactory.productName = Project.Environment.appName
     }
     return make(factory: newFactory)
   }

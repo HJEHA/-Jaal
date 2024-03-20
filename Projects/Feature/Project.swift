@@ -14,6 +14,7 @@ let targets: [Target] = [
 
 let project: Project = .makeModule(
   name: "Feature",
-  targets: targets
+  targets: targets,
+  configurations: [.debug, .release]
 )
 

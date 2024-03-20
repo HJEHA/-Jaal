@@ -2,22 +2,32 @@ import ProjectDescription
 import DependencyPlugin
 
 public extension Project {
-  static func makeModule(name: String, targets: [Target]) -> Self {
+  static func makeModule(
+    name: String,
+    targets: [Target],
+    configurations: [Configuration] = [],
+    schemes: [Scheme] = []
+  ) -> Self {
     let name: String = name
     let organizationName: String? = nil
-    let options: Project.Options = .options()
     let packages: [Package] = []
-    let settings: Settings? = nil
     let targets: [Target] = targets
-    let schemes: [Scheme] = []
     let fileHeaderTemplate: FileHeaderTemplate? = nil
     let additionalFiles: [FileElement] = []
     let resourceSynthesizers: [ResourceSynthesizer] = []
     
+    let settings: Settings = .settings(
+      configurations: configurations,
+      defaultSettings: .recommended
+    )
+    
     return .init(
       name: name,
       organizationName: organizationName,
-      options: options,
+      options: .options(
+        defaultKnownRegions: ["Base", "ko"],
+        developmentRegion: "ko"
+      ),
       packages: packages,
       settings: settings,
       targets: targets,
