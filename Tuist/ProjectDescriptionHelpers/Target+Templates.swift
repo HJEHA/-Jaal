@@ -15,7 +15,7 @@ public struct TargetFactory {
   var resources: ResourceFileElements?
   var copyFiles: [CopyFilesAction]?
   var headers: Headers?
-  var entitlements: Path?
+  var entitlements: Entitlements?
   var scripts: [TargetScript]
   var dependencies: [TargetDependency]
   var environment: [String: String]
@@ -35,7 +35,7 @@ public struct TargetFactory {
     resources: ResourceFileElements? = nil,
     copyFiles: [CopyFilesAction]? = nil,
     headers: Headers? = nil,
-    entitlements: Path? = nil,
+    entitlements: Entitlements? = nil,
     scripts: [TargetScript] = [],
     dependencies: [TargetDependency] = [],
     settings: Settings? = nil,

@@ -2,21 +2,17 @@ import Foundation
 
 import ComposableArchitecture
 
-public struct RootStore: ReducerProtocol {
+public struct RootStore: Reducer {
   
-  public enum State: Equatable {
-    case onAppear(Bool)
+  public struct State: Equatable {
     
-    public init() {
-      self = .onAppear(true)
-    }
   }
   
   public enum Action: Equatable {
     
   }
   
-  public var body: some ReducerProtocol<State, Action> {
+  public var body: some Reducer<State, Action> {
     Reduce { state, action in
       switch action {
           

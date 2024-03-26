@@ -9,7 +9,7 @@ public extension Project {
       devices: [.iphone]
     )
     public static let bundlePrefix = "com.jeha.waistup"
-    public static let buildVersion = InfoPlist.Value.string("1")
-    public static let marketingVersion = InfoPlist.Value.string("1.0.0")
+    public static let buildVersion = Plist.Value(stringLiteral: "1")
+    public static let marketingVersion = Plist.Value(stringLiteral: "1.0.0")
   }
 }
