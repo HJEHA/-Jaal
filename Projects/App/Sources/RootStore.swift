@@ -2,24 +2,25 @@ import Foundation
 
 import ComposableArchitecture
 
-import DomainFaceTrackingInterface
+import Feature
 
 public struct RootStore: Reducer {
   
   public struct State: Equatable {
-    var faceTracking: FaceTrackingStore.State
+    public var mainTab: MainTabStore.State = .init()
   }
   
   public enum Action: Equatable {
-    case faceTracking(FaceTrackingStore.Action)
+    case mainTab(MainTabStore.Action)
   }
   
-  public var body: some Reducer<State, Action> {
-    
+  public var body: some ReducerOf<Self> {
+    Scope(state: \.mainTab, action: /Action.mainTab) {
+      MainTabStore()
+    }
     Reduce { state, action in
       switch action {
-        case let .faceTracking(action):
-          print(action)
+        case let .mainTab(action):
           return .none
       }
     }

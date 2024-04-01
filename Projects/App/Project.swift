@@ -12,7 +12,7 @@ let targets: [Target] = [
           "UIRequiredDeviceCapabilities": [
             .string("ARKit")
           ],
-          "UIUserInterfaceStyle": .string("Dark"),
+          "UIUserInterfaceStyle": .string("Light"),
           "CFBundleShortVersionString": Project.Environment.marketingVersion,
           "CFBundleVersion": Project.Environment.buildVersion,
           "CFBundleDisplayName": .string("$(APP_NAME)"),

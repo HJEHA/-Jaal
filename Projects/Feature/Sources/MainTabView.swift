@@ -7,12 +7,129 @@
 
 import SwiftUI
 
-struct MainTabView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import ComposableArchitecture
 
-#Preview {
-    MainTabView()
+import SharedDesignSystem
+
+public struct MainTabView: View {
+  
+  public let store: StoreOf<MainTabStore>
+  @ObservedObject private var viewStore: ViewStoreOf<MainTabStore>
+  
+  public init(store: StoreOf<MainTabStore>) {
+    self.store = store
+    self.viewStore = ViewStore(store, observe: { $0 })
+  }
+  
+  public var body: some View {
+    VStack(spacing: .zero) {
+      tabView(viewStore)
+      
+      tabBarView(viewStore)
+    }
+    .ignoresSafeArea()
+  }
+  
+  @ViewBuilder
+  private func tabView(_ viewStore: ViewStoreOf<MainTabStore>) -> some View {
+    VStack {
+      Spacer()
+      HStack {
+        Spacer()
+      }
+      
+      Text(viewStore.currentScene.title)
+      
+      Spacer()
+    }
+  }
+  
+  @ViewBuilder
+  private func tabBarView(_ viewStore: ViewStoreOf<MainTabStore>) -> some View {
+    ZStack {
+      HStack {
+        Spacer()
+        
+        tabBarItemView(viewStore, scene: .home)
+        
+        Spacer()
+        Spacer()
+        Spacer()
+        
+        tabBarItemView(viewStore, scene: .myPage)
+        
+        Spacer()
+      }
+      .frame(maxWidth: .infinity, maxHeight: 101)
+      .background(SharedDesignSystemAsset.gray50.swiftUIColor)
+      .overlay(
+        Rectangle()
+          .frame(width: nil, height: 1, alignment: .top)
+          .foregroundColor(SharedDesignSystemAsset.gray100.swiftUIColor),
+        alignment: .top
+      )
+      
+      tabBarItemView(viewStore, scene: .measurement)
+        .frame(width: 68, height: 68)
+        .offset(.init(width: 0, height: -15))
+    }
+    .frame(maxWidth: .infinity, maxHeight: 101)
+  }
+  
+  @ViewBuilder
+  private func tabBarItemView(
+    _ viewStore: ViewStoreOf<MainTabStore>,
+    scene: MainScene
+  ) -> some View {
+    VStack(spacing: .zero) {
+      Button(action: {
+        viewStore.send(.selectTab(scene))
+      }, label: {
+        if case .measurement = scene {
+          scene.image
+            .renderingMode(.template)
+            .resizable()
+            .frame(width: 40, height: 40)
+            .foregroundColor(
+              viewStore.currentScene == scene
+              ? SharedDesignSystemAsset.blue.swiftUIColor
+              : SharedDesignSystemAsset.gray500.swiftUIColor
+            )
+            .background(
+              Circle()
+                .fill(SharedDesignSystemAsset.gray50.swiftUIColor)
+                .frame(width: 68, height: 68)
+            )
+            .overlay(
+              RoundedRectangle(cornerRadius: 34)
+                .stroke(SharedDesignSystemAsset.gray100.swiftUIColor, lineWidth: 1)
+                .frame(width: 68, height: 68)
+            )
+        } else {
+          scene.image
+            .renderingMode(.template)
+            .resizable()
+            .frame(width: 28, height: 28)
+            .foregroundColor(
+              viewStore.currentScene == scene 
+              ? SharedDesignSystemAsset.blue.swiftUIColor
+              : SharedDesignSystemAsset.gray500.swiftUIColor
+            )
+        }
+      })
+      
+      Text(scene.title)
+        .foregroundColor(
+          viewStore.currentScene == scene 
+          ? SharedDesignSystemAsset.blue.swiftUIColor
+          : SharedDesignSystemAsset.gray500.swiftUIColor
+        )
+        .font(.body)
+        .padding(.top, scene == .measurement ? 28 : 5)
+        .padding(.bottom, 20)
+    }
+    .onTapGesture {
+      viewStore.send(.selectTab(scene))
+    }
+  }
 }

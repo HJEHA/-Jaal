@@ -7,7 +7,7 @@ struct RootApp: App {
   var body: some Scene {
     WindowGroup {
       RootView(
-        store: .init(initialState: RootStore.State(faceTracking: .init())) {
+        store: .init(initialState: RootStore.State()) {
           RootStore()
         }
       )

@@ -2,6 +2,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import Feature
 import DomainFaceTrackingInterface
 
 struct RootView: View {
@@ -14,6 +15,6 @@ struct RootView: View {
   }
   
   var body: some View {
-    FaceTrackingView(store: store.scope(state: \.faceTracking, action: RootStore.Action.faceTracking))
+    MainTabView(store: store.scope(state: \.mainTab, action: RootStore.Action.mainTab))
   }
 }
