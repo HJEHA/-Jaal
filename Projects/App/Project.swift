@@ -27,6 +27,11 @@ let targets: [Target] = [
             .string("UIInterfaceOrientationPortrait")
           ],
           "NSCameraUsageDescription": .string("이 앱은 카메라를 통해 사용자의 자세를 판단합니다."),
+          "UIAppFonts": .array([
+            .string("Gamtan-Bold.ttf"),
+            .string("Gamtan-Regular.ttf"),
+            .string("Gamtan-Thin.ttf"),
+          ]),
         ]),
       dependencies: [
         .feature

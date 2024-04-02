@@ -39,6 +39,7 @@ public struct MainTabView: View {
       }
       
       Text(viewStore.currentScene.title)
+        .modifier(GamtanFont(font: .bold, size: 20))
       
       Spacer()
     }
