@@ -41,6 +41,7 @@ public struct MeasurementView: View {
       
       Spacer()
     }
+    .background(SharedDesignSystemAsset.gray100.swiftUIColor)
   }
 }
 
