@@ -76,12 +76,12 @@ public struct MainTabView: View {
       .overlay(
         Rectangle()
           .frame(width: nil, height: 1, alignment: .top)
-          .foregroundColor(SharedDesignSystemAsset.gray100.swiftUIColor),
+          .foregroundColor(SharedDesignSystemAsset.gray200.swiftUIColor),
         alignment: .top
       )
       
       tabBarItemView(viewStore, scene: .measurement)
-        .frame(width: 68, height: 68)
+        .frame(width: 56, height: 56)
         .offset(.init(width: 0, height: -15))
     }
     .frame(maxWidth: .infinity, maxHeight: 101)
@@ -113,7 +113,10 @@ public struct MainTabView: View {
             )
             .overlay(
               RoundedRectangle(cornerRadius: 34)
-                .stroke(SharedDesignSystemAsset.gray100.swiftUIColor, lineWidth: 1)
+                .stroke(
+                  SharedDesignSystemAsset.gray200.swiftUIColor,
+                  lineWidth: 1
+                )
                 .frame(width: 68, height: 68)
             )
         } else {
@@ -135,9 +138,9 @@ public struct MainTabView: View {
           ? SharedDesignSystemAsset.blue.swiftUIColor
           : SharedDesignSystemAsset.gray500.swiftUIColor
         )
-        .font(.body)
-        .padding(.top, scene == .measurement ? 28 : 5)
+        .padding(.top, scene == .measurement ? 24 : 6)
         .padding(.bottom, 20)
+        .modifier(GamtanFont(font: .bold, size: 12))
     }
     .onTapGesture {
       viewStore.send(.selectTab(scene))
