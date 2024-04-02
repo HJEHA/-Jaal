@@ -16,7 +16,7 @@ public struct FaceTrackingStore: Reducer {
   }
   
   public struct State: Equatable {
-    var faceCenter: SIMD3<Float>?
+    public var faceCenter: SIMD3<Float>?
     
     public init() { }
   }
