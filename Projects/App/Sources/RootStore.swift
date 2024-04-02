@@ -20,7 +20,7 @@ public struct RootStore: Reducer {
     }
     Reduce { state, action in
       switch action {
-        case let .mainTab(action):
+        case .mainTab:
           return .none
       }
     }
