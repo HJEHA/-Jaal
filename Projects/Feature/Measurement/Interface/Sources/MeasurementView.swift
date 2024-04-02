@@ -22,9 +22,15 @@ public struct MeasurementView: View {
   
   public var body: some View {
     VStack(alignment: .leading) {
-      title
-        .padding(.leading, 16)
-        .padding(.vertical, 8)
+      HStack {
+        title
+        
+        Spacer()
+        
+        startButton
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 8)
       
       selectedMode
         .padding(.leading, 20)
@@ -54,6 +60,43 @@ extension MeasurementView {
   private var selectedMode: some View {
     Text("모드 선택")
       .modifier(GamtanFont(font: .bold, size: 20))
+  }
+  
+  private var startButton: some View {
+    Button(action: {
+      print("시작")
+    }, label: {
+      RoundedRectangle(cornerRadius: 16)
+        .foregroundColor(
+          SharedDesignSystemAsset.beige.swiftUIColor
+        )
+        .frame(width: 120, height: 56)
+        .overlay(
+          HStack {
+            Image(
+              uiImage: viewStore.selectedMode == .nomal
+              ? SharedDesignSystemAsset.play.image
+              : SharedDesignSystemAsset.flame.image
+            )
+            .renderingMode(.template)
+            .resizable()
+            .frame(width: 20, height: 20)
+            .foregroundColor(
+              viewStore.selectedMode == .nomal
+              ? SharedDesignSystemAsset.orange.swiftUIColor
+              : SharedDesignSystemAsset.red.swiftUIColor
+            )
+            
+            Text("측정 시작")
+              .modifier(GamtanFont(font: .bold, size: 18))
+              .foregroundColor(
+                viewStore.selectedMode == .nomal
+                ? SharedDesignSystemAsset.orange.swiftUIColor
+                : SharedDesignSystemAsset.red.swiftUIColor
+              )
+          }
+        )
+    })
   }
   
   @ViewBuilder
