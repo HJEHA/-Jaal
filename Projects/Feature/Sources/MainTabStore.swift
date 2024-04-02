@@ -16,7 +16,7 @@ public struct MainTabStore: Reducer {
   public init() { }
   
   public struct State: Equatable {
-    public var measurement: MeasurementStore.State = .init()
+    public var measurement: MeasurementRootStore.State = .init()
     
     public var currentScene: MainScene = .home
     
@@ -24,14 +24,14 @@ public struct MainTabStore: Reducer {
   }
   
   public enum Action: Equatable {
-    case measurement(MeasurementStore.Action)
+    case measurement(MeasurementRootStore.Action)
     
     case selectTab(MainScene)
   }
   
   public var body: some ReducerOf<Self> {
     Scope(state: \.measurement, action: /Action.measurement) {
-      MeasurementStore()
+      MeasurementRootStore()
     }
     Reduce { state, action in
       switch action {

@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 import FeatureMeasurementInterface
 
-extension MeasurementStore {
+extension MeasurementRootStore {
   public init() {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {

@@ -11,11 +11,11 @@ import ComposableArchitecture
 
 import SharedDesignSystem
 
-public struct MeasurementView: View {
-  public let store: StoreOf<MeasurementStore>
-  @ObservedObject private var viewStore: ViewStoreOf<MeasurementStore>
+public struct MeasurementRootView: View {
+  public let store: StoreOf<MeasurementRootStore>
+  @ObservedObject private var viewStore: ViewStoreOf<MeasurementRootStore>
   
-  public init(store: StoreOf<MeasurementStore>) {
+  public init(store: StoreOf<MeasurementRootStore>) {
     self.store = store
     self.viewStore = ViewStore(store, observe: { $0 })
   }
@@ -51,7 +51,7 @@ public struct MeasurementView: View {
   }
 }
 
-extension MeasurementView {
+extension MeasurementRootView {
   private var title: some View {
     Text("측정하기")
       .modifier(GamtanFont(font: .bold, size: 24))
@@ -101,7 +101,7 @@ extension MeasurementView {
   
   @ViewBuilder
   private func modeSelectButton(
-    _ viewStore: ViewStoreOf<MeasurementStore>,
+    _ viewStore: ViewStoreOf<MeasurementRootStore>,
     mode: MeasurementMode
   ) -> some View {
     Button(action: {

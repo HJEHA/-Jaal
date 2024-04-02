@@ -34,7 +34,7 @@ public struct MainTabView: View {
   @ViewBuilder
   private func tabView(_ viewStore: ViewStoreOf<MainTabStore>) -> some View {
     if viewStore.currentScene == .measurement {
-      MeasurementView(
+      MeasurementRootView(
         store: store.scope(
           state: \.measurement,
           action: MainTabStore.Action.measurement

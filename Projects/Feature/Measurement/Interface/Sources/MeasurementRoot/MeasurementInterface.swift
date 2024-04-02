@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-public struct MeasurementStore: Reducer {
+public struct MeasurementRootStore: Reducer {
 
   private let reducer: Reduce<State, Action>
   
