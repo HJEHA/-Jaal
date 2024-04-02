@@ -9,6 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import FeatureMeasurementInterface
 import SharedDesignSystem
 
 public struct MainTabView: View {
@@ -27,21 +28,30 @@ public struct MainTabView: View {
       
       tabBarView(viewStore)
     }
-    .ignoresSafeArea()
+    .ignoresSafeArea(edges: [.bottom])
   }
   
   @ViewBuilder
   private func tabView(_ viewStore: ViewStoreOf<MainTabStore>) -> some View {
-    VStack {
-      Spacer()
-      HStack {
+    if viewStore.currentScene == .measurement {
+      MeasurementView(
+        store: store.scope(
+          state: \.measurement,
+          action: MainTabStore.Action.measurement
+        )
+      )
+    } else {
+      VStack {
+        Spacer()
+        HStack {
+          Spacer()
+        }
+        
+        Text(viewStore.currentScene.title)
+          .modifier(GamtanFont(font: .bold, size: 20))
+        
         Spacer()
       }
-      
-      Text(viewStore.currentScene.title)
-        .modifier(GamtanFont(font: .bold, size: 20))
-      
-      Spacer()
     }
   }
   
