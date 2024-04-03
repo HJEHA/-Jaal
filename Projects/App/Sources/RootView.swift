@@ -15,6 +15,11 @@ struct RootView: View {
   }
   
   var body: some View {
-    MainTabView(store: store.scope(state: \.mainTab, action: RootStore.Action.mainTab))
+    MainTabView(
+      store: store.scope(
+        state: \.mainTab,
+        action: \.mainTab
+      )
+    )
   }
 }

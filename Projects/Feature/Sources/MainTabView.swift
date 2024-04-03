@@ -37,7 +37,7 @@ public struct MainTabView: View {
       MeasurementRootView(
         store: store.scope(
           state: \.measurement,
-          action: MainTabStore.Action.measurement
+          action: \.measurement
         )
       )
     } else {

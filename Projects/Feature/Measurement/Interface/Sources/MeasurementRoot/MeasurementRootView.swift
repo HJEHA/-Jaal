@@ -12,7 +12,7 @@ import ComposableArchitecture
 import SharedDesignSystem
 
 public struct MeasurementRootView: View {
-  public let store: StoreOf<MeasurementRootStore>
+  @Bindable public var store: StoreOf<MeasurementRootStore>
   @ObservedObject private var viewStore: ViewStoreOf<MeasurementRootStore>
   
   public init(store: StoreOf<MeasurementRootStore>) {
@@ -21,33 +21,41 @@ public struct MeasurementRootView: View {
   }
   
   public var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        title
+    NavigationStack {
+      VStack(alignment: .leading) {
+        HStack {
+          title
+          
+          Spacer()
+          
+          startButton
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        
+        selectedMode
+          .padding(.leading, 20)
+          .padding(.top, 12)
+        
+        
+        HStack {
+          modeSelectButton(viewStore, mode: .nomal)
+          
+          modeSelectButton(viewStore, mode: .focus)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
         
         Spacer()
-        
-        startButton
       }
-      .padding(.horizontal, 16)
-      .padding(.vertical, 8)
-      
-      selectedMode
-        .padding(.leading, 20)
-        .padding(.top, 12)
-      
-      
-      HStack {
-        modeSelectButton(viewStore, mode: .nomal)
-        
-        modeSelectButton(viewStore, mode: .focus)
-      }
-      .padding(.horizontal, 20)
-      .padding(.top, 8)
-      
-      Spacer()
     }
     .background(SharedDesignSystemAsset.gray100.swiftUIColor)
+    .fullScreenCover(
+      item: $store.scope(state: \.measurement, action: \.measurement)) { store in
+        NavigationStack {
+          MeasurementView(store: store)
+        }
+      }
   }
 }
 
@@ -64,7 +72,7 @@ extension MeasurementRootView {
   
   private var startButton: some View {
     Button(action: {
-      print("시작")
+      store.send(.startButtonTapped)
     }, label: {
       RoundedRectangle(cornerRadius: 16)
         .foregroundColor(

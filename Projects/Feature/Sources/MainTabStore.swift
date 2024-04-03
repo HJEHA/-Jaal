@@ -12,9 +12,11 @@ import ComposableArchitecture
 import FeatureMeasurement
 import FeatureMeasurementInterface
 
-public struct MainTabStore: Reducer {
+@Reducer
+public struct MainTabStore {
   public init() { }
   
+  @ObservableState
   public struct State: Equatable {
     public var measurement: MeasurementRootStore.State = .init()
     

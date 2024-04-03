@@ -4,8 +4,10 @@ import ComposableArchitecture
 
 import Feature
 
-public struct RootStore: Reducer {
+@Reducer
+public struct RootStore {
   
+  @ObservableState
   public struct State: Equatable {
     public var mainTab: MainTabStore.State = .init()
   }

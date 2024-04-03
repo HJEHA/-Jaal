@@ -7,7 +7,8 @@
 
 import ComposableArchitecture
 
-public struct FaceTrackingStore: Reducer {
+@Reducer
+public struct FaceTrackingStore {
   
   private let reducer: Reduce<State, Action>
   
@@ -15,6 +16,7 @@ public struct FaceTrackingStore: Reducer {
     self.reducer = reducer
   }
   
+  @ObservableState
   public struct State: Equatable {
     public var faceCenter: SIMD3<Float>?
     
