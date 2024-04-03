@@ -30,12 +30,31 @@ public struct MeasurementView: View {
         )
       )
       
-      Button(
-        action: {
-          viewStore.send(.closeButtonTapped)
-        }, label: {
-        Text("Button")
-      })
+      VStack(alignment: .leading) {
+        closeButton
+          .padding(.horizontal, 16)
+          .padding(.vertical, 16)
+        
+        Spacer()
+      }
     }
+  }
+}
+
+extension MeasurementView {
+  private var closeButton: some View {
+    Button(
+      action: {
+        viewStore.send(.closeButtonTapped)
+      }, label: {
+        SharedDesignSystemAsset.cross.swiftUIImage
+          .renderingMode(.template)
+          .resizable()
+          .frame(width: 30, height: 30)
+          .foregroundColor(
+            SharedDesignSystemAsset.gray900.swiftUIColor
+          )
+      }
+    )
   }
 }
