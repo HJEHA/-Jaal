@@ -36,7 +36,29 @@ public struct MeasurementView: View {
           .padding(.vertical, 16)
         
         Spacer()
+        
+        if viewStore.isInitailing == true {
+          HStack {
+            Text("\(viewStore.initialTimerCount)")
+              .foregroundColor(SharedDesignSystemAsset.orange.swiftUIColor)
+              .modifier(GamtanFont(font: .bold, size: 100))
+          }
+        }
+        
+        Spacer()
+        
+        //TODO: - 밝기, 음량 조절 영역
+//        HStack {
+//          Rectangle()
+//            .foregroundColor(.blue)
+//          Rectangle()
+//            .foregroundColor(.green)
+//        }
       }
+    }
+    .onAppear {
+      store.send(.appear)
+//      viewStore.send(.appear)
     }
   }
 }
@@ -52,7 +74,7 @@ extension MeasurementView {
           .resizable()
           .frame(width: 30, height: 30)
           .foregroundColor(
-            SharedDesignSystemAsset.gray900.swiftUIColor
+            SharedDesignSystemAsset.gray100.swiftUIColor
           )
       }
     )

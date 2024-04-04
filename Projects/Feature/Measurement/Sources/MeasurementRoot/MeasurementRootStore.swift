@@ -38,6 +38,9 @@ extension MeasurementRootStore {
           
         case .measurement(.presented(.faceTracking(_))):
           return .none
+          
+        default:
+          return .none
       }
     }
     

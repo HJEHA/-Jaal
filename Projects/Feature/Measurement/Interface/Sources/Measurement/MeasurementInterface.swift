@@ -19,11 +19,19 @@ public struct MeasurementStore {
     self.reducer = reducer
   }
   
+  public enum CancelID {
+    case timer
+  }
+  
   @ObservableState
   public struct State: Equatable {
     public var faceTracking: FaceTrackingStore.State = .init()
     
+    public var isInitailing: Bool = false
+    public var initialTimerCount: Int = 5
     public var initialFaceCenter: SIMD3<Float>?
+    
+    public var time: Int = 0
     public var faceCenter: SIMD3<Float>?
     
     public init() { }
@@ -32,6 +40,12 @@ public struct MeasurementStore {
   public enum Action: Equatable {
     case faceTracking(FaceTrackingStore.Action)
     
+    case appear
+    
+    case initialTimerTicked
+    case initialTimerStart
+    
+    case start
     case closeButtonTapped
   }
   
