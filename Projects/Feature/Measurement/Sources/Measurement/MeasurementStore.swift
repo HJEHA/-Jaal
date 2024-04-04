@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import FeatureMeasurementInterface
+import SharedUtil
 
 extension MeasurementStore {
   public init() {
@@ -51,12 +52,34 @@ extension MeasurementStore {
           return .none
           
         case .start:
-          //TODO: - 거리 비교 시작, 실제 타이머 동작
-          print("측정 시작")
+          return .run { send in
+            for await _ in clock.timer(interval: .seconds(1)) {
+              await send(.timerTicked)
+            }
+          }
+          .cancellable(id: CancelID.timer)
+          
+        case .timerTicked:
+          state.time += 1
+          
+          guard let center = state.faceCenter,
+                let initialCentre = state.initialFaceCenter
+          else {
+            return .none
+          }
+          //TODO: - 범위 조절 기능 추가(우측 화면 swipe)
+          if initialCentre.distance(to: center) > 0.1 {
+            state.isWarning = true
+          } else {
+            state.isWarning = false
+          }
           return .none
           
         case .closeButtonTapped:
-          return .none
+          return .concatenate([
+            .cancel(id: CancelID.timer),
+            .none
+          ])
       }
     }
     

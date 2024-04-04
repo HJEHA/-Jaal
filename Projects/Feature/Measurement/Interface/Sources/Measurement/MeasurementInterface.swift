@@ -34,6 +34,8 @@ public struct MeasurementStore {
     public var time: Int = 0
     public var faceCenter: SIMD3<Float>?
     
+    public var isWarning: Bool = false
+    
     public init() { }
   }
   
@@ -46,6 +48,7 @@ public struct MeasurementStore {
     case initialTimerStart
     
     case start
+    case timerTicked
     case closeButtonTapped
   }
   
