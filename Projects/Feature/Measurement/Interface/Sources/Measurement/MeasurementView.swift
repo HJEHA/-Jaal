@@ -30,6 +30,10 @@ public struct MeasurementView: View {
         )
       )
       
+      if viewStore.isWarning == true {
+        WarningScreen()
+      }
+      
       VStack(alignment: .leading) {
         closeButton
           .padding(.horizontal, 16)
@@ -43,12 +47,6 @@ public struct MeasurementView: View {
               .foregroundColor(SharedDesignSystemAsset.orange.swiftUIColor)
               .modifier(GamtanFont(font: .bold, size: 100))
           }
-        }
-        
-        if viewStore.isWarning == true {
-          Text("경고")
-            .foregroundColor(SharedDesignSystemAsset.orange.swiftUIColor)
-            .modifier(GamtanFont(font: .bold, size: 100))
         }
         
         Spacer()
