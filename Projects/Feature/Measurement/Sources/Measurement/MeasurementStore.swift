@@ -61,6 +61,7 @@ extension MeasurementStore {
           
         case .timerTicked:
           state.time += 1
+          state.timeString = TimeFormatter.toClockString(from: state.time)
           
           guard let center = state.faceCenter,
                 let initialCentre = state.initialFaceCenter

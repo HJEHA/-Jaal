@@ -22,6 +22,7 @@ public struct SamlipFont: ViewModifier {
       .font(
         Font(font.size(size))
       )
+      .kerning(4)
   }
 }
 

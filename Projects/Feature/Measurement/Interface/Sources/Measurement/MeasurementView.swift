@@ -36,15 +36,28 @@ public struct MeasurementView: View {
       
       if viewStore.isInitailing == true {
           Text("\(viewStore.initialTimerCount)")
-            .foregroundColor(SharedDesignSystemAsset.blue.swiftUIColor)
+            .foregroundColor(
+              SharedDesignSystemAsset.blue.swiftUIColor
+            )
             .modifier(SamlipFont(size: 100))
+            .padding(4)
       }
       
       VStack(alignment: .leading) {
-        closeButton
-          .padding(.horizontal, 16)
-          .padding(.vertical, 16)
+        HStack {
+          closeButton
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
+          
+          Spacer()
+        }
         
+        if viewStore.isInitailing == false {
+          timer
+            .padding(.top, 20)
+        }
+        
+        Spacer()
         //TODO: - 밝기, 음량 조절 영역
 //        HStack {
 //          Rectangle()
@@ -76,5 +89,29 @@ extension MeasurementView {
           )
       }
     )
+  }
+  
+  private var timer: some View {
+    HStack {
+      Spacer()
+      
+      SharedDesignSystemAsset.clock.swiftUIImage
+        .renderingMode(.template)
+        .resizable()
+        .frame(width: 30, height: 30)
+        .foregroundColor(
+          SharedDesignSystemAsset.orange.swiftUIColor
+        )
+        .padding(.bottom, 4)
+      
+      Text(viewStore.timeString)
+        .modifier(SamlipFont(size: 44))
+        .foregroundColor(
+          SharedDesignSystemAsset.orange.swiftUIColor
+        )
+        .padding(4)
+      
+      Spacer()
+    }
   }
 }
