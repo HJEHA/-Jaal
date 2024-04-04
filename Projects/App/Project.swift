@@ -31,6 +31,7 @@ let targets: [Target] = [
             .string("Gamtan-Bold.ttf"),
             .string("Gamtan-Regular.ttf"),
             .string("Gamtan-Thin.ttf"),
+            .string("SDSamliphopangcheTTFOutline.ttf"),
           ]),
         ]),
       dependencies: [
