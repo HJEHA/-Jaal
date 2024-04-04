@@ -88,7 +88,10 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
       guard let faceAnchor = anchors.first as? ARFaceAnchor else { return }
       
-      faceCenter = faceAnchor.lookAtPoint
+      let x = faceAnchor.transform.columns.3.x
+      let y = faceAnchor.transform.columns.3.y
+      let z = faceAnchor.transform.columns.3.z
+      faceCenter = SIMD3<Float>.init(x, y, z)
       
       //TODO: - Eye 트래킹
       //let blendShapes = faceAnchor.blendShapes
