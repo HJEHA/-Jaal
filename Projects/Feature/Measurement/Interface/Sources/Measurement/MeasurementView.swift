@@ -14,11 +14,9 @@ import SharedDesignSystem
 
 public struct MeasurementView: View {
   @Bindable public var store: StoreOf<MeasurementStore>
-  @ObservedObject private var viewStore: ViewStoreOf<MeasurementStore>
   
   public init(store: StoreOf<MeasurementStore>) {
     self.store = store
-    self.viewStore = ViewStore(store, observe: { $0 })
   }
   
   public var body: some View {
@@ -30,12 +28,12 @@ public struct MeasurementView: View {
         )
       )
       
-      if viewStore.isWarning == true {
+      if store.isWarning == true {
         WarningScreen()
       }
       
-      if viewStore.isInitailing == true {
-          Text("\(viewStore.initialTimerCount)")
+      if store.isInitailing == true {
+          Text("\(store.initialTimerCount)")
             .foregroundColor(
               SharedDesignSystemAsset.blue.swiftUIColor
             )
@@ -52,7 +50,7 @@ public struct MeasurementView: View {
           Spacer()
         }
         
-        if viewStore.isInitailing == false {
+        if store.isInitailing == false {
           timer
             .padding(.top, 20)
           
@@ -81,7 +79,7 @@ extension MeasurementView {
   private var closeButton: some View {
     Button(
       action: {
-        viewStore.send(.closeButtonTapped)
+        store.send(.closeButtonTapped)
       }, label: {
         SharedDesignSystemAsset.cross.swiftUIImage
           .renderingMode(.template)
@@ -107,7 +105,7 @@ extension MeasurementView {
         )
         .padding(.bottom, 4)
       
-      Text(viewStore.timeString)
+      Text(store.timeString)
         .modifier(SamlipFont(size: 44))
         .foregroundColor(
           SharedDesignSystemAsset.orange.swiftUIColor
@@ -131,7 +129,7 @@ extension MeasurementView {
         )
         .padding(.bottom, 4)
       
-      Text("\(viewStore.eyeBlinkCount)")
+      Text("\(store.eyeBlinkCount)")
         .modifier(SamlipFont(size: 44))
         .foregroundColor(
           SharedDesignSystemAsset.blue.swiftUIColor

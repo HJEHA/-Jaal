@@ -13,11 +13,9 @@ import SharedDesignSystem
 
 public struct MeasurementRootView: View {
   @Bindable public var store: StoreOf<MeasurementRootStore>
-  @ObservedObject private var viewStore: ViewStoreOf<MeasurementRootStore>
   
   public init(store: StoreOf<MeasurementRootStore>) {
     self.store = store
-    self.viewStore = ViewStore(store, observe: { $0 })
   }
   
   public var body: some View {
@@ -39,9 +37,9 @@ public struct MeasurementRootView: View {
         
         
         HStack {
-          modeSelectButton(viewStore, mode: .nomal)
+          modeSelectButton(store, mode: .nomal)
           
-          modeSelectButton(viewStore, mode: .focus)
+          modeSelectButton(store, mode: .focus)
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)
@@ -82,7 +80,7 @@ extension MeasurementRootView {
         .overlay(
           HStack {
             Image(
-              uiImage: viewStore.selectedMode == .nomal
+              uiImage: store.selectedMode == .nomal
               ? SharedDesignSystemAsset.play.image
               : SharedDesignSystemAsset.flame.image
             )
@@ -90,7 +88,7 @@ extension MeasurementRootView {
             .resizable()
             .frame(width: 20, height: 20)
             .foregroundColor(
-              viewStore.selectedMode == .nomal
+              store.selectedMode == .nomal
               ? SharedDesignSystemAsset.orange.swiftUIColor
               : SharedDesignSystemAsset.red.swiftUIColor
             )
@@ -98,7 +96,7 @@ extension MeasurementRootView {
             Text("측정 시작")
               .modifier(GamtanFont(font: .bold, size: 18))
               .foregroundColor(
-                viewStore.selectedMode == .nomal
+                store.selectedMode == .nomal
                 ? SharedDesignSystemAsset.orange.swiftUIColor
                 : SharedDesignSystemAsset.red.swiftUIColor
               )
@@ -109,7 +107,7 @@ extension MeasurementRootView {
   
   @ViewBuilder
   private func modeSelectButton(
-    _ viewStore: ViewStoreOf<MeasurementRootStore>,
+    _ viewStore: StoreOf<MeasurementRootStore>,
     mode: MeasurementMode
   ) -> some View {
     Button(action: {

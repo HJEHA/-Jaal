@@ -15,25 +15,23 @@ import SharedDesignSystem
 public struct MainTabView: View {
   
   public let store: StoreOf<MainTabStore>
-  @ObservedObject private var viewStore: ViewStoreOf<MainTabStore>
   
   public init(store: StoreOf<MainTabStore>) {
     self.store = store
-    self.viewStore = ViewStore(store, observe: { $0 })
   }
   
   public var body: some View {
     VStack(spacing: .zero) {
-      tabView(viewStore)
+      tabView(store)
       
-      tabBarView(viewStore)
+      tabBarView(store)
     }
     .ignoresSafeArea(edges: [.bottom])
   }
   
   @ViewBuilder
-  private func tabView(_ viewStore: ViewStoreOf<MainTabStore>) -> some View {
-    if viewStore.currentScene == .measurement {
+  private func tabView(_ store: StoreOf<MainTabStore>) -> some View {
+    if store.currentScene == .measurement {
       MeasurementRootView(
         store: store.scope(
           state: \.measurement,
@@ -47,7 +45,7 @@ public struct MainTabView: View {
           Spacer()
         }
         
-        Text(viewStore.currentScene.title)
+        Text(store.currentScene.title)
           .modifier(GamtanFont(font: .bold, size: 20))
         
         Spacer()
@@ -56,18 +54,18 @@ public struct MainTabView: View {
   }
   
   @ViewBuilder
-  private func tabBarView(_ viewStore: ViewStoreOf<MainTabStore>) -> some View {
+  private func tabBarView(_ store: StoreOf<MainTabStore>) -> some View {
     ZStack {
       HStack {
         Spacer()
         
-        tabBarItemView(viewStore, scene: .home)
+        tabBarItemView(store, scene: .home)
         
         Spacer()
         Spacer()
         Spacer()
         
-        tabBarItemView(viewStore, scene: .myPage)
+        tabBarItemView(store, scene: .myPage)
         
         Spacer()
       }
@@ -80,7 +78,7 @@ public struct MainTabView: View {
         alignment: .top
       )
       
-      tabBarItemView(viewStore, scene: .measurement)
+      tabBarItemView(store, scene: .measurement)
         .frame(width: 56, height: 56)
         .offset(.init(width: 0, height: -15))
     }
@@ -89,12 +87,12 @@ public struct MainTabView: View {
   
   @ViewBuilder
   private func tabBarItemView(
-    _ viewStore: ViewStoreOf<MainTabStore>,
+    _ store: StoreOf<MainTabStore>,
     scene: MainScene
   ) -> some View {
     VStack(spacing: .zero) {
       Button(action: {
-        viewStore.send(.selectTab(scene))
+        store.send(.selectTab(scene))
       }, label: {
         if case .measurement = scene {
           scene.image
@@ -102,7 +100,7 @@ public struct MainTabView: View {
             .resizable()
             .frame(width: 40, height: 40)
             .foregroundColor(
-              viewStore.currentScene == scene
+              store.currentScene == scene
               ? SharedDesignSystemAsset.blue.swiftUIColor
               : SharedDesignSystemAsset.gray500.swiftUIColor
             )
@@ -125,7 +123,7 @@ public struct MainTabView: View {
             .resizable()
             .frame(width: 28, height: 28)
             .foregroundColor(
-              viewStore.currentScene == scene 
+              store.currentScene == scene 
               ? SharedDesignSystemAsset.blue.swiftUIColor
               : SharedDesignSystemAsset.gray500.swiftUIColor
             )
@@ -134,7 +132,7 @@ public struct MainTabView: View {
       
       Text(scene.title)
         .foregroundColor(
-          viewStore.currentScene == scene 
+          store.currentScene == scene 
           ? SharedDesignSystemAsset.blue.swiftUIColor
           : SharedDesignSystemAsset.gray500.swiftUIColor
         )
@@ -143,7 +141,7 @@ public struct MainTabView: View {
         .modifier(GamtanFont(font: .bold, size: 12))
     }
     .onTapGesture {
-      viewStore.send(.selectTab(scene))
+      store.send(.selectTab(scene))
     }
   }
 }
