@@ -18,7 +18,27 @@ extension FaceTrackingStore {
       switch action {
         case let .changedFaceCenter(center):
           state.faceCenter = center
-          return .none
+          return .run { send in
+            await send(.changedFaceCenter(center))
+          }
+          .throttle(
+            id: CancelID.throttle,
+            for: 0.5,
+            scheduler:DispatchQueue.main,
+            latest: false
+          )
+          
+        case let .eyeBlink(value):
+          state.eyeBlink = value
+          return .run { send in
+            await send(.eyeBlink(value))
+          }
+          .throttle(
+            id: CancelID.throttle,
+            for: 0.5,
+            scheduler:DispatchQueue.main,
+            latest: false
+          )
       }
     }
     

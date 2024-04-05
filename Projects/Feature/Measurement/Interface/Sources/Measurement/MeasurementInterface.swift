@@ -33,8 +33,10 @@ public struct MeasurementStore {
     
     public var time: Int = 0
     public var timeString: String = "00:00"
-    public var faceCenter: SIMD3<Float>?
     
+    public var eyeBlinkCount = 0
+    
+    public var faceCenter: SIMD3<Float>?
     public var isWarning: Bool = false
     
     public init() { }

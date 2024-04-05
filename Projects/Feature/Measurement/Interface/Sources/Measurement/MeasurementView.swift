@@ -55,6 +55,9 @@ public struct MeasurementView: View {
         if viewStore.isInitailing == false {
           timer
             .padding(.top, 20)
+          
+          eyeBlink
+            .padding(.top, 8)
         }
         
         Spacer()
@@ -108,6 +111,30 @@ extension MeasurementView {
         .modifier(SamlipFont(size: 44))
         .foregroundColor(
           SharedDesignSystemAsset.orange.swiftUIColor
+        )
+        .padding(4)
+      
+      Spacer()
+    }
+  }
+  
+  private var eyeBlink: some View {
+    HStack {
+      Spacer()
+      
+      SharedDesignSystemAsset.eye.swiftUIImage
+        .renderingMode(.template)
+        .resizable()
+        .frame(width: 30, height: 30)
+        .foregroundColor(
+          SharedDesignSystemAsset.blue.swiftUIColor
+        )
+        .padding(.bottom, 4)
+      
+      Text("\(viewStore.eyeBlinkCount)")
+        .modifier(SamlipFont(size: 44))
+        .foregroundColor(
+          SharedDesignSystemAsset.blue.swiftUIColor
         )
         .padding(4)
       

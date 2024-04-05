@@ -24,6 +24,10 @@ extension MeasurementStore {
             case let .changedFaceCenter(center):
               state.faceCenter = center
               return .none
+              
+            case .eyeBlink:
+              state.eyeBlinkCount += 1
+              return .none
           }
           
         case .appear:

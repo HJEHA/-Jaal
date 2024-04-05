@@ -25,6 +25,10 @@ public struct FaceTrackingView: View {
       faceCenter: viewStore.binding(
         get: \.faceCenter,
         send: FaceTrackingStore.Action.changedFaceCenter
+      ),
+      eyeBlink: viewStore.binding(
+        get: \.eyeBlink,
+        send: FaceTrackingStore.Action.eyeBlink
       )
     )
     .edgesIgnoringSafeArea(.all)
@@ -35,6 +39,7 @@ public struct FaceTrackingView: View {
 // MARK: - View Container
 private struct FaceTrackerViewContainer: UIViewRepresentable {
   @Binding var faceCenter: SIMD3<Float>?
+  @Binding var eyeBlink: Float
   
   func makeUIView(context: Context) -> ARView {
     let arView = ARView(frame: .zero)
@@ -54,7 +59,10 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   func updateUIView(_ uiView: ARView, context: Context) {}
   
   func makeCoordinator() -> Coordinator {
-    return Coordinator(faceCenter: $faceCenter)
+    return Coordinator(
+      faceCenter: $faceCenter,
+      eyeBlink: $eyeBlink
+    )
   }
   
   func faceAnchor() -> AnchorEntity {
@@ -80,9 +88,14 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   
   class Coordinator: NSObject, ARSessionDelegate {
     @Binding var faceCenter: SIMD3<Float>?
+    @Binding var eyeBlink: Float
     
-    init(faceCenter: Binding<SIMD3<Float>?>) {
+    init(
+      faceCenter: Binding<SIMD3<Float>?>,
+      eyeBlink: Binding<Float>
+    ) {
       _faceCenter = faceCenter
+      _eyeBlink = eyeBlink
     }
     
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
@@ -94,12 +107,14 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
       faceCenter = SIMD3<Float>.init(x, y, z)
       
       //TODO: - Eye 트래킹
-      //let blendShapes = faceAnchor.blendShapes
-      //if let eyeBlinkLeft = blendShapes[.eyeBlinkLeft] as? Float,
-      //   let eyeBlinkRight = blendShapes[.eyeBlinkRight] as? Float
-      //{
-      //
-      //}
+      let blendShapes = faceAnchor.blendShapes
+      if let eyeBlinkLeft = blendShapes[.eyeBlinkLeft] as? Float,
+         let eyeBlinkRight = blendShapes[.eyeBlinkRight] as? Float,
+          eyeBlinkLeft > 0.8,
+         eyeBlinkRight > 0.8
+      {
+        eyeBlink = 1
+      }
     }
   }
 }
