@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 import RealityKit
 import ARKit
 
@@ -59,10 +60,13 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   func updateUIView(_ uiView: ARView, context: Context) {}
   
   func makeCoordinator() -> Coordinator {
-    return Coordinator(
+    let coordinator = Coordinator(
       faceCenter: $faceCenter,
       eyeBlink: $eyeBlink
     )
+    coordinator.bind()
+    
+    return coordinator
   }
   
   func faceAnchor() -> AnchorEntity {
@@ -90,12 +94,24 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
     @Binding var faceCenter: SIMD3<Float>?
     @Binding var eyeBlink: Float
     
+    private var cancellables = Set<AnyCancellable>()
+    private(set) var eyeBlinkEvent = PassthroughSubject<Void, Never>()
+    
     init(
       faceCenter: Binding<SIMD3<Float>?>,
       eyeBlink: Binding<Float>
     ) {
       _faceCenter = faceCenter
       _eyeBlink = eyeBlink
+    }
+    
+    func bind() {
+      eyeBlinkEvent
+        .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
+        .sink {
+          self.eyeBlink = 1
+        }
+        .store(in: &cancellables)
     }
     
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
@@ -113,7 +129,7 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
           eyeBlinkLeft > 0.8,
          eyeBlinkRight > 0.8
       {
-        eyeBlink = 1
+        eyeBlinkEvent.send(Void())
       }
     }
   }
