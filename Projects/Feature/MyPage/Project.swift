@@ -57,6 +57,6 @@ let project = Project.makeModule(
         configurations: [.debug, .release]
       )
     )
-    
-  ]
+  ],
+  configurations: [.debug, .release]
 )

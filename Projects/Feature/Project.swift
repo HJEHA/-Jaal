@@ -8,6 +8,7 @@ let targets: [Target] = [
       dependencies: [
         .domain,
         .feature(implements: .Measurement),
+        .feature(implements: .MyPage)
       ]
     )
   )
