@@ -52,7 +52,10 @@ extension CalendarStore {
       }
     }
     
-    self.init(reducer: reducer)
+    self.init(
+      reducer: reducer,
+      day: DayStore()
+    )
   }
 }
 
