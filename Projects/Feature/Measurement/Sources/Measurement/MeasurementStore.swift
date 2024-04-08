@@ -25,8 +25,16 @@ extension MeasurementStore {
               state.faceCenter = center
               return .none
               
-            case .eyeBlink:
-              state.eyeBlinkCount += 1
+            case let .eyeBlink(value):
+              if value == 0 {
+                state.isEyeClose = true
+              } else {
+                if state.isEyeClose == true {
+                  state.eyeBlinkCount += 1
+                }
+                state.isEyeClose = false
+              }
+              
               return .none
           }
           
@@ -68,12 +76,12 @@ extension MeasurementStore {
           state.timeString = TimeFormatter.toClockString(from: state.time)
           
           guard let center = state.faceCenter,
-                let initialCentre = state.initialFaceCenter
+                let initialCenter = state.initialFaceCenter
           else {
             return .none
           }
           //TODO: - 범위 조절 기능 추가(우측 화면 swipe)
-          if initialCentre.distance(to: center) > 0.1 {
+          if initialCenter.distance(to: center) > 0.1 {
             state.isWarning = true
           } else {
             state.isWarning = false

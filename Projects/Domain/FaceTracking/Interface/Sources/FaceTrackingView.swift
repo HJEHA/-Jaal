@@ -95,7 +95,7 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
     @Binding var eyeBlink: Float
     
     private var cancellables = Set<AnyCancellable>()
-    private(set) var eyeBlinkEvent = PassthroughSubject<Void, Never>()
+    private(set) var eyeBlinkEvent = PassthroughSubject<Float, Never>()
     
     init(
       faceCenter: Binding<SIMD3<Float>?>,
@@ -107,9 +107,9 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
     
     func bind() {
       eyeBlinkEvent
-        .throttle(for: 0.5, scheduler: RunLoop.main, latest: false)
+        .throttle(for: 0.2, scheduler: RunLoop.main, latest: false)
         .sink {
-          self.eyeBlink = 1
+          self.eyeBlink = $0
         }
         .store(in: &cancellables)
     }
@@ -122,14 +122,15 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
       let z = faceAnchor.transform.columns.3.z
       faceCenter = SIMD3<Float>.init(x, y, z)
       
-      //TODO: - Eye 트래킹
       let blendShapes = faceAnchor.blendShapes
       if let eyeBlinkLeft = blendShapes[.eyeBlinkLeft] as? Float,
-         let eyeBlinkRight = blendShapes[.eyeBlinkRight] as? Float,
-          eyeBlinkLeft > 0.8,
-         eyeBlinkRight > 0.8
+         let eyeBlinkRight = blendShapes[.eyeBlinkRight] as? Float
       {
-        eyeBlinkEvent.send(Void())
+        if eyeBlinkLeft > 0.8 && eyeBlinkRight > 0.8 {
+          eyeBlinkEvent.send(1)
+        } else {
+          eyeBlinkEvent.send(0)
+        }
       }
     }
   }
