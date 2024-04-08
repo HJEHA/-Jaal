@@ -10,6 +10,7 @@ import SwiftUI
 import ComposableArchitecture
 
 import FeatureMeasurementInterface
+import FeatureMyPageInterface
 import SharedDesignSystem
 
 public struct MainTabView: View {
@@ -36,6 +37,13 @@ public struct MainTabView: View {
         store: store.scope(
           state: \.measurement,
           action: \.measurement
+        )
+      )
+    } else if store.currentScene == .myPage {
+      MyPageRootView(
+        store: store.scope(
+          state: \.myPage,
+          action: \.myPage
         )
       )
     } else {

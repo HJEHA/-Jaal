@@ -12,7 +12,7 @@ import ComposableArchitecture
 import SharedDesignSystem
 
 public struct MeasurementRootView: View {
-  @Bindable public var store: StoreOf<MeasurementRootStore>
+  @Bindable private var store: StoreOf<MeasurementRootStore>
   
   public init(store: StoreOf<MeasurementRootStore>) {
     self.store = store

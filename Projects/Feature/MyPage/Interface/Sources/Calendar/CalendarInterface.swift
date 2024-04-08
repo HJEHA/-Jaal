@@ -37,7 +37,7 @@ public struct CalendarStore {
     public init() { }
   }
   
-  public enum Action {
+  public enum Action: Equatable {
     case onAppear
     case changedMonth(Int)
     case selectedDate(Date)

@@ -36,7 +36,7 @@ public struct DayStore {
     }
   }
   
-  public enum Action {
+  public enum Action: Equatable {
     case onAppear
     case selected(Date)
   }

@@ -33,7 +33,6 @@ extension MeasurementRootStore {
         
         
         case .measurement(.dismiss):
-          print("여기서 뜨나부다")
           return .none
           
         case .measurement(.presented(.faceTracking(_))):
