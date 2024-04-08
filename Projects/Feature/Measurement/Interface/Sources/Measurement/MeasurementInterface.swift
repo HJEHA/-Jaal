@@ -9,6 +9,7 @@ import ComposableArchitecture
 
 import DomainFaceTracking
 import DomainFaceTrackingInterface
+import SharedDesignSystem
 
 @Reducer
 public struct MeasurementStore {
@@ -26,6 +27,7 @@ public struct MeasurementStore {
   @ObservableState
   public struct State: Equatable {
     public var faceTracking: FaceTrackingStore.State = .init()
+    public var brightness: BrightnessStore.State = .init()
     
     public var isInitailing: Bool = false
     public var initialTimerCount: Int = 5
@@ -45,6 +47,7 @@ public struct MeasurementStore {
   
   public enum Action: Equatable {
     case faceTracking(FaceTrackingStore.Action)
+    case brightness(BrightnessStore.Action)
     
     case appear
     
@@ -59,6 +62,9 @@ public struct MeasurementStore {
   public var body: some ReducerOf<Self> {
     Scope(state: \.faceTracking, action: /Action.faceTracking) {
       FaceTrackingStore()
+    }
+    Scope(state: \.brightness, action: /Action.brightness) {
+      BrightnessStore()
     }
     reducer
   }

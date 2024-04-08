@@ -32,6 +32,13 @@ public struct MeasurementView: View {
         WarningScreen()
       }
       
+      BrightnessView(
+        store: store.scope(
+          state: \.brightness,
+          action: \.brightness
+        )
+      )
+      
       if store.isInitailing == true {
           Text("\(store.initialTimerCount)")
             .foregroundColor(
@@ -59,18 +66,10 @@ public struct MeasurementView: View {
         }
         
         Spacer()
-        //TODO: - 밝기, 음량 조절 영역
-//        HStack {
-//          Rectangle()
-//            .foregroundColor(.blue)
-//          Rectangle()
-//            .foregroundColor(.green)
-//        }
       }
     }
     .onAppear {
       store.send(.appear)
-//      viewStore.send(.appear)
     }
   }
 }

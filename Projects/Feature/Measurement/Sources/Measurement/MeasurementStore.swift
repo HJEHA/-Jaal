@@ -93,6 +93,9 @@ extension MeasurementStore {
             .cancel(id: CancelID.timer),
             .none
           ])
+        
+        default:
+          return .none
       }
     }
     

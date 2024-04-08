@@ -36,7 +36,3 @@ public struct WarningScreen: View {
     }
   }
 }
-
-#Preview {
-  WarningScreen()
-}
