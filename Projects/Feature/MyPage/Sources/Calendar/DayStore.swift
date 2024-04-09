@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import FeatureMyPageInterface
+import SharedUtil
 
 extension DayStore {
   public init() {
@@ -17,8 +18,11 @@ extension DayStore {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
         case .onAppear:
-          state.day = DayStore.dayOfWeek(state: &state)
-          state.dayNumber = DayStore.day(state: &state)
+          state.day = DateUtil.shared.toDayOfWeek(from: state.date)
+          state.dayNumber = DateUtil.shared.day(
+            calendar: state.calendar,
+            from: state.date
+          )
           
           return .none
           
@@ -31,16 +35,3 @@ extension DayStore {
     self.init(reducer: reducer)
   }
 }
-
-extension DayStore {
-  static func dayOfWeek(state: inout State) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.setLocalizedDateFormatFromTemplate("E")
-    return dateFormatter.string(from: state.date)
-  }
-  
-  static func day(state: inout State) -> String {
-    return "\(state.calendar.component(.day, from: state.date))"
-  }
-}
-

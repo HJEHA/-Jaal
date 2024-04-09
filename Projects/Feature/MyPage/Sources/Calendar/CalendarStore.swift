@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import FeatureMyPageInterface
+import SharedUtil
 
 extension CalendarStore {
   public init() {
@@ -17,7 +18,7 @@ extension CalendarStore {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
         case .onAppear:
-          state.monthTitle = CalendarStore.monthTitle(from: state.selectedDate)
+          state.monthTitle = DateUtil.shared.toYearMonth(from: state.selectedDate)
           state.days = CalendarStore.days(state: &state)
           
           return .send(.selectedToday(true))
@@ -28,7 +29,7 @@ extension CalendarStore {
           
         case let .selectedDate(date):
           state.selectedDate = date
-          state.monthTitle = CalendarStore.monthTitle(from: date)
+          state.monthTitle = DateUtil.shared.toYearMonth(from: date)
           state.days = CalendarStore.days(state: &state)
           
           return .none
@@ -70,12 +71,6 @@ extension CalendarStore {
     }
     
     return .send(.selectedDate(date))
-  }
-  
-  static func monthTitle(from date: Date) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.setLocalizedDateFormatFromTemplate("yyyy MM")
-    return dateFormatter.string(from: date)
   }
   
   static func days(state: inout State) -> IdentifiedArrayOf<DayStore.State> {
