@@ -7,6 +7,7 @@ let targets: [Target] = [
     factory: .init(
       dependencies: [
         .domain(implements: .FaceTracking),
+        .domain(implements: .Activity),
         .core
       ]
     )
