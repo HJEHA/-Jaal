@@ -9,6 +9,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import SharedDesignSystem
+
 public struct CalendarView: View {
   
   private let store: StoreOf<CalendarStore>
@@ -30,7 +32,6 @@ public struct CalendarView: View {
         blurView
       }
       .frame(height: 30)
-      .padding(.horizontal, 20)
     }
     .onAppear {
       store.send(.onAppear)
@@ -45,20 +46,32 @@ public struct CalendarView: View {
           store.send(.changedMonth(-1))
         },
         label: {
-          Image(systemName: "chevron.left")
+          SharedDesignSystemAsset.chevronLeft.swiftUIImage
+            .renderingMode(.template)
+            .resizable()
+            .frame(width: 24, height: 24)
+            .foregroundColor(
+              SharedDesignSystemAsset.blue.swiftUIColor
+            )
             .padding()
         }
       )
       
       Text(store.monthTitle)
-        .font(.title)
+        .modifier(GamtanFont(font: .bold, size: 24))
       
       Button(
         action: {
           store.send(.changedMonth(1))
         },
         label: {
-          Image(systemName: "chevron.right")
+          SharedDesignSystemAsset.chevronRight.swiftUIImage
+            .renderingMode(.template)
+            .resizable()
+            .frame(width: 24, height: 24)
+            .foregroundColor(
+              SharedDesignSystemAsset.blue.swiftUIColor
+            )
             .padding()
         }
       )
@@ -74,8 +87,11 @@ public struct CalendarView: View {
           store.send(.selectedToday(true), animation: .default)
         },
         label: {
-          Text("Today")
-            .padding()
+          Text("오늘")
+            .modifier(GamtanFont(font: .bold, size: 20))
+            .foregroundColor(
+              SharedDesignSystemAsset.orange.swiftUIColor
+            )
         }
       )
       .padding(.trailing, 16)
@@ -86,7 +102,7 @@ public struct CalendarView: View {
   private var dayView: some View {
     ScrollViewReader { proxy in
       ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 10) {
+        HStack(spacing: 8) {
           ForEachStore(
             store.scope(
               state: \.days,
@@ -99,6 +115,7 @@ public struct CalendarView: View {
               })
           }
         }
+        .padding(.horizontal, 20)
       }
       .onChange(of: store.isDayCenter, { oldValue, newValue in
         if newValue == true {
@@ -115,14 +132,14 @@ public struct CalendarView: View {
       LinearGradient(
         gradient: Gradient(
           colors: [
-            Color.white.opacity(1),
+            SharedDesignSystemAsset.gray100.swiftUIColor,
             Color.white.opacity(0)
           ]
         ),
         startPoint: .leading,
         endPoint: .trailing
       )
-      .frame(width: 20)
+      .frame(width: 16)
       .edgesIgnoringSafeArea(.leading)
       
       Spacer()
@@ -130,14 +147,14 @@ public struct CalendarView: View {
       LinearGradient(
         gradient: Gradient(
           colors: [
-            Color.white.opacity(1),
+            SharedDesignSystemAsset.gray100.swiftUIColor,
             Color.white.opacity(0)
           ]
         ),
         startPoint: .trailing,
         endPoint: .leading
       )
-      .frame(width: 20)
+      .frame(width: 16)
       .edgesIgnoringSafeArea(.trailing)
     }
   }

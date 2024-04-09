@@ -46,8 +46,8 @@ public struct MeasurementRootView: View {
         
         Spacer()
       }
+      .background(SharedDesignSystemAsset.gray100.swiftUIColor)
     }
-    .background(SharedDesignSystemAsset.gray100.swiftUIColor)
     .fullScreenCover(
       item: $store.scope(state: \.measurement, action: \.measurement)) { store in
         NavigationStack {

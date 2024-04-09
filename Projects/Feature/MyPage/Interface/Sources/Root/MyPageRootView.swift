@@ -34,7 +34,6 @@ public struct MyPageRootView: View {
           action: \.calendar
         )
       )
-      .padding(.horizontal, 16)
       .padding(.vertical, 8)
       
       Spacer()
