@@ -7,11 +7,11 @@
 
 import Foundation
 
-public enum MeasurementMode {
+public enum MeasurementMode: Codable {
   case nomal
   case focus
   
-  var title: String {
+  public var title: String {
     switch self {
       case .nomal:
         return "일반 모드"

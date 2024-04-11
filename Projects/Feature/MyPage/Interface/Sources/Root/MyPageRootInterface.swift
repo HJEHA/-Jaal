@@ -28,6 +28,7 @@ public struct MyPageRootStore {
   }
   
   public enum Action: Equatable {
+    case appear
     case calendar(CalendarStore.Action)
   }
   

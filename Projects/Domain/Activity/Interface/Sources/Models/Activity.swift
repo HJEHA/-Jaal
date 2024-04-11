@@ -17,7 +17,7 @@ public final class Activity: Identifiable {
   public var thumbnail: [Data]
   public var date: Date
   
-  init(
+  public init(
     title: String,
     measurementMode: MeasurementMode,
     activityDuration: Int,

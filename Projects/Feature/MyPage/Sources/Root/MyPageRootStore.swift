@@ -10,13 +10,27 @@ import Foundation
 import ComposableArchitecture
 
 import FeatureMyPageInterface
+import DomainActivity
+import DomainActivityInterface
 
 extension MyPageRootStore {
   public init() {
+    @Dependency(\.activityClient) var activityClient
+    
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
+        case .appear:
+          do {
+            let test = try activityClient.fetchAll()
+            test.map {
+              print($0.blinkCount)
+            }
+          } catch { }
+          
+          
+          
+          return .none
         case let .calendar(action):
-          print(action)
           return .none
       }
     }

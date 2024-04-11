@@ -9,6 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import DomainActivityInterface
 import SharedDesignSystem
 
 public struct MeasurementRootView: View {

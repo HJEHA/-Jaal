@@ -11,9 +11,19 @@ import ComposableArchitecture
 
 import DomainActivityInterface
 
-
 extension ActivityClient: DependencyKey {
   public static let liveValue = ActivityClient(
+    context: {
+      do {
+        let container = try ModelContainer(for: Activity.self)
+        let context = ModelContext(container)
+        
+        return context
+      } catch {
+        // TODO: 예외 처리
+        fatalError()
+      }
+    },
     fetchAll: {
       do {
         let container = try ModelContainer(for: Activity.self)
@@ -59,8 +69,8 @@ extension ActivityClient: DependencyKey {
   )
 }
 
-extension DependencyValues {
-  public var activityClient: ActivityClient {
+public extension DependencyValues {
+  var activityClient: ActivityClient {
     get { self[ActivityClient.self] }
     set { self[ActivityClient.self]  = newValue }
   }

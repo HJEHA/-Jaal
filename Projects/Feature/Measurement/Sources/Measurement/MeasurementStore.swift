@@ -10,12 +10,15 @@ import Foundation
 import ComposableArchitecture
 
 import FeatureMeasurementInterface
+import DomainActivity
+import DomainActivityInterface
 import SharedUtil
 
 extension MeasurementStore {
   public init() {
     
     @Dependency(\.continuousClock) var clock
+    @Dependency(\.activityClient) var activityClient
     
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
@@ -89,6 +92,16 @@ extension MeasurementStore {
           return .none
           
         case .closeButtonTapped:
+          do {
+            let activity = Activity(
+              title: "테스트",
+              measurementMode: .nomal,
+              activityDuration: state.time,
+              blinkCount: state.eyeBlinkCount,
+              thumbnail: []
+            )
+            try activityClient.add(activity)
+          } catch { }
           return .concatenate([
             .cancel(id: CancelID.timer),
             .none

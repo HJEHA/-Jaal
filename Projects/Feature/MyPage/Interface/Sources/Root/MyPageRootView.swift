@@ -39,6 +39,9 @@ public struct MyPageRootView: View {
       Spacer()
     }
     .background(SharedDesignSystemAsset.gray100.swiftUIColor)
+    .onAppear {
+      store.send(.appear)
+    }
   }
 }
 
