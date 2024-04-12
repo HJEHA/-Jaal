@@ -9,6 +9,8 @@ import Foundation
 
 import ComposableArchitecture
 
+import DomainActivityInterface
+
 @Reducer
 public struct MyPageRootStore {
   
@@ -23,12 +25,14 @@ public struct MyPageRootStore {
   @ObservableState
   public struct State: Equatable {
     public var calendar: CalendarStore.State = .init()
+    public var filterIndex: Int = 0
     
     public init() { }
   }
   
   public enum Action: Equatable {
     case appear
+    case filterSelected(Int)
     case calendar(CalendarStore.Action)
   }
   

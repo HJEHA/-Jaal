@@ -20,7 +20,7 @@ public struct CustomSegmentedControl: View {
     ZStack(alignment: .leading) {
       RoundedRectangle(cornerRadius: 10)
         .frame(width: size.width, height: size.height)
-        .foregroundColor(.gray)
+        .foregroundColor(SharedDesignSystemAsset.gray500.swiftUIColor)
         .opacity(0.2)
       
       HStack(spacing: 0) {

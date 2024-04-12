@@ -27,9 +27,13 @@ extension MyPageRootStore {
             }
           } catch { }
           
+          return .none
           
+        case let .filterSelected(index):
+          state.filterIndex = index
           
           return .none
+          
         case let .calendar(action):
           return .none
       }
