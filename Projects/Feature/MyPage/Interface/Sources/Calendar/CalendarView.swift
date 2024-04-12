@@ -37,8 +37,9 @@ public struct CalendarView: View {
       store.send(.onAppear)
     }
   }
-  
-  // MARK: - 월 표시 뷰
+}
+
+extension CalendarView {
   private var monthView: some View {
     HStack(spacing: 16) {
       Button(
@@ -98,7 +99,6 @@ public struct CalendarView: View {
     }
   }
   
-  // MARK: - 일자 표시 뷰
   private var dayView: some View {
     ScrollViewReader { proxy in
       ScrollView(.horizontal, showsIndicators: false) {
@@ -126,7 +126,6 @@ public struct CalendarView: View {
     }
   }
   
-  // MARK: - 블러 뷰
   private var blurView: some View {
     HStack {
       LinearGradient(
