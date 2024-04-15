@@ -14,6 +14,10 @@ import SharedDesignSystem
 import SharedUtil
 
 public struct ActivityDetailView: View {
+  private var columns: [GridItem] = Array(
+    repeating: .init(.flexible()),
+    count: 3
+  )
   private let store: StoreOf<ActivityDetailStore>
   
   public init(store: StoreOf<ActivityDetailStore>) {
@@ -34,17 +38,26 @@ public struct ActivityDetailView: View {
       SharedDesignSystemAsset.gray100.swiftUIColor
         .ignoresSafeArea()
       
-      VStack(alignment: .leading) {
-        simpleInfoView
-        
-        infoTitle
-          .padding(.leading, 16)
-          .padding(.top, 20)
-        
-        infoView
-          .padding(.horizontal, 16)
-        
-        Spacer()
+      ScrollView {
+        VStack(alignment: .leading) {
+          simpleInfoView
+          
+          infoTitle
+            .padding(.leading, 16)
+            .padding(.top, 20)
+          
+          infoView
+            .padding(.horizontal, 16)
+          
+          timeLapseTitle
+            .padding(.leading, 16)
+            .padding(.top, 20)
+          
+          timeLapseGridView
+            .padding(.horizontal, 16)
+          
+          Spacer()
+        }
       }
     }
     .navigationTitle(store.navigationBartitle)
@@ -197,5 +210,28 @@ extension ActivityDetailView {
         .modifier(GamtanFont(font: .bold, size: 24))
         .foregroundColor(color)
     }
+  }
+  
+  var timeLapseTitle: some View {
+    Text("타입랩스")
+      .modifier(GamtanFont(font: .bold, size: 20))
+      .foregroundColor(
+        SharedDesignSystemAsset.gray700.swiftUIColor
+      )
+  }
+  
+  var timeLapseGridView: some View {
+    HStack(spacing: 0) {
+      LazyVGrid(columns: columns) {
+        ForEach((0...19), id: \.self) { _ in
+          Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
+            .aspectRatio(1, contentMode: .fit)
+            .cornerRadius(15)
+        }
+      }
+    }
+    .padding(.all, 16)
+    .background(SharedDesignSystemAsset.gray300.swiftUIColor)
+    .clipShape(RoundedRectangle(cornerRadius: 16))
   }
 }
