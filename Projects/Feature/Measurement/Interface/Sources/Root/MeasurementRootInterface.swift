@@ -29,7 +29,7 @@ public struct MeasurementRootStore {
   public struct State: Equatable {
     @Presents public var measurement: MeasurementStore.State?
     
-    public var selectedMode: MeasurementMode = .nomal
+    public var selectedMode: MeasurementMode = .normal
     
     public init() { }
   }

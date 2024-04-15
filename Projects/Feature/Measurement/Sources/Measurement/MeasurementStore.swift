@@ -95,7 +95,7 @@ extension MeasurementStore {
           do {
             let activity = Activity(
               title: "테스트",
-              measurementMode: .nomal,
+              measurementMode: .focus,
               activityDuration: state.time,
               blinkCount: state.eyeBlinkCount,
               thumbnail: []

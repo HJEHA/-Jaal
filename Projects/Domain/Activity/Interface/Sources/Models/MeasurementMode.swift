@@ -8,12 +8,12 @@
 import Foundation
 
 public enum MeasurementMode: Codable {
-  case nomal
+  case normal
   case focus
   
   public var title: String {
     switch self {
-      case .nomal:
+      case .normal:
         return "일반 모드"
       case .focus:
         return "집중 모드"

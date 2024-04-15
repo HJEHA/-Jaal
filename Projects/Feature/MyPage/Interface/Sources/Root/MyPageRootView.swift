@@ -44,51 +44,9 @@ public struct MyPageRootView: View {
         .padding(.vertical, 8)
       
       ScrollView(.vertical) {
-        ActivityCell(
-          activity: .init(
-            title: "테스트 1",
-            measurementMode: .nomal,
-            activityDuration: 100,
-            blinkCount: 20,
-            thumbnail: []
-          )
-        )
-        ActivityCell(
-          activity: .init(
-            title: "테스트 2",
-            measurementMode: .focus,
-            activityDuration: 100,
-            blinkCount: 20,
-            thumbnail: []
-          )
-        )
-        ActivityCell(
-          activity: .init(
-            title: "테스트 3",
-            measurementMode: .nomal,
-            activityDuration: 100,
-            blinkCount: 20,
-            thumbnail: []
-          )
-        )
-        ActivityCell(
-          activity: .init(
-            title: "테스트 4",
-            measurementMode: .nomal,
-            activityDuration: 100,
-            blinkCount: 20,
-            thumbnail: []
-          )
-        )
-        ActivityCell(
-          activity: .init(
-            title: "테스트 5",
-            measurementMode: .nomal,
-            activityDuration: 100,
-            blinkCount: 20,
-            thumbnail: []
-          )
-        )
+        ForEach(store.activities) {
+          ActivityCell(activity: $0)
+        }
       }
       
       Spacer()

@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import DomainActivityInterface
+import SharedUtil
 
 @Reducer
 public struct MyPageRootStore {
@@ -26,6 +27,9 @@ public struct MyPageRootStore {
   public struct State: Equatable {
     public var calendar: CalendarStore.State = .init()
     public var filterIndex: Int = 0
+    public var selectedDate: Date = .now
+    
+    public var activities: [Activity] = []
     
     public init() { }
   }
@@ -34,6 +38,7 @@ public struct MyPageRootStore {
     case appear
     case filterSelected(Int)
     case calendar(CalendarStore.Action)
+    case fetch
   }
   
   public var body: some ReducerOf<Self> {

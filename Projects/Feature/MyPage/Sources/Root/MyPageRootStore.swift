@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import SwiftData
 
 import ComposableArchitecture
 
 import FeatureMyPageInterface
 import DomainActivity
 import DomainActivityInterface
+import SharedUtil
 
 extension MyPageRootStore {
   public init() {
@@ -20,25 +22,60 @@ extension MyPageRootStore {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
         case .appear:
-          do {
-            let test = try activityClient.fetchAll()
-            test.map {
-              print($0.blinkCount)
-            }
-          } catch { }
-          
           return .none
           
         case let .filterSelected(index):
           state.filterIndex = index
           
-          return .none
+          return .send(.fetch)
           
         case let .calendar(action):
+          switch action {
+            case let .selectedDate(date):
+              state.selectedDate = date
+              return .send(.fetch)
+            default:
+              return .none
+          }
+          
+        case .fetch:
+          let date = DateUtil.shared.toYearMonthDay(from: state.selectedDate)
+          var predicate: Predicate<Activity>
+          if let mode = MeasurementFilter.toMeasurementMode(state.filterIndex) {
+            predicate = {
+              return #Predicate {
+                $0.dateString == date
+                && $0.measurementTitle == mode.title
+              }
+            }()
+          } else {
+            predicate = {
+              return #Predicate {
+                $0.dateString == date
+              }
+            }()
+          }
+          
+          let descriptor: FetchDescriptor<Activity> = .init(
+            predicate: predicate,
+            sortBy: [
+              .init(\.date, order: .reverse)
+            ]
+          )
+          
+          do {
+            state.activities = try activityClient.fetch(descriptor)
+          } catch {
+            state.activities = []
+          }
+          
           return .none
       }
     }
     
-    self.init(reducer: reducer, calender: CalendarStore())
+    self.init(
+      reducer: reducer,
+      calender: CalendarStore()
+    )
   }
 }

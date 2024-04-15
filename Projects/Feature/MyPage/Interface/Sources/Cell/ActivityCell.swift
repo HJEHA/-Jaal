@@ -15,7 +15,7 @@ public struct ActivityCell: View {
   private let activity: Activity
   private var color: Color {
     switch activity.measurementMode {
-      case .nomal:
+      case .normal:
         return SharedDesignSystemAsset.orange.swiftUIColor
       case .focus:
         return SharedDesignSystemAsset.red.swiftUIColor
@@ -66,7 +66,7 @@ extension ActivityCell {
     let icon: Image
     
     switch mode {
-      case .nomal:
+      case .normal:
         icon = SharedDesignSystemAsset.user.swiftUIImage
       case .focus:
         icon = SharedDesignSystemAsset.flame.swiftUIImage
@@ -107,7 +107,7 @@ extension ActivityCell {
   }
   
   var dateTime: some View {
-    return Text(DateUtil.shared.toYearMonthDayTime(from: activity.date))
+    return Text(DateUtil.shared.toTime(from: activity.date))
       .modifier(GamtanFont(font: .bold, size: 14))
       .foregroundColor(color)
   }

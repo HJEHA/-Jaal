@@ -38,7 +38,7 @@ public struct MeasurementRootView: View {
         
         
         HStack {
-          modeSelectButton(store, mode: .nomal)
+          modeSelectButton(store, mode: .normal)
           
           modeSelectButton(store, mode: .focus)
         }
@@ -81,7 +81,7 @@ extension MeasurementRootView {
         .overlay(
           HStack {
             Image(
-              uiImage: store.selectedMode == .nomal
+              uiImage: store.selectedMode == .normal
               ? SharedDesignSystemAsset.play.image
               : SharedDesignSystemAsset.flame.image
             )
@@ -89,7 +89,7 @@ extension MeasurementRootView {
             .resizable()
             .frame(width: 20, height: 20)
             .foregroundColor(
-              store.selectedMode == .nomal
+              store.selectedMode == .normal
               ? SharedDesignSystemAsset.orange.swiftUIColor
               : SharedDesignSystemAsset.red.swiftUIColor
             )
@@ -97,7 +97,7 @@ extension MeasurementRootView {
             Text("측정 시작")
               .modifier(GamtanFont(font: .bold, size: 18))
               .foregroundColor(
-                store.selectedMode == .nomal
+                store.selectedMode == .normal
                 ? SharedDesignSystemAsset.orange.swiftUIColor
                 : SharedDesignSystemAsset.red.swiftUIColor
               )
