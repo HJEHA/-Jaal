@@ -44,9 +44,12 @@ public struct MyPageRootView: View {
         .padding(.vertical, 8)
       
       ScrollView(.vertical) {
-        ForEach(store.activities) {
-          ActivityCell(activity: $0)
+        VStack(spacing: 8) {
+          ForEach(store.activities) {
+            ActivityCell(activity: $0)
+          }
         }
+        .padding(.bottom, 40)
       }
       
       Spacer()
