@@ -6,3 +6,24 @@
 //
 
 import Foundation
+
+import ComposableArchitecture
+
+import DomainActivityInterface
+
+extension ActivityDetailStore {
+  public init() {
+    
+    let reducer: Reduce<State, Action> = Reduce { state, action in
+      switch action {
+        case .onAppear:
+          return .none
+          
+        case .saveButtonTapped:
+          return .none
+      }
+    }
+    
+    self.init(reducer: reducer)
+  }
+}

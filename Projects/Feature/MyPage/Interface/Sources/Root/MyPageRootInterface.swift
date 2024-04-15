@@ -17,10 +17,16 @@ public struct MyPageRootStore {
   
   private let reducer: Reduce<State, Action>
   private let calender: CalendarStore
+  private let activityDetail: ActivityDetailStore
   
-  public init(reducer: Reduce<State, Action>, calender: CalendarStore) {
+  public init(
+    reducer: Reduce<State, Action>,
+    calender: CalendarStore,
+    activityDetail: ActivityDetailStore
+  ) {
     self.reducer = reducer
     self.calender = calender
+    self.activityDetail = activityDetail
   }
   
   @ObservableState
@@ -30,6 +36,7 @@ public struct MyPageRootStore {
     public var selectedDate: Date = .now
     
     public var activities: [Activity] = []
+    public var path = StackState<ActivityDetailStore.State>()
     
     public init() { }
   }
@@ -38,6 +45,9 @@ public struct MyPageRootStore {
     case appear
     case filterSelected(Int)
     case calendar(CalendarStore.Action)
+    case path(
+      StackAction<ActivityDetailStore.State, ActivityDetailStore.Action>
+    )
     case fetch
   }
   
@@ -46,5 +56,8 @@ public struct MyPageRootStore {
       calender
     }
     reducer
+      .forEach(\.path, action: \.path) {
+        activityDetail
+      }
   }
 }

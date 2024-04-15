@@ -13,7 +13,7 @@ import DomainActivityInterface
 import SharedDesignSystem
 
 public struct MyPageRootView: View {
-  private let store: StoreOf<MyPageRootStore>
+  @Bindable private var store: StoreOf<MyPageRootStore>
   private var viewStore: ViewStoreOf<MyPageRootStore>
   
   public init(store: StoreOf<MyPageRootStore>) {
@@ -22,41 +22,49 @@ public struct MyPageRootView: View {
   }
   
   public var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        title
+    NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+      VStack(alignment: .leading) {
+        HStack {
+          title
+          
+          Spacer()
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        
+        CalendarView(
+          store: store.scope(
+            state: \.calendar,
+            action: \.calendar
+          )
+        )
+        .padding(.vertical, 8)
+        
+        measurementFilter
+          .padding(.horizontal, 16)
+          .padding(.vertical, 8)
+        
+        ScrollView(.vertical) {
+          VStack(spacing: 8) {
+            ForEach(store.activities) { activity in
+              NavigationLink(
+                state: ActivityDetailStore.State(activity: activity)
+              ) {
+                ActivityCell(activity: activity)
+              }
+            }
+          }
+          .padding(.bottom, 40)
+        }
         
         Spacer()
       }
-      .padding(.horizontal, 16)
-      .padding(.vertical, 8)
-      
-      CalendarView(
-        store: store.scope(
-          state: \.calendar,
-          action: \.calendar
-        )
-      )
-      .padding(.vertical, 8)
-      
-      measurementFilter
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-      
-      ScrollView(.vertical) {
-        VStack(spacing: 8) {
-          ForEach(store.activities) {
-            ActivityCell(activity: $0)
-          }
-        }
-        .padding(.bottom, 40)
+      .background(SharedDesignSystemAsset.gray100.swiftUIColor)
+      .onAppear {
+        store.send(.appear)
       }
-      
-      Spacer()
-    }
-    .background(SharedDesignSystemAsset.gray100.swiftUIColor)
-    .onAppear {
-      store.send(.appear)
+    } destination: { store in
+      ActivityDetailView(store: store)
     }
   }
 }

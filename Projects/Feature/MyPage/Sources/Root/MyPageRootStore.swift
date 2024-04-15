@@ -70,12 +70,16 @@ extension MyPageRootStore {
           }
           
           return .none
+          
+        case .path:
+          return .none
       }
     }
     
     self.init(
       reducer: reducer,
-      calender: CalendarStore()
+      calender: CalendarStore(),
+      activityDetail: ActivityDetailStore()
     )
   }
 }

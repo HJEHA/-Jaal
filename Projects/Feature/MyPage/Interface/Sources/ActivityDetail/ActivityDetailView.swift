@@ -7,12 +7,18 @@
 
 import SwiftUI
 
-struct ActivityDetailView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import ComposableArchitecture
 
-#Preview {
-    ActivityDetailView()
+import SharedDesignSystem
+
+public struct ActivityDetailView: View {
+  private let store: StoreOf<ActivityDetailStore>
+  
+  public init(store: StoreOf<ActivityDetailStore>) {
+    self.store = store
+  }
+  
+  public var body: some View {
+    Text("\(store.activity.blinkCount)")
+  }
 }
