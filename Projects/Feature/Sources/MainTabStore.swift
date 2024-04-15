@@ -24,6 +24,7 @@ public struct MainTabStore {
     public var myPage: MyPageRootStore.State = .init()
     
     public var currentScene: MainScene = .home
+    public var showTabBar: Bool = true
     
     public init() {}
   }
@@ -51,7 +52,10 @@ public struct MainTabStore {
           state.currentScene = scene
           return .none
           
-        case .myPage(_):
+        case .myPage:
+          if state.currentScene == .myPage {
+            state.showTabBar = state.myPage.path.isEmpty
+          }
           return .none
       }
     }

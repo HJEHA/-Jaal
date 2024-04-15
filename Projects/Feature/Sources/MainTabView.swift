@@ -25,7 +25,9 @@ public struct MainTabView: View {
     VStack(spacing: .zero) {
       tabView(store)
       
-      tabBarView(store)
+      if store.showTabBar == true {
+        tabBarView(store)
+      }
     }
     .ignoresSafeArea(edges: [.bottom])
   }
