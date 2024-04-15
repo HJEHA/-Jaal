@@ -65,7 +65,9 @@ public struct MyPageRootView: View {
       }
     } destination: { store in
       ActivityDetailView(store: store)
+        .toolbarRole(.editor)
     }
+    .tint(SharedDesignSystemAsset.blue.swiftUIColor)
   }
 }
 

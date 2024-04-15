@@ -41,6 +41,11 @@ public class DateUtil: DateFormatter {
     return self.string(from: date)
   }
   
+  public func toMonthDay(from  date: Date) -> String {
+    self.setLocalizedDateFormatFromTemplate("MM dd")
+    return self.string(from: date)
+  }
+  
   public func toTime(from  date: Date) -> String {
     self.setLocalizedDateFormatFromTemplate("HH:mm")
     return self.string(from: date)
