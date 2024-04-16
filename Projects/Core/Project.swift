@@ -6,6 +6,7 @@ let targets: [Target] = [
   .core(
     factory: .init(
       dependencies: [
+        .core(implements: .ImageProcss),
         .shared
       ]
     )
