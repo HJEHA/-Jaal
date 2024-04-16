@@ -7,7 +7,8 @@ let targets: [Target] = [
     implements: .ThirdPartyLib,
     factory: .init(
       dependencies: [
-        .external(name: "ComposableArchitecture")
+        .external(name: "ComposableArchitecture"),
+        .external(name: "Kingfisher")
       ]
     )
   )
