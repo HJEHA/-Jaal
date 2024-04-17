@@ -9,6 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
+import FeatureMyPageInterface
 import DomainActivityInterface
 
 extension ActivityDetailStore {

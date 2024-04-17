@@ -33,9 +33,19 @@ public struct FaceTrackingView: View {
       )
     )
     .edgesIgnoringSafeArea(.all)
+    .onChange(of: store.isSnapshot) { oldValue, newValue in
+      if newValue == true {
+        ARVariables.arView.snapshot(saveToHDR: false) { image in
+          store.send(.saveImage(image))
+        }
+      }
+    }
   }
 }
 
+struct ARVariables{
+  static var arView: ARView!
+}
 
 // MARK: - View Container
 private struct FaceTrackerViewContainer: UIViewRepresentable {
@@ -43,18 +53,18 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   @Binding var eyeBlink: Float
   
   func makeUIView(context: Context) -> ARView {
-    let arView = ARView(frame: .zero)
+    ARVariables.arView = ARView(frame: .zero)
     let configuration = ARFaceTrackingConfiguration()
     configuration.maximumNumberOfTrackedFaces = 1
-    arView.session.run(
+    ARVariables.arView.session.run(
       configuration,
       options: [.resetTracking, .removeExistingAnchors]
     )
-    arView.scene.addAnchor(faceAnchor())
+    ARVariables.arView.scene.addAnchor(faceAnchor())
     
-    arView.session.delegate = context.coordinator
+    ARVariables.arView.session.delegate = context.coordinator
     
-    return arView
+    return ARVariables.arView
   }
   
   func updateUIView(_ uiView: ARView, context: Context) {}

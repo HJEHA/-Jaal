@@ -61,6 +61,9 @@ public struct ActivityDetailView: View {
       }
     }
     .navigationTitle(store.navigationBartitle)
+    .onAppear {
+      store.send(.onAppear)
+    }
   }
 }
 
@@ -223,9 +226,12 @@ extension ActivityDetailView {
   var timeLapseGridView: some View {
     HStack(spacing: 0) {
       LazyVGrid(columns: columns) {
-        ForEach((0...19), id: \.self) { _ in
-          Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
-            .aspectRatio(1, contentMode: .fit)
+        ForEach((store.activity.thumbnail), id: \.self) { data in
+          Image(uiImage: UIImage(data: data) ?? UIImage())
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 100, height: 100, alignment: .center)
+            .clipped()
             .cornerRadius(15)
         }
       }

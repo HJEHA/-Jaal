@@ -5,7 +5,7 @@
 //  Created by 황제하 on 4/2/24.
 //
 
-import Foundation
+import SwiftUI
 
 import ComposableArchitecture
 
@@ -44,6 +44,8 @@ public struct MeasurementStore {
     public var faceCenter: SIMD3<Float>?
     public var isWarning: Bool = false
     
+    public var timeLapseData: [Data?] = []
+    
     public init() { }
   }
   
@@ -58,6 +60,10 @@ public struct MeasurementStore {
     
     case start
     case timerTicked
+    case faceDistance
+    
+    case saveTimeLapseResponse(Data?)
+    
     case closeButtonTapped
   }
   

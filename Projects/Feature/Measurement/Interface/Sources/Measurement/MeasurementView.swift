@@ -21,13 +21,8 @@ public struct MeasurementView: View {
   
   public var body: some View {
     ZStack {
-      FaceTrackingView(
-        store: store.scope(
-          state: \.faceTracking,
-          action: \.faceTracking
-        )
-      )
-      
+      trackingView
+            
       if store.isWarning == true {
         WarningScreen()
       }
@@ -75,6 +70,15 @@ public struct MeasurementView: View {
 }
 
 extension MeasurementView {
+  private var trackingView: some View {
+    FaceTrackingView(
+      store: store.scope(
+        state: \.faceTracking,
+        action: \.faceTracking
+      )
+    )
+  }
+  
   private var closeButton: some View {
     Button(
       action: {

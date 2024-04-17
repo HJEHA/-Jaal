@@ -12,6 +12,7 @@ import ComposableArchitecture
 import FeatureMeasurementInterface
 import DomainActivity
 import DomainActivityInterface
+import CoreImageProcss
 import SharedUtil
 
 extension MeasurementStore {
@@ -19,6 +20,7 @@ extension MeasurementStore {
     
     @Dependency(\.continuousClock) var clock
     @Dependency(\.activityClient) var activityClient
+    @Dependency(\.imageProcess) var imageProcess
     
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
@@ -39,11 +41,22 @@ extension MeasurementStore {
               }
               
               return .none
+            case .snapshot:
+              return .none
+            case let .saveImage(image):
+              guard let image else {
+                return .none
+              }
+              
+              return .run { send in
+                let data = await imageProcess.toDataWithDownSample(image, 100)
+                await send(.saveTimeLapseResponse(data))
+              }
           }
           
         case .appear:
           return .send(.initialTimerStart)
-        
+          
         case .initialTimerStart:
           state.isInitailing = true
           return .run { send in
@@ -70,6 +83,7 @@ extension MeasurementStore {
           return .run { send in
             for await _ in clock.timer(interval: .seconds(1)) {
               await send(.timerTicked)
+              await send(.faceDistance)
             }
           }
           .cancellable(id: CancelID.timer)
@@ -78,6 +92,13 @@ extension MeasurementStore {
           state.time += 1
           state.timeString = TimeFormatter.toClockString(from: state.time)
           
+          if state.time % 3 == 0 {
+            return .send(.faceTracking(.snapshot))
+          }
+          
+          return .none
+          
+        case .faceDistance:
           guard let center = state.faceCenter,
                 let initialCenter = state.initialFaceCenter
           else {
@@ -89,6 +110,12 @@ extension MeasurementStore {
           } else {
             state.isWarning = false
           }
+          
+          return .none
+          
+        case let .saveTimeLapseResponse(data):
+          state.timeLapseData.append(data)
+          
           return .none
           
         case .closeButtonTapped:
@@ -98,7 +125,7 @@ extension MeasurementStore {
               measurementMode: .focus,
               activityDuration: state.time,
               blinkCount: state.eyeBlinkCount,
-              thumbnail: []
+              thumbnail: state.timeLapseData.compactMap { $0 }
             )
             try activityClient.add(activity)
           } catch { }
@@ -106,7 +133,7 @@ extension MeasurementStore {
             .cancel(id: CancelID.timer),
             .none
           ])
-        
+          
         default:
           return .none
       }

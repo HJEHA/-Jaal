@@ -5,6 +5,8 @@
 //  Created by 황제하 on 3/29/24.
 //
 
+import SwiftUI
+
 import ComposableArchitecture
 
 @Reducer
@@ -16,14 +18,12 @@ public struct FaceTrackingStore {
     self.reducer = reducer
   }
   
-  public enum CancelID: Hashable {
-    case throttle
-  }
-  
   @ObservableState
   public struct State: Equatable {
     public var faceCenter: SIMD3<Float>?
     public var eyeBlink: Float = 0
+    
+    public var isSnapshot: Bool = false
     
     public init() { }
   }
@@ -31,6 +31,8 @@ public struct FaceTrackingStore {
   public enum Action: Equatable {
     case changedFaceCenter(SIMD3<Float>?)
     case eyeBlink(Float)
+    case snapshot
+    case saveImage(UIImage?)
   }
   
   public var body: some Reducer<State, Action> {

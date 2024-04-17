@@ -23,6 +23,14 @@ extension FaceTrackingStore {
         case let .eyeBlink(value):
           state.eyeBlink = value
           return .none
+          
+        case .snapshot:
+          state.isSnapshot = true
+          return .none
+          
+        case .saveImage:
+          state.isSnapshot = false
+          return .none
       }
     }
     
