@@ -11,6 +11,7 @@ import ComposableArchitecture
 
 import DomainFaceTracking
 import DomainFaceTrackingInterface
+import DomainActivityInterface
 import SharedDesignSystem
 
 @Reducer
@@ -44,7 +45,7 @@ public struct MeasurementStore {
     public var faceCenter: SIMD3<Float>?
     public var isWarning: Bool = false
     
-    public var timeLapseData: [Data?] = []
+    public var timeLapseData: [Timelapse] = []
     
     public init() { }
   }
@@ -62,7 +63,7 @@ public struct MeasurementStore {
     case timerTicked
     case faceDistance
     
-    case saveTimeLapseResponse(Data?)
+    case saveTimeLapseResponse(Timelapse)
     
     case closeButtonTapped
   }

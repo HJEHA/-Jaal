@@ -10,7 +10,6 @@ import Foundation
 import ComposableArchitecture
 
 import FeatureMyPageInterface
-import DomainActivityInterface
 
 extension ActivityDetailStore {
   public init() {
@@ -22,9 +21,24 @@ extension ActivityDetailStore {
           
         case .saveButtonTapped:
           return .none
+          
+        case let .thumbnailTapped(index):
+          let names: [String] = state.activity.timelapse.map { $0.name }
+          state.photoDetail = .init(names: names, index: index)
+          return .none
+          
+        case .photoDetail(.presented(.closeButtonTapped)):
+          state.photoDetail = nil
+          return .none
+          
+        default:
+          return .none
       }
     }
     
-    self.init(reducer: reducer)
+    self.init(
+      reducer: reducer,
+      photoDetail: PhotoDetailStore()
+    )
   }
 }

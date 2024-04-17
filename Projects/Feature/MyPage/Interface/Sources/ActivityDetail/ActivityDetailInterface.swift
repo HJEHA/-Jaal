@@ -15,22 +15,34 @@ import SharedUtil
 @Reducer
 public struct ActivityDetailStore {
   private let reducer: Reduce<State, Action>
+  private let photoDetail: PhotoDetailStore
   
-  public init(reducer: Reduce<State, Action>) {
+  public init(
+    reducer: Reduce<State, Action>,
+    photoDetail: PhotoDetailStore
+  ) {
     self.reducer = reducer
+    self.photoDetail = photoDetail
   }
   
   @ObservableState
   public struct State: Equatable {
+    @Presents public var photoDetail: PhotoDetailStore.State?
+    
     public var activity: Activity
     
     var navigationBartitle: String {
       return "\(DateUtil.shared.toMonthDay(from: activity.date)) (\(DateUtil.shared.toDayOfWeek(from: activity.date)))"
     }
+    
     var dateRange: String {
       return activity.date.dateRangeString(
         minusSeconds: TimeInterval(activity.activityDuration)
       )
+    }
+    
+    var thumbnail: [Data] {
+      return activity.timelapse.map { $0.thumbnail }
     }
     
     public init(activity: Activity) {
@@ -39,11 +51,18 @@ public struct ActivityDetailStore {
   }
   
   public enum Action: Equatable {
+    case photoDetail(PresentationAction<PhotoDetailStore.Action>)
+    
     case onAppear
     case saveButtonTapped
+    
+    case thumbnailTapped(Int)
   }
   
   public var body: some ReducerOf<Self> {
     reducer
+      .ifLet(\.$photoDetail, action: /Action.photoDetail) {
+        photoDetail
+      }
   }
 }

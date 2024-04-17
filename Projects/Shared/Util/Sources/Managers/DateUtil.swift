@@ -36,18 +36,23 @@ public class DateUtil: DateFormatter {
     return self.string(from: date)
   }
   
-  public func toYearMonthDay(from  date: Date) -> String {
+  public func toYearMonthDay(from date: Date) -> String {
     self.setLocalizedDateFormatFromTemplate("yyyy MM dd")
     return self.string(from: date)
   }
   
-  public func toMonthDay(from  date: Date) -> String {
+  public func toMonthDay(from date: Date) -> String {
     self.setLocalizedDateFormatFromTemplate("MM dd")
     return self.string(from: date)
   }
   
-  public func toTime(from  date: Date) -> String {
+  public func toTime(from date: Date) -> String {
     self.setLocalizedDateFormatFromTemplate("HH:mm")
+    return self.string(from: date)
+  }
+  
+  public func toNow(from date: Date) -> String {
+    self.setLocalizedDateFormatFromTemplate("yyyyMMddHHmmss")
     return self.string(from: date)
   }
 }

@@ -48,9 +48,19 @@ extension MeasurementStore {
                 return .none
               }
               
+              let name = DateUtil.shared.toNow(from: .now)
+              //TODO: - 이미지 디스크에 저장
+              
               return .run { send in
                 let data = await imageProcess.toDataWithDownSample(image, 100)
-                await send(.saveTimeLapseResponse(data))
+                guard let data else {
+                  return ()
+                }
+                let timeLapse = Timelapse(
+                  thumbnail: data,
+                  name: name
+                )
+                await send(.saveTimeLapseResponse(timeLapse))
               }
           }
           
@@ -113,8 +123,8 @@ extension MeasurementStore {
           
           return .none
           
-        case let .saveTimeLapseResponse(data):
-          state.timeLapseData.append(data)
+        case let .saveTimeLapseResponse(value):
+          state.timeLapseData.append(value)
           
           return .none
           
@@ -125,7 +135,7 @@ extension MeasurementStore {
               measurementMode: .focus,
               activityDuration: state.time,
               blinkCount: state.eyeBlinkCount,
-              thumbnail: state.timeLapseData.compactMap { $0 }
+              timelapse: state.timeLapseData
             )
             try activityClient.add(activity)
           } catch { }

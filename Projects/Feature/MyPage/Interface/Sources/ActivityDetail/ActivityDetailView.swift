@@ -18,7 +18,7 @@ public struct ActivityDetailView: View {
     repeating: .init(.flexible()),
     count: 3
   )
-  private let store: StoreOf<ActivityDetailStore>
+  @Bindable private var store: StoreOf<ActivityDetailStore>
   
   public init(store: StoreOf<ActivityDetailStore>) {
     self.store = store
@@ -64,6 +64,10 @@ public struct ActivityDetailView: View {
     .onAppear {
       store.send(.onAppear)
     }
+    .fullScreenCover(
+      item: $store.scope(state: \.photoDetail, action: \.photoDetail)) { store in
+        PhotoDetailView(store: store)
+      }
   }
 }
 
@@ -171,8 +175,6 @@ extension ActivityDetailView {
         )
       }
       
-      
-      
       VStack(alignment: .leading) {
         //TODO: - 측청 모듈에서 바른 자세 유지 시간 구하기
         makeDetailInfo(
@@ -226,18 +228,25 @@ extension ActivityDetailView {
   var timeLapseGridView: some View {
     HStack(spacing: 0) {
       LazyVGrid(columns: columns) {
-        ForEach((store.activity.thumbnail), id: \.self) { data in
-          Image(uiImage: UIImage(data: data) ?? UIImage())
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 100, height: 100, alignment: .center)
-            .clipped()
-            .cornerRadius(15)
+        ForEach((0..<store.thumbnail.count), id: \.self) { index in
+          photoView(store.thumbnail[index])
+            .onTapGesture {
+              store.send(.thumbnailTapped(index))
+            }
         }
       }
     }
     .padding(.all, 16)
     .background(SharedDesignSystemAsset.gray300.swiftUIColor)
     .clipShape(RoundedRectangle(cornerRadius: 16))
+  }
+  
+  func photoView(_ data: Data) -> some View {
+    return Image(uiImage: UIImage(data: data) ?? UIImage())
+      .resizable()
+      .aspectRatio(contentMode: .fill)
+      .frame(width: 100, height: 100, alignment: .center)
+      .clipped()
+      .cornerRadius(15)
   }
 }
