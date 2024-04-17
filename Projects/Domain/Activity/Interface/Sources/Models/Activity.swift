@@ -17,7 +17,7 @@ public final class Activity: Identifiable {
   public var measurementTitle: String
   public var activityDuration: Int
   public var blinkCount: Int
-  public var thumbnail: [Data]
+  @Relationship(.unique) public var timelapse: [Timelapse]
   public var date: Date
   public var dateString: String
   
@@ -26,7 +26,7 @@ public final class Activity: Identifiable {
     measurementMode: MeasurementMode,
     activityDuration: Int,
     blinkCount: Int,
-    thumbnail: [Data]
+    timelapse: [Timelapse]
   ) {
     self.title = title
     self.date = .now
@@ -35,6 +35,6 @@ public final class Activity: Identifiable {
     self.measurementTitle = measurementMode.title
     self.activityDuration = activityDuration
     self.blinkCount = blinkCount
-    self.thumbnail = thumbnail
+    self.timelapse = timelapse
   }
 }
