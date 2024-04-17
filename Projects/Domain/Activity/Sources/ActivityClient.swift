@@ -72,6 +72,6 @@ extension ActivityClient: DependencyKey {
 public extension DependencyValues {
   var activityClient: ActivityClient {
     get { self[ActivityClient.self] }
-    set { self[ActivityClient.self]  = newValue }
+    set { self[ActivityClient.self] = newValue }
   }
 }
