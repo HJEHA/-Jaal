@@ -23,7 +23,10 @@ public struct PhotoDetailView: View {
       Color.black
           .ignoresSafeArea()
       
-      Image(systemName: "heart.fill")
+      Image(uiImage: store.currentImage)
+        .resizable()
+        .scaledToFit()
+        .scaleEffect(0.8)
       
       VStack {
         HStack {
@@ -38,6 +41,9 @@ public struct PhotoDetailView: View {
           
           Spacer()
         }
+        .background(
+          Color.black.opacity(0.3)
+        )
         .padding(12)
         
         Spacer()
@@ -63,8 +69,14 @@ public struct PhotoDetailView: View {
             .foregroundColor(.white)
             .frame(width: 36, height: 36)
         }
+        .background(
+          Color.black.opacity(0.3)
+        )
         .padding(12)
       }
+    }
+    .onAppear {
+      store.send(.onAppear)
     }
   }
 }

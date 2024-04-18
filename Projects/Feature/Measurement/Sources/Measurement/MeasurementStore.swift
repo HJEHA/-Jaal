@@ -49,9 +49,12 @@ extension MeasurementStore {
               }
               
               let name = DateUtil.shared.toNow(from: .now)
-              //TODO: - 이미지 디스크에 저장
+              ImageCache.shared.saveImageToDiskCache(
+                image,
+                forKey: name
+              )
               
-              return .run { send in
+              return .run { [image, name] send in
                 let data = await imageProcess.toDataWithDownSample(image, 100)
                 guard let data else {
                   return ()

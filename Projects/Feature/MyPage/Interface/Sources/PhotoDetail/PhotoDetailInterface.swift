@@ -5,9 +5,11 @@
 //  Created by 황제하 on 4/17/24.
 //
 
-import Foundation
+import UIKit
 
 import ComposableArchitecture
+
+import SharedUtil
 
 @Reducer
 public struct PhotoDetailStore {
@@ -24,6 +26,15 @@ public struct PhotoDetailStore {
     
     public var maxCount: Int {
       return names.count
+    }
+    
+    public var currentImage: UIImage {
+      if let key = names[safe: index],
+         let image = ImageCache.shared.loadImageFromDiskCache(forKey: key)
+      {
+        return image
+      }
+      return UIImage()
     }
     
     public init(names: [String], index: Int) {
