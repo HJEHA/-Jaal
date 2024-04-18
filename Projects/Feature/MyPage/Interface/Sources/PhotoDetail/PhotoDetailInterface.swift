@@ -33,14 +33,6 @@ public struct PhotoDetailStore {
       return names.count
     }
     
-    public var preButtomDisabled: Bool {
-      return index == 0
-    }
-    
-    public var nextButtomDisabled: Bool {
-      return index == names.count - 1
-    }
-    
     public init(names: [String], index: Int) {
       self.names = names
       self.index = index
@@ -50,8 +42,6 @@ public struct PhotoDetailStore {
   
   public enum Action: Equatable {
     case onAppear
-    case nextButtonTapped
-    case preButtonTapped
     case closeButtonTapped
     
     case offsetChanged(CGFloat)

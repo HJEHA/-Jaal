@@ -18,37 +18,26 @@ extension PhotoDetailStore {
       switch action {
         case .onAppear:
           return .none
-        case .nextButtonTapped:
-          state.index = min(state.index + 1, state.names.count - 1)
-          state.currentPage = state.index + 1
-          return .none
-        case .preButtonTapped:
-          state.index = max(state.index - 1, 0)
-          state.currentPage = state.index + 1
-          return .none
         case .closeButtonTapped:
           return .none
         case let .offsetChanged(offset):
           let screenWidth = UIScreen.main.bounds.width
-          let imagesCount = state.names.count
           let pageIndex = Int(offset / screenWidth)
-          let clampedPageIndex = min(max(imagesCount - pageIndex - 1, 0), imagesCount)
-          print(offset)
           
           return .run { send in
-            await send(.currentPage(clampedPageIndex))
+            await send(.currentPage(pageIndex))
           }
           .throttle(
             id: CancelID.throttle,
-            for: 0.3,
+            for: 0.5,
             scheduler: DispatchQueue.main,
             latest: true
           )
           
         case let .currentPage(page):
-          if state.index != (page - 1) {
-            state.currentPage = page
-          }
+          state.currentPage = page + 1
+          state.index = page
+          
           return .none
       }
     }

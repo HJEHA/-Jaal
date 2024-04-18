@@ -6,20 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 import ComposableArchitecture
+import SwiftUIIntrospect
 
 import SharedDesignSystem
 import SharedUtil
-
-struct ScrollOffsetKey: PreferenceKey {
-  typealias Value = CGFloat
-  
-  static var defaultValue: CGFloat = 0
-  static func reduce(value: inout Value, nextValue: () -> Value) {
-    value += nextValue()
-  }
-}
 
 public struct PhotoDetailView: View {
   private let store: StoreOf<PhotoDetailStore>
@@ -35,12 +28,6 @@ public struct PhotoDetailView: View {
       
       ScrollViewReader { proxy in
         ScrollView(.horizontal) {
-          GeometryReader { proxy in
-            let offset = proxy.frame(in: .named("scroll")).origin.x
-            Color.clear.preference(key: ScrollOffsetKey.self, value: offset)
-          }
-          .frame(width: 0, height: 0)
-          
           LazyHStack(spacing: 0) {
             ForEach(store.names.indices, id: \.self) { index in
               let image = ImageCache.shared.loadImageFromDiskCache(
@@ -54,18 +41,12 @@ public struct PhotoDetailView: View {
             }
           }
         }
+        .didScroll { offset in
+          store.send(.offsetChanged(offset.x))
+        }
         .scrollTargetBehavior(.paging)
         .onAppear {
           proxy.scrollTo(store.index)
-        }
-        .onChange(of: store.index) { _, newValue in
-          withAnimation {
-            proxy.scrollTo(newValue)
-          }
-        }
-        .coordinateSpace(name: "scroll")
-        .onPreferenceChange(ScrollOffsetKey.self) { value in
-          store.send(.offsetChanged(value))
         }
       }
       
@@ -90,22 +71,6 @@ public struct PhotoDetailView: View {
         Spacer()
         
         HStack {
-          Button {
-            store.send(.preButtonTapped)
-          } label: {
-            SharedDesignSystemAsset.chevronLeft.swiftUIImage
-              .renderingMode(.template)
-              .resizable()
-              .foregroundColor(
-                store.preButtomDisabled
-                ? SharedDesignSystemAsset.gray600.swiftUIColor
-                : .white
-              )
-              .frame(width: 36, height: 36)
-          }
-          .disabled(store.preButtomDisabled)
-          
-          
           Spacer()
           
           Text("\(store.currentPage) / \(store.maxCount)")
@@ -113,21 +78,6 @@ public struct PhotoDetailView: View {
             .foregroundColor(.white)
           
           Spacer()
-          
-          Button {
-            store.send(.nextButtonTapped)
-          } label: {
-            SharedDesignSystemAsset.chevronRight.swiftUIImage
-              .renderingMode(.template)
-              .resizable()
-              .foregroundColor(
-                store.nextButtomDisabled
-                ? SharedDesignSystemAsset.gray600.swiftUIColor
-                : .white
-              )
-              .frame(width: 36, height: 36)
-          }
-          .disabled(store.nextButtomDisabled)
         }
         .background(
           Color.black.opacity(0.3)
@@ -138,5 +88,35 @@ public struct PhotoDetailView: View {
     .onAppear {
       store.send(.onAppear)
     }
+  }
+}
+
+struct ScrollViewDidScrollViewModifier: ViewModifier {
+  
+  class ViewModel: ObservableObject {
+    var contentOffsetSubscription: AnyCancellable?
+  }
+  
+  @StateObject var viewModel = ViewModel()
+  var didScroll: (CGPoint) -> Void
+  
+  func body(content: Content) -> some View {
+    content
+      .introspect(.scrollView, on: .iOS(.v17)) { scrollView in
+        if viewModel.contentOffsetSubscription == nil {
+          viewModel.contentOffsetSubscription = scrollView.publisher(
+            for: \.contentOffset
+          )
+          .sink { contentOffset in
+            didScroll(contentOffset)
+          }
+        }
+      }
+  }
+}
+
+extension ScrollView {
+  func didScroll(_ didScroll: @escaping (CGPoint) -> Void) -> some View {
+    self.modifier(ScrollViewDidScrollViewModifier(didScroll: didScroll))
   }
 }
