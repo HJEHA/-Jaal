@@ -19,27 +19,32 @@ public struct PhotoDetailStore {
     self.reducer = reducer
   }
   
+  public enum CancelID {
+    case throttle
+  }
+  
   @ObservableState
   public struct State: Equatable {
     public var names: [String]
     public var index: Int
+    public var currentPage: Int
     
     public var maxCount: Int {
       return names.count
     }
     
-    public var currentImage: UIImage {
-      if let key = names[safe: index],
-         let image = ImageCache.shared.loadImageFromDiskCache(forKey: key)
-      {
-        return image
-      }
-      return UIImage()
+    public var preButtomDisabled: Bool {
+      return index == 0
+    }
+    
+    public var nextButtomDisabled: Bool {
+      return index == names.count - 1
     }
     
     public init(names: [String], index: Int) {
       self.names = names
       self.index = index
+      self.currentPage = index + 1
     }
   }
   
@@ -48,6 +53,9 @@ public struct PhotoDetailStore {
     case nextButtonTapped
     case preButtonTapped
     case closeButtonTapped
+    
+    case offsetChanged(CGFloat)
+    case currentPage(Int)
   }
   
   public var body: some ReducerOf<Self> {

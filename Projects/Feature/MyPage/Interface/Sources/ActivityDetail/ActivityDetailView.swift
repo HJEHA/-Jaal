@@ -228,7 +228,7 @@ extension ActivityDetailView {
   var timeLapseGridView: some View {
     HStack(spacing: 0) {
       LazyVGrid(columns: columns) {
-        ForEach((0..<store.thumbnail.count), id: \.self) { index in
+        ForEach((store.thumbnail.indices), id: \.self) { index in
           photoView(store.thumbnail[index])
             .onTapGesture {
               store.send(.thumbnailTapped(index))
