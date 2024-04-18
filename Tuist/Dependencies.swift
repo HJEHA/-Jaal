@@ -8,8 +8,8 @@ let SPM = SwiftPackageManagerDependencies(
       requirement: .upToNextMajor(from: "1.9.2")
     ),
     .remote(
-      url: "https://github.com/onevcat/Kingfisher.git",
-      requirement: .upToNextMajor(from: "7.0.0")
+      url: "https://github.com/siteline/swiftui-introspect",
+      requirement: .upToNextMajor(from: "1.0.0")
     )
   ]
 )

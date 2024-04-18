@@ -8,7 +8,7 @@ let targets: [Target] = [
     factory: .init(
       dependencies: [
         .external(name: "ComposableArchitecture"),
-        .external(name: "Kingfisher")
+        .external(name: "SwiftUIIntrospect")
       ]
     )
   )
