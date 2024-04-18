@@ -229,10 +229,11 @@ extension ActivityDetailView {
     HStack(spacing: 0) {
       LazyVGrid(columns: columns) {
         ForEach((store.thumbnail.indices), id: \.self) { index in
-          photoView(store.thumbnail[index])
-            .onTapGesture {
-              store.send(.thumbnailTapped(index))
-            }
+          Button {
+            store.send(.thumbnailTapped(index))
+          } label: {
+            photoView(store.thumbnail[index])
+          }
         }
       }
     }
