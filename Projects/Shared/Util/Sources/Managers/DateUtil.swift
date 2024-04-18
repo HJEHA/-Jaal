@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DateUtil: DateFormatter {
+public final class DateUtil: DateFormatter {
   public static let shared = DateUtil()
   
   private override init() {
@@ -52,7 +52,7 @@ public class DateUtil: DateFormatter {
   }
   
   public func toNow(from date: Date) -> String {
-    self.setLocalizedDateFormatFromTemplate("yyyyMMddHHmmss")
+    self.dateFormat = "yyyyMMddHHmmss"
     return self.string(from: date)
   }
 }
