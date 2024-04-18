@@ -65,9 +65,10 @@ public struct ActivityDetailView: View {
       store.send(.onAppear)
     }
     .fullScreenCover(
-      item: $store.scope(state: \.photoDetail, action: \.photoDetail)) { store in
-        PhotoDetailView(store: store)
-      }
+      item: $store.scope(state: \.photoDetail, action: \.photoDetail)
+    ) { store in
+      PhotoDetailView(store: store)
+    }
   }
 }
 

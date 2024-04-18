@@ -28,9 +28,15 @@ public struct PhotoDetailStore {
     public var names: [String]
     public var index: Int
     public var currentPage: Int
+    public var closeDragHeight: Double = 0
+    public var isDrag: Bool = false
     
     public var maxCount: Int {
       return names.count
+    }
+    
+    public var backgroundOpacity: Double {
+      return (1 - 0.002 * abs(closeDragHeight))
     }
     
     public init(names: [String], index: Int) {
@@ -43,6 +49,8 @@ public struct PhotoDetailStore {
   public enum Action: Equatable {
     case onAppear
     case closeButtonTapped
+    case closeDraged(Double)
+    case startCloseDrag(Bool)
     
     case offsetChanged(CGFloat)
     case currentPage(Int)

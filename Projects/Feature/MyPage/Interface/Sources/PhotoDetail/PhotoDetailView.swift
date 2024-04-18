@@ -25,20 +25,37 @@ public struct PhotoDetailView: View {
     ZStack {
       Color.black
         .ignoresSafeArea()
+        .opacity(store.backgroundOpacity)
       
       scrollView
+        .offset(x: 0, y: store.closeDragHeight)
       
       VStack {
         
         closeButton
+          .offset(
+            x: 0,
+            y: store.isDrag ? -100 : 0
+          )
         
         Spacer()
         
         countView
+          .offset(
+            x: 0,
+            y: store.isDrag ? 100 : 0
+          )
       }
     }
     .onAppear {
       store.send(.onAppear)
+    }
+    .gesture(
+      dragGesture
+    )
+    .introspect(.viewController, on: .iOS(.v17)) { viewController in
+      viewController.view.backgroundColor = .clear
+      viewController.modalTransitionStyle = .crossDissolve
     }
   }
 }
@@ -83,9 +100,6 @@ extension PhotoDetailView {
       }
       Spacer()
     }
-    .background(
-      Color.black.opacity(0.3)
-    )
     .padding(12)
   }
   
@@ -99,9 +113,27 @@ extension PhotoDetailView {
       
       Spacer()
     }
-    .background(
-      Color.black.opacity(0.3)
-    )
     .padding(12)
+  }
+  
+  var dragGesture: some Gesture {
+    DragGesture()
+      .onChanged { value in
+        let height = value.translation.height
+        if abs(height) > 50 {
+          store.send(.closeDraged(height))
+          
+          if store.isDrag == false {
+            store.send(.startCloseDrag(true), animation: .easeInOut)
+          }
+        }
+        
+      }
+      .onEnded { _ in
+        store.send(.closeDraged(0), animation: .easeInOut)
+        if store.isDrag == true {
+          store.send(.startCloseDrag(false), animation: .easeInOut)
+        }
+      }
   }
 }

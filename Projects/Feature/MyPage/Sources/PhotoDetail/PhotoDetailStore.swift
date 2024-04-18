@@ -20,6 +20,20 @@ extension PhotoDetailStore {
           return .none
         case .closeButtonTapped:
           return .none
+          
+        case let .closeDraged(height):
+          state.closeDragHeight = height
+          
+          if abs(height) > 250 {
+            return .send(.closeButtonTapped)
+          }
+          
+          return .none
+          
+        case let .startCloseDrag(isStart):
+          state.isDrag = isStart
+          return .none
+          
         case let .offsetChanged(offset):
           let screenWidth = UIScreen.main.bounds.width
           let pageIndex = Int(offset / screenWidth)
