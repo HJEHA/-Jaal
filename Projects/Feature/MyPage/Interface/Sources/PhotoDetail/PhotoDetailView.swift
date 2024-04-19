@@ -32,6 +32,11 @@ public struct PhotoDetailView: View {
       scrollView
         .offset(x: 0, y: store.closeDragHeight)
       
+      if store.isSaving == true {
+        LoadingView()
+          .zIndex(10)
+      }
+      
       VStack {
         
         HStack {
@@ -78,6 +83,8 @@ public struct PhotoDetailView: View {
           forKey: store.names[store.index]
         ) ?? UIImage()
         
+        store.send(.saveOnlyPhotoButtonTapped)
+        
         ImageSaver.shared.saveImage(image) {
           store.send(.saveCompleted(true))
         } errorHandler: {
@@ -85,7 +92,7 @@ public struct PhotoDetailView: View {
         }
       }
       Button("타임랩스 저장") {
-        
+        store.send(.saveTimeLapseButtonTapped)
       }
       Button("취소", role: .cancel) {
         store.send(.saveButtonTapped(false))

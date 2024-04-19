@@ -26,18 +26,19 @@ public struct LoadingView: View {
         .overlay(
           Circle()
             .trim(from: 0, to: 0.85)
-            .stroke(lineWidth: 6)
+            .stroke(style: .init(lineWidth: 6, lineCap: .round))
             .foregroundColor(SharedDesignSystemAsset.blue.swiftUIColor)
             .rotationEffect(
               Angle(
-                degrees: self.isAnimating ? 360 : 0
+                degrees: isAnimating ? 360 : 0
               )
             )
             .animation(
               .linear(
-                duration: self.isAnimating ? 1 : 0
+                duration: isAnimating ? 1 : 0
               )
-              .repeatForever(autoreverses: false)
+              .repeatForever(autoreverses: false),
+              value: isAnimating
             )
         )
       
@@ -49,7 +50,7 @@ public struct LoadingView: View {
       isAnimating = false
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(SharedDesignSystemAsset.gray200.swiftUIColor.opacity(0.2))
+    .background(Color(red: 0, green: 0, blue: 0, opacity: 0.02))
     .ignoresSafeArea()
   }
 }

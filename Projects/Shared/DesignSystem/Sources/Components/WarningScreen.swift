@@ -8,31 +8,31 @@
 import SwiftUI
 
 public struct WarningScreen: View {
-  @State var isAnimate: Bool = false
+  @State var isAnimating: Bool = false
   
   public init(isAnimate: Bool = false) {
-    self.isAnimate = isAnimate
+    self.isAnimating = isAnimate
   }
   
   public var body: some View {
     ZStack {
       SharedDesignSystemAsset.red.swiftUIColor.opacity(
-        isAnimate ? 0.3 : 0
+        isAnimating ? 0.3 : 0
       )
       .edgesIgnoringSafeArea(.all)
       .animation(
         .linear(
-          duration: isAnimate ? 0.5 : 0
+          duration: isAnimating ? 0.5 : 0
         )
         .repeatForever(autoreverses: true),
-        value: isAnimate
+        value: isAnimating
       )
     }
     .onAppear {
-      isAnimate = true
+      isAnimating = true
     }
     .onDisappear {
-      isAnimate = false
+      isAnimating = false
     }
   }
 }

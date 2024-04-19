@@ -60,8 +60,17 @@ extension PhotoDetailStore {
           
           return .none
           
+        case .saveOnlyPhotoButtonTapped:
+          state.isSaving = true
+          return .none
+          
+        case .saveTimeLapseButtonTapped:
+          state.isSaving = true
+          return .none
+          
         case let .saveCompleted(isComplete):
           state.isSaveSuccess = isComplete
+          state.isSaving = false
           print("complete", isComplete)
           return .none
       }
