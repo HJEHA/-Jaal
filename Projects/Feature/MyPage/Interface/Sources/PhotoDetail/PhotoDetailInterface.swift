@@ -31,6 +31,7 @@ public struct PhotoDetailStore {
     public var closeDragHeight: Double = 0
     public var isDrag: Bool = false
     public var showSaveActionSheet: Bool = false
+    public var isSaveSuccess: Bool = false
     
     public var maxCount: Int {
       return names.count
@@ -57,6 +58,7 @@ public struct PhotoDetailStore {
     case currentPage(Int)
     
     case saveButtonTapped(Bool)
+    case saveCompleted(Bool)
   }
   
   public var body: some ReducerOf<Self> {

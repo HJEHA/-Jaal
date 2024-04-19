@@ -10,6 +10,7 @@ import UIKit
 import ComposableArchitecture
 
 import FeatureMyPageInterface
+import SharedUtil
 
 extension PhotoDetailStore {
   public init() {
@@ -57,6 +58,11 @@ extension PhotoDetailStore {
           state.currentPage = page + 1
           state.index = page
           
+          return .none
+          
+        case let .saveCompleted(isComplete):
+          state.isSaveSuccess = isComplete
+          print("complete", isComplete)
           return .none
       }
     }

@@ -74,7 +74,15 @@ public struct PhotoDetailView: View {
       )
     ) {
       Button("이 사진만 저장") {
+        let image = ImageCache.shared.loadImageFromDiskCache(
+          forKey: store.names[store.index]
+        ) ?? UIImage()
         
+        ImageSaver.shared.saveImage(image) {
+          store.send(.saveCompleted(true))
+        } errorHandler: {
+          store.send(.saveCompleted(false))
+        }
       }
       Button("타임랩스 저장") {
         
@@ -93,7 +101,8 @@ extension PhotoDetailView {
         LazyHStack(spacing: 0) {
           ForEach(store.names.indices, id: \.self) { index in
             let image = ImageCache.shared.loadImageFromDiskCache(
-              forKey: store.names[index]) ?? UIImage()
+              forKey: store.names[index]
+            ) ?? UIImage()
             Image(uiImage: image)
               .resizable()
               .frame(width: UIScreen.main.bounds.width)

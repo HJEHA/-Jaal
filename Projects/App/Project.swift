@@ -27,6 +27,7 @@ let targets: [Target] = [
             .string("UIInterfaceOrientationPortrait")
           ],
           "NSCameraUsageDescription": .string("이 앱은 카메라를 통해 사용자의 자세를 판단합니다."),
+          "NSPhotoLibraryAddUsageDescription": .string("사진 및 동영상을 앨범에 저장하려면 접근 권한이 필요합니다."),
           "UIAppFonts": .array([
             .string("Gamtan-Bold.ttf"),
             .string("Gamtan-Regular.ttf"),
