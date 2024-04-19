@@ -16,9 +16,11 @@ import SharedUtil
 
 public struct PhotoDetailView: View {
   private let store: StoreOf<PhotoDetailStore>
+  private let viewStore: ViewStoreOf<PhotoDetailStore>
   
   public init(store: StoreOf<PhotoDetailStore>) {
     self.store = store
+    self.viewStore = ViewStore(store, observe: { $0 })
   }
   
   public var body: some View {
@@ -32,11 +34,18 @@ public struct PhotoDetailView: View {
       
       VStack {
         
-        closeButton
-          .offset(
-            x: 0,
-            y: store.isDrag ? -100 : 0
-          )
+        HStack {
+          closeButton
+          
+          Spacer()
+          
+          saveAlbumButton
+        }
+        .padding(12)
+        .offset(
+          x: 0,
+          y: store.isDrag ? -100 : 0
+        )
         
         Spacer()
         
@@ -56,6 +65,23 @@ public struct PhotoDetailView: View {
     .introspect(.viewController, on: .iOS(.v17)) { viewController in
       viewController.view.backgroundColor = .clear
       viewController.modalTransitionStyle = .crossDissolve
+    }
+    .confirmationDialog(
+      "",
+      isPresented: viewStore.binding(
+        get: \.showSaveActionSheet,
+        send: PhotoDetailStore.Action.saveButtonTapped
+      )
+    ) {
+      Button("이 사진만 저장") {
+        
+      }
+      Button("타임랩스 저장") {
+        
+      }
+      Button("취소", role: .cancel) {
+        store.send(.saveButtonTapped(false))
+      }
     }
   }
 }
@@ -88,19 +114,27 @@ extension PhotoDetailView {
   }
   
   var closeButton: some View {
-    HStack {
-      Button {
-        store.send(.closeButtonTapped)
-      } label: {
-        SharedDesignSystemAsset.cross.swiftUIImage
-          .renderingMode(.template)
-          .resizable()
-          .foregroundColor(.white)
-          .frame(width: 20, height: 20)
-      }
-      Spacer()
+    Button {
+      store.send(.closeButtonTapped)
+    } label: {
+      SharedDesignSystemAsset.cross.swiftUIImage
+        .renderingMode(.template)
+        .resizable()
+        .foregroundColor(.white)
+        .frame(width: 20, height: 20)
     }
-    .padding(12)
+  }
+  
+  var saveAlbumButton: some View {
+    Button {
+      store.send(.saveButtonTapped(true))
+    } label: {
+      SharedDesignSystemAsset.download.swiftUIImage
+        .renderingMode(.template)
+        .resizable()
+        .foregroundColor(.white)
+        .frame(width: 20, height: 20)
+    }
   }
   
   var countView: some View {

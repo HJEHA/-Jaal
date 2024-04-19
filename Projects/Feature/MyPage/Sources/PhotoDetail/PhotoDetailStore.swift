@@ -21,6 +21,11 @@ extension PhotoDetailStore {
         case .closeButtonTapped:
           return .none
           
+        case let .saveButtonTapped(isShow):
+          state.showSaveActionSheet = isShow
+          
+          return .none
+          
         case let .closeDraged(height):
           state.closeDragHeight = height
           
