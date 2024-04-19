@@ -8,7 +8,6 @@ let targets: [Target] = [
     factory: .init(
       dependencies: [
         .external(name: "ComposableArchitecture"),
-        .external(name: "Lottie")
       ]
     )
   )
@@ -19,7 +18,6 @@ let project: Project = .init(
   targets: targets,
   resourceSynthesizers: [
     .assets(),
-    .fonts(),
-    .custom(name: "JSON", parser: .json, extensions: ["json"])
+    .fonts()
   ]
 )
