@@ -49,7 +49,7 @@ extension PhotoDetailStore {
           }
           .throttle(
             id: CancelID.throttle,
-            for: 0.5,
+            for: 0.3,
             scheduler: DispatchQueue.main,
             latest: true
           )
@@ -70,8 +70,12 @@ extension PhotoDetailStore {
           
         case let .saveCompleted(isComplete):
           state.isSaveSuccess = isComplete
+          state.showSaveSuccessAnimaion = isComplete
           state.isSaving = false
-          print("complete", isComplete)
+          return .none
+        
+        case let .showSaveCompletionAnimation(isShow):
+          state.showSaveSuccessAnimaion = isShow
           return .none
       }
     }

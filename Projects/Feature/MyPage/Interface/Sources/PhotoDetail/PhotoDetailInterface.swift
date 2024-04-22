@@ -33,6 +33,7 @@ public struct PhotoDetailStore {
     public var showSaveActionSheet: Bool = false
     public var isSaving: Bool = false
     public var isSaveSuccess: Bool = false
+    public var showSaveSuccessAnimaion: Bool = false
     
     public var maxCount: Int {
       return names.count
@@ -62,6 +63,8 @@ public struct PhotoDetailStore {
     case saveOnlyPhotoButtonTapped
     case saveTimeLapseButtonTapped
     case saveCompleted(Bool)
+    
+    case showSaveCompletionAnimation(Bool)
   }
   
   public var body: some ReducerOf<Self> {

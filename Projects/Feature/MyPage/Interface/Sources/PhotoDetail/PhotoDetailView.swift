@@ -37,6 +37,13 @@ public struct PhotoDetailView: View {
           .zIndex(10)
       }
       
+      if store.showSaveSuccessAnimaion == true {
+        SaveSuccessView(completion: {
+          store.send(.showSaveCompletionAnimation(false))
+        })
+        .zIndex(10)
+      }
+      
       VStack {
         
         HStack {
