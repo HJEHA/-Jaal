@@ -86,17 +86,7 @@ public struct PhotoDetailView: View {
       )
     ) {
       Button("이 사진만 저장") {
-        let image = ImageCache.shared.loadImageFromDiskCache(
-          forKey: store.names[store.index]
-        ) ?? UIImage()
-        
         store.send(.saveOnlyPhotoButtonTapped)
-        
-        ImageSaver.shared.saveImage(image) {
-          store.send(.saveCompleted(true))
-        } errorHandler: {
-          store.send(.saveCompleted(false))
-        }
       }
       Button("타임랩스 저장") {
         store.send(.saveTimeLapseButtonTapped)

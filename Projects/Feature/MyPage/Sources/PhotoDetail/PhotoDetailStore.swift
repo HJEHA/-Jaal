@@ -15,6 +15,8 @@ import SharedUtil
 extension PhotoDetailStore {
   public init() {
     
+    @Dependency(\.albumSaverClient) var albumSaver
+    
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
         case .onAppear:
@@ -62,11 +64,37 @@ extension PhotoDetailStore {
           
         case .saveOnlyPhotoButtonTapped:
           state.isSaving = true
-          return .none
+          let image = ImageCache.shared.loadImageFromDiskCache(
+            forKey: state.names[state.index]
+          ) ?? UIImage()
+          
+          return .run { [image] send in
+            await send(.savePhotoResponse(TaskResult {
+              try await albumSaver.savePhoto(image)
+            }))
+          }
+          
+        case let .savePhotoResponse(result):
+          print(result)
+          switch result {
+            case .success:
+              return .run { send in
+                await send(.saveCompleted(true))
+              }
+            case .failure:
+              return .run { send in
+                await send(.saveCompleted(false))
+              }
+          }
           
         case .saveTimeLapseButtonTapped:
           state.isSaving = true
-          return .none
+          
+          return .run { [state] send in
+            await send(.savePhotoResponse(TaskResult {
+              try await albumSaver.saveVideo(state.names)
+            }))
+          }
           
         case let .saveCompleted(isComplete):
           state.isSaveSuccess = isComplete

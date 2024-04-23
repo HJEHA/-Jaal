@@ -61,7 +61,10 @@ public struct PhotoDetailStore {
     
     case saveButtonTapped(Bool)
     case saveOnlyPhotoButtonTapped
+    case savePhotoResponse(TaskResult<Bool>)
+    
     case saveTimeLapseButtonTapped
+    
     case saveCompleted(Bool)
     
     case showSaveCompletionAnimation(Bool)

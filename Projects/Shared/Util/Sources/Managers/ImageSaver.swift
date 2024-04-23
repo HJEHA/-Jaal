@@ -26,6 +26,7 @@ public class ImageSaver: NSObject {
     imageSavedErrorHandler = errorHandler
     
     isPermissionDenied = checkPhotoPermission()
+    
     UIImageWriteToSavedPhotosAlbum(
       image,
       self,
@@ -40,7 +41,6 @@ public class ImageSaver: NSObject {
     contextInfo: UnsafeRawPointer
   ) {
     if let error = error {
-      print(error)
       if isPermissionDenied {
         imageSavedErrorHandler?()
       }
