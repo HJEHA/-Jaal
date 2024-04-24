@@ -25,14 +25,14 @@ public enum MainScene: Hashable {
     }
   }
   
-  var image: Image {
+  var imageName: String {
     switch self {
       case .home:
-        return SharedDesignSystemAsset.home.swiftUIImage
+        return "house.fill"
       case .measurement:
-        return SharedDesignSystemAsset.camera.swiftUIImage
+        return "camera.fill"
       case .myPage:
-        return SharedDesignSystemAsset.user.swiftUIImage
+        return "person.fill"
     }
   }
 }

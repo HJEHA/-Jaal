@@ -9,14 +9,14 @@ import SwiftUI
 
 import ComposableArchitecture
 
-struct HomeRootView: View {
+public struct HomeRootView: View {
   private let store: StoreOf<HomeRootStore>
   
   public init(store: StoreOf<HomeRootStore>) {
     self.store = store
   }
   
-  var body: some View {
+  public var body: some View {
     VStack {
       Text("홈")
     }

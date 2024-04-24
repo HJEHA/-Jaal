@@ -26,9 +26,7 @@ public struct MainTabStore {
     public var measurement: MeasurementRootStore.State = .init()
     public var myPage: MyPageRootStore.State = .init()
     
-    public var currentScene: MainScene = .home
-    public var showTabBar: Bool = true
-    
+    public var selection: Int = 0
     public init() {}
   }
   
@@ -37,7 +35,7 @@ public struct MainTabStore {
     case measurement(MeasurementRootStore.Action)
     case myPage(MyPageRootStore.Action)
     
-    case selectTab(MainScene)
+    case selectionChanged(Int)
   }
   
   public var body: some ReducerOf<Self> {
@@ -58,14 +56,12 @@ public struct MainTabStore {
         case .measurement:
           return .none
           
-        case let .selectTab(scene):
-          state.currentScene = scene
+        case let .selectionChanged(selection):
+          state.selection = selection
+          print(selection)
           return .none
           
         case .myPage:
-          if state.currentScene == .myPage {
-            state.showTabBar = state.myPage.path.isEmpty
-          }
           return .none
       }
     }

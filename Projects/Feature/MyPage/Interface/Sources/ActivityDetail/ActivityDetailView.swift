@@ -61,6 +61,7 @@ public struct ActivityDetailView: View {
       }
     }
     .navigationTitle(store.navigationBartitle)
+    .toolbar(.hidden, for: .tabBar)
     .onAppear {
       store.send(.onAppear)
     }
