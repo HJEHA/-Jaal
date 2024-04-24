@@ -15,7 +15,7 @@ extension MeasurementRootStore {
   public init() {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
-        case .appear:
+        case .onAppear:
           return .none
         
         case let .modeButtonTapped(mode):

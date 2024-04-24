@@ -37,7 +37,7 @@ public struct MeasurementRootStore {
   public enum Action: Equatable {
     case measurement(PresentationAction<MeasurementStore.Action>)
     
-    case appear
+    case onAppear
     case modeButtonTapped(MeasurementMode)
     case startButtonTapped
   }

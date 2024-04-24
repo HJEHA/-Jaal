@@ -22,8 +22,9 @@ public extension ModulePath {
 // MARK: FeatureModule
 public extension ModulePath {
   enum Feature: String, CaseIterable {
-    case MyPage
+    case Home
     case Measurement
+    case MyPage
     
     public static let name: String = "Feature"
   }

@@ -9,6 +9,8 @@ import Foundation
 
 import ComposableArchitecture
 
+import FeatureHome
+import FeatureHomeInterface
 import FeatureMeasurement
 import FeatureMeasurementInterface
 import FeatureMyPage
@@ -20,6 +22,7 @@ public struct MainTabStore {
   
   @ObservableState
   public struct State: Equatable {
+    public var home: HomeRootStore.State = .init()
     public var measurement: MeasurementRootStore.State = .init()
     public var myPage: MyPageRootStore.State = .init()
     
@@ -30,6 +33,7 @@ public struct MainTabStore {
   }
   
   public enum Action: Equatable {
+    case home(HomeRootStore.Action)
     case measurement(MeasurementRootStore.Action)
     case myPage(MyPageRootStore.Action)
     
@@ -37,6 +41,9 @@ public struct MainTabStore {
   }
   
   public var body: some ReducerOf<Self> {
+    Scope(state: \.home, action: /Action.home) {
+      HomeRootStore()
+    }
     Scope(state: \.measurement, action: /Action.measurement) {
       MeasurementRootStore()
     }
@@ -45,6 +52,9 @@ public struct MainTabStore {
     }
     Reduce { state, action in
       switch action {
+        case .home:
+          return .none
+          
         case .measurement:
           return .none
           
