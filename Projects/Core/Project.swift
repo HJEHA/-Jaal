@@ -7,12 +7,12 @@ let targets: [Target] = [
     factory: .init(
       dependencies: [
         .core(implements: .ImageProcss),
+        .core(implements: .UserDefaults),
         .shared
       ]
     )
   )
 ]
-
 
 let project: Project = .makeModule(
   name: "Core",

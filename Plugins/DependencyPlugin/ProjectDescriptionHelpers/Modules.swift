@@ -45,8 +45,8 @@ public extension ModulePath {
 
 public extension ModulePath {
   enum Core: String, CaseIterable {
+    case UserDefaults
     case ImageProcss
-    case UserDefaultsManager
     
     public static let name: String = "Core"
   }
