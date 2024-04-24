@@ -24,7 +24,11 @@ public struct MovieOutputSettings {
     self.fps = fps
     self.avCodecKey = avCodecKey
     self.outputURL = {
-      let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+      let documentsPath = NSSearchPathForDirectoriesInDomains(
+        .documentDirectory,
+        .userDomainMask,
+        true
+      )[0]
       let outputPath = "\(documentsPath)/\(DateUtil.shared.toNow(from: .now)).mp4"
       return URL(fileURLWithPath: outputPath)
     }()
@@ -40,12 +44,9 @@ public class MovieMaker {
   let input: AVAssetWriterInput
   let adaptor: AVAssetWriterInputPixelBufferAdaptor!
   var currentFrame = 0
-  let lengthPerImage: Double
-  var isWritingStarted = false
   
   public init(outputSettings: MovieOutputSettings) {
     self.outputSettings = outputSettings
-    lengthPerImage = 1.0 / Double(outputSettings.fps)
     
     do {
       self.assetWriter = try AVAssetWriter(
@@ -79,32 +80,26 @@ public class MovieMaker {
     self.assetWriter.add(input)
   }
   
-  private func buffer(from image: CIImage) -> CVPixelBuffer? {
-    let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-    var pixelBuffer : CVPixelBuffer?
-    let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.extent.width), Int(image.extent.height), kCVPixelFormatType_32BGRA, attrs, &pixelBuffer)
-    
-    guard (status == kCVReturnSuccess) else {
-      return nil
-    }
-    return pixelBuffer
-  }
-  
   public func start() {
-    guard !isWritingStarted else { return }
     assetWriter.startWriting()
     assetWriter.startSession(atSourceTime: .zero)
-    isWritingStarted = true
   }
   
   public func make(_ image: UIImage) {
     guard let pixelBufferPool = adaptor.pixelBufferPool else { return }
     
-    let presentationTime = CMTime(value: CMTimeValue(currentFrame), timescale: Int32(outputSettings.fps))
+    let presentationTime = CMTime(
+      value: CMTimeValue(currentFrame),
+      timescale: Int32(outputSettings.fps)
+    )
     currentFrame += 1
     
     var pixelBuffer: CVPixelBuffer?
-    CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pixelBufferPool, &pixelBuffer)
+    CVPixelBufferPoolCreatePixelBuffer(
+      kCFAllocatorDefault,
+      pixelBufferPool,
+      &pixelBuffer
+    )
     guard let unwrappedPixelBuffer = pixelBuffer else { return }
     
     CVPixelBufferLockBaseAddress(unwrappedPixelBuffer, [])
@@ -135,20 +130,21 @@ public class MovieMaker {
     
     CVPixelBufferUnlockBaseAddress(unwrappedPixelBuffer, [])
     if input.isReadyForMoreMediaData {
-      adaptor.append(unwrappedPixelBuffer, withPresentationTime: presentationTime)
+      adaptor.append(
+        unwrappedPixelBuffer,
+        withPresentationTime: presentationTime
+      )
     }
   }
   
   public func finish() {
-    guard isWritingStarted else { return }
     input.markAsFinished()
     assetWriter.finishWriting {
-      print(self.outputSettings.outputURL)
       self.saveMovieToAlbum(self.outputSettings.outputURL)
     }
   }
   
-  public func saveMovieToAlbum(_ videoURL: URL) {
+  private func saveMovieToAlbum(_ videoURL: URL) {
     PHPhotoLibrary.shared().performChanges({
       PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL)
     }) { _, error in

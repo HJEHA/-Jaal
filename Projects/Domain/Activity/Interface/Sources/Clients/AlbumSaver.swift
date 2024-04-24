@@ -29,14 +29,14 @@ public struct AlbumSaverClient {
 extension AlbumSaverClient: DependencyKey {
   public static let liveValue = AlbumSaverClient(
     savePhoto: { image in
-      let completion = UIImageWriteToSavedPhotosAlbumCompletion()
+      let completion = ImageSaver()
       return try await withCheckedThrowingContinuation { continuation in
         completion.continuation = continuation
         
         UIImageWriteToSavedPhotosAlbum(
           image,
           completion,
-          #selector(UIImageWriteToSavedPhotosAlbumCompletion.image(_:didFinishSavingWithError:contextInfo:)),
+          #selector(ImageSaver.image(_:didFinishSavingWithError:contextInfo:)),
           nil
         )
       }
@@ -79,19 +79,3 @@ extension AlbumSaverClient: TestDependencyKey {
     saveVideo: unimplemented("\(Self.self).saveVideo")
   )
 }
-
-private final class UIImageWriteToSavedPhotosAlbumCompletion: NSObject {
-  var continuation: CheckedContinuation<Bool, any Error>?
-  @objc func image(
-    _ image: UIImage,
-    didFinishSavingWithError error: Error?,
-    contextInfo: UnsafeRawPointer
-  ) {
-    if let error = error {
-      continuation?.resume(throwing: error)
-    } else {
-      continuation?.resume(returning: true)
-    }
-  }
-}
-
