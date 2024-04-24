@@ -13,6 +13,10 @@ import ComposableArchitecture
 
 import SharedUtil
 
+public enum AlbumSaverError: Error {
+  case denied
+}
+
 public struct AlbumSaverClient {
   public var savePhoto: @Sendable (_ image: UIImage) async throws -> Bool
   public var saveVideo: @Sendable (_ keys: [String]) async throws -> Bool
@@ -29,6 +33,10 @@ public struct AlbumSaverClient {
 extension AlbumSaverClient: DependencyKey {
   public static let liveValue = AlbumSaverClient(
     savePhoto: { image in
+      if PermissionManager.checkPhotoPermission() == true {
+        throw AlbumSaverError.denied
+      }
+      
       let completion = ImageSaver()
       return try await withCheckedThrowingContinuation { continuation in
         completion.continuation = continuation
@@ -42,6 +50,10 @@ extension AlbumSaverClient: DependencyKey {
       }
     },
     saveVideo: { keys in
+      if PermissionManager.checkPhotoPermission() == true {
+        throw AlbumSaverError.denied
+      }
+      
       let imagePaths = keys
       let imageSize = ImageCache.shared.loadImageFromDiskCache(forKey: keys[0])?.size ?? .zero
       
