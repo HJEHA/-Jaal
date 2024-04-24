@@ -15,7 +15,7 @@ import SharedDesignSystem
 import SharedUtil
 
 public struct PhotoDetailView: View {
-  private let store: StoreOf<PhotoDetailStore>
+  @Bindable private var store: StoreOf<PhotoDetailStore>
   private let viewStore: ViewStoreOf<PhotoDetailStore>
   
   public init(store: StoreOf<PhotoDetailStore>) {
@@ -95,6 +95,7 @@ public struct PhotoDetailView: View {
         store.send(.saveButtonTapped(false))
       }
     }
+    .alert($store.scope(state: \.alert, action: \.alert))
   }
 }
 

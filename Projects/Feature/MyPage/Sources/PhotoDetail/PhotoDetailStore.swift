@@ -10,6 +10,7 @@ import UIKit
 import ComposableArchitecture
 
 import FeatureMyPageInterface
+import DomainActivityInterface
 import SharedUtil
 
 extension PhotoDetailStore {
@@ -75,15 +76,20 @@ extension PhotoDetailStore {
           }
           
         case let .savePhotoResponse(result):
-          print(result)
           switch result {
             case .success:
               return .run { send in
                 await send(.saveCompleted(true))
               }
-            case .failure:
-              return .run { send in
-                await send(.saveCompleted(false))
+            case let .failure(error):
+              if error as? AlbumSaverError == AlbumSaverError.denied {
+                return .run { send in
+                  await send(.showGoToSettingAlert)
+                }
+              } else {
+                return .run { send in
+                  await send(.saveCompleted(false))
+                }
               }
           }
           
@@ -104,6 +110,40 @@ extension PhotoDetailStore {
         
         case let .showSaveCompletionAnimation(isShow):
           state.showSaveSuccessAnimaion = isShow
+          return .none
+          
+        case .showGoToSettingAlert:
+          state.isSaving = false
+          state.alert = AlertState {
+            TextState("사진을 앨범에 저장하려면 접근 권힌이 필요합니다.")
+          } actions: {
+            ButtonState(role: .none, action: .goSettingTapped) {
+              TextState("설정 화면으로")
+            }
+            ButtonState(role: .cancel, action: .cancelTapped) {
+              TextState("취소")
+            }
+          }
+          
+          return .none
+          
+        case .alert(.presented(.goSettingTapped)):
+          state.alert = nil
+          
+          guard let url = URL(string: UIApplication.openSettingsURLString) else { return .none }
+
+          if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+          }
+          
+          return .none
+          
+        case .alert(.presented(.cancelTapped)):
+          state.alert = nil
+          
+          return .none
+          
+        case .alert:
           return .none
       }
     }

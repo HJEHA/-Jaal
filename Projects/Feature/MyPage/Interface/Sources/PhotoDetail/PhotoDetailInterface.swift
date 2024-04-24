@@ -35,6 +35,8 @@ public struct PhotoDetailStore {
     public var isSaveSuccess: Bool = false
     public var showSaveSuccessAnimaion: Bool = false
     
+    @Presents public var alert: AlertState<Action.Alert>?
+    
     public var maxCount: Int {
       return names.count
     }
@@ -61,16 +63,21 @@ public struct PhotoDetailStore {
     
     case saveButtonTapped(Bool)
     case saveOnlyPhotoButtonTapped
-    case savePhotoResponse(TaskResult<Bool>)
-    
     case saveTimeLapseButtonTapped
-    
+    case savePhotoResponse(TaskResult<Bool>)
     case saveCompleted(Bool)
-    
     case showSaveCompletionAnimation(Bool)
+    
+    case showGoToSettingAlert
+    case alert(PresentationAction<Alert>)
+    public enum Alert: Equatable {
+      case goSettingTapped
+      case cancelTapped
+    }
   }
   
   public var body: some ReducerOf<Self> {
     reducer
+      .ifLet(\.$alert, action: \.alert)
   }
 }
