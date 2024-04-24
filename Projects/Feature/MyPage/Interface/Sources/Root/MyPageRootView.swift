@@ -44,20 +44,15 @@ public struct MyPageRootView: View {
           .padding(.horizontal, 16)
           .padding(.vertical, 8)
         
-        ScrollView(.vertical) {
-          VStack(spacing: 8) {
-            ForEach(store.activities) { activity in
-              NavigationLink(
-                state: ActivityDetailStore.State(activity: activity)
-              ) {
-                ActivityCell(activity: activity)
-              }
-            }
-          }
-          .padding(.bottom, 40)
+        if store.activities.count > 0 {
+          activitys
+          
+          Spacer()
+        } else {
+          JaalEmptyView(
+            description: "앗! 측정 기록이 없습니다."
+          )
         }
-        
-        Spacer()
       }
       .background(SharedDesignSystemAsset.gray100.swiftUIColor)
       .onAppear {
@@ -87,5 +82,20 @@ extension MyPageRootView {
       size: CGSize(width: UIScreen.main.bounds.width - 32, height: 52),
       segmentLabels: MeasurementFilter.allCases.map { $0.title }
     )
+  }
+  
+  private var activitys: some View {
+    ScrollView(.vertical) {
+      VStack(spacing: 8) {
+        ForEach(store.activities) { activity in
+          NavigationLink(
+            state: ActivityDetailStore.State(activity: activity)
+          ) {
+            ActivityCell(activity: activity)
+          }
+        }
+      }
+      .padding(.bottom, 40)
+    }
   }
 }
