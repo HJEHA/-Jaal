@@ -12,6 +12,8 @@ import ARKit
 
 import ComposableArchitecture
 
+import SharedDesignSystem
+
 public struct FaceTrackingView: View {
   public let store: StoreOf<FaceTrackingStore>
   @ObservedObject private var viewStore: ViewStoreOf<FaceTrackingStore>
@@ -89,15 +91,38 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   func createFaceNode() -> Entity {
     let faceNode = Entity()
     
-    // TODO: 얼굴 모양 캐릭터로 이미지 교체
-    let plane = MeshResource.generatePlane(width: 0.2, height: 0.2)
-    let material = SimpleMaterial(color: .white, isMetallic: false)
+    let plane = MeshResource.generatePlane(
+      width: 0.25,
+      height: 0.25,
+      cornerRadius: 100
+    )
+    let material = createMaterial()
     let planeModel = ModelComponent(mesh: plane, materials: [material])
     faceNode.components.set(planeModel)
     
     faceNode.position = [0, 0, 0.1]
-    
+    faceNode.transform.rotation = simd_quatf(
+      angle: .pi,
+      axis: [0, 0, 1]
+    )
     return faceNode
+  }
+  
+  func createMaterial() -> SimpleMaterial { 
+    var material = SimpleMaterial()
+    material.color = .init(
+      tint: .white.withAlphaComponent(0.999),
+      texture: .init(
+        try! .load(
+          named: "oops_png",
+          in: SharedDesignSystemResources.bundle
+        )
+      )
+    )
+    material.metallic = .float(0)
+    material.roughness = .float(1.0)
+    
+    return material
   }
   
   class Coordinator: NSObject, ARSessionDelegate {
