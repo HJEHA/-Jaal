@@ -8,6 +8,7 @@ let targets: [Target] = [
       dependencies: [
         .domain(implements: .FaceTracking),
         .domain(implements: .Activity),
+        .domain(implements: .AlbumSaver),
         .core
       ]
     )

@@ -55,8 +55,6 @@ public struct ActivityDetailStore {
     case photoDetail(PresentationAction<PhotoDetailStore.Action>)
     
     case onAppear
-    case saveButtonTapped
-    
     case thumbnailTapped(Int)
   }
   

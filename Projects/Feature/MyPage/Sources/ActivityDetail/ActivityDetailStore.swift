@@ -22,9 +22,6 @@ extension ActivityDetailStore {
           )
           return .none
           
-        case .saveButtonTapped:
-          return .none
-          
         case let .thumbnailTapped(index):
           let names: [String] = state.sortedTimeLapse.map { $0.name }
           state.photoDetail = .init(names: names, index: index)

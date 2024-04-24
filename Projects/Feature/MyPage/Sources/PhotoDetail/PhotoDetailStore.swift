@@ -10,7 +10,8 @@ import UIKit
 import ComposableArchitecture
 
 import FeatureMyPageInterface
-import DomainActivityInterface
+import DomainAlbumSaver
+import DomainAlbumSaverInterface
 import SharedUtil
 
 extension PhotoDetailStore {

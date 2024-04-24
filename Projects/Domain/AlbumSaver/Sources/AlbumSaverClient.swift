@@ -1,34 +1,16 @@
 //
-//  AlbumSaver.swift
-//  DomainActivityInterface
+//  AlbumSaverClient.swift
+//  DomainAlbumSaver
 //
-//  Created by 황제하 on 4/23/24.
+//  Created by 황제하 on 4/24/24.
 //
 
 import UIKit
-import AVFoundation
-import Photos
 
 import ComposableArchitecture
 
+import DomainAlbumSaverInterface
 import SharedUtil
-
-public enum AlbumSaverError: Error {
-  case denied
-}
-
-public struct AlbumSaverClient {
-  public var savePhoto: @Sendable (_ image: UIImage) async throws -> Bool
-  public var saveVideo: @Sendable (_ keys: [String]) async throws -> Bool
-  
-  public init(
-    savePhoto: @escaping @Sendable (_: UIImage) async throws -> Bool,
-    saveVideo: @escaping @Sendable (_: [String]) async throws -> Bool
-  ) {
-    self.savePhoto = savePhoto
-    self.saveVideo = saveVideo
-  }
-}
 
 extension AlbumSaverClient: DependencyKey {
   public static let liveValue = AlbumSaverClient(
@@ -83,11 +65,4 @@ public extension DependencyValues {
     get { self[AlbumSaverClient.self] }
     set { self[AlbumSaverClient.self] = newValue }
   }
-}
-
-extension AlbumSaverClient: TestDependencyKey {
-  public static var testValue = Self(
-    savePhoto: unimplemented("\(Self.self).savePhoto"),
-    saveVideo: unimplemented("\(Self.self).saveVideo")
-  )
 }
