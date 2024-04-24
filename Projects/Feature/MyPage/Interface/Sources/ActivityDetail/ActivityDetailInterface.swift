@@ -30,6 +30,7 @@ public struct ActivityDetailStore {
     @Presents public var photoDetail: PhotoDetailStore.State?
     
     public var activity: Activity
+    public var sortedTimeLapse: [Timelapse] = []
     
     var navigationBartitle: String {
       return "\(DateUtil.shared.toMonthDay(from: activity.date)) (\(DateUtil.shared.toDayOfWeek(from: activity.date)))"
@@ -42,7 +43,7 @@ public struct ActivityDetailStore {
     }
     
     var thumbnail: [Data] {
-      return activity.timelapse.map { $0.thumbnail }
+      return sortedTimeLapse.map { $0.thumbnail }
     }
     
     public init(activity: Activity) {

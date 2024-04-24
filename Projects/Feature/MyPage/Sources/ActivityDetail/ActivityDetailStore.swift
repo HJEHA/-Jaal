@@ -17,13 +17,16 @@ extension ActivityDetailStore {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
         case .onAppear:
+          state.sortedTimeLapse = state.activity.timelapse.sorted(
+            by: { $0.name < $1.name }
+          )
           return .none
           
         case .saveButtonTapped:
           return .none
           
         case let .thumbnailTapped(index):
-          let names: [String] = state.activity.timelapse.map { $0.name }
+          let names: [String] = state.sortedTimeLapse.map { $0.name }
           state.photoDetail = .init(names: names, index: index)
           return .none
           
