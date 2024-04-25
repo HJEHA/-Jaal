@@ -9,29 +9,37 @@ import Foundation
 
 import ComposableArchitecture
 
-import DomainActivityInterface
-
 @Reducer
 public struct OnboardingRootStore {
   
   private let reducer: Reduce<State, Action>
+  private let onboardingIntroStore: OnboardingIntroStore
   
-  public init(reducer: Reduce<State, Action>) {
+  public init(
+    reducer: Reduce<State, Action>,
+    onboardingIntroStore: OnboardingIntroStore
+  ) {
     self.reducer = reducer
+    self.onboardingIntroStore = onboardingIntroStore
   }
   
   @ObservableState
   public struct State: Equatable {
-    public var activities: [Activity] = []
+    public var intro: OnboardingIntroStore.State = .init()
     
     public init() { }
   }
   
   public enum Action: Equatable {
     case onAppear
+    
+    case intro(OnboardingIntroStore.Action)
   }
   
-  public var boday: some ReducerOf<Self> {
+  public var body: some ReducerOf<Self> {
+    Scope(state: \.intro, action: /Action.intro) {
+      onboardingIntroStore
+    }
     reducer
   }
 }

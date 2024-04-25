@@ -17,9 +17,12 @@ public struct OnboardingRootView: View {
   }
   
   public var body: some View {
-    VStack {
-      Text("온보딩")
-    }
+    OnboardingIntroView(
+      store: store.scope(
+        state: \.intro,
+        action: \.intro
+      )
+    )
     .onAppear {
       store.send(.onAppear)
     }

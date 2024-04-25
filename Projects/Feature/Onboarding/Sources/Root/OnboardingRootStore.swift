@@ -19,9 +19,16 @@ extension OnboardingRootStore {
         case .onAppear:
           
           return .none
+          
+        case .intro:
+          
+          return .none
       }
     }
     
-    self.init(reducer: reducer)
+    self.init(
+      reducer: reducer,
+      onboardingIntroStore: OnboardingIntroStore()
+    )
   }
 }
