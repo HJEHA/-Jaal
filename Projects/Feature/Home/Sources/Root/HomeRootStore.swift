@@ -24,7 +24,7 @@ extension HomeRootStore {
       switch action {
         case .onAppear:
           let date = DateUtil.shared.toYearMonthDay(from: .now)
-          var predicate: Predicate<Activity> = {
+          let predicate: Predicate<Activity> = {
             return #Predicate {
               $0.dateString == date
             }

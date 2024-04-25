@@ -52,7 +52,7 @@ extension Optional : OptionalProtocol {
 }
 
 public struct JaalUserDefaults {
-  @UserDefault(key: "isOnboarding", defaultValue: false)
+  @UserDefault(key: "isOnboarding", defaultValue: true)
   public static var isOnboarding: Bool
   
   @UserDefault(key: "headID", defaultValue: 0)

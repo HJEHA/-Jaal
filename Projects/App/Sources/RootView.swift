@@ -3,7 +3,8 @@ import SwiftUI
 import ComposableArchitecture
 
 import Feature
-import DomainFaceTrackingInterface
+import FeatureOnboarding
+import FeatureOnboardingInterface
 
 struct RootView: View {
   public let store: StoreOf<RootStore>
@@ -13,11 +14,15 @@ struct RootView: View {
   }
   
   var body: some View {
-    MainTabView(
-      store: store.scope(
-        state: \.mainTab,
-        action: \.mainTab
-      )
-    )
+    switch store.state {
+      case .onboarding:
+        if let store = store.scope(state: \.onboarding, action: \.onboarding) {
+          OnboardingRootView(store: store)
+        }
+      case .mainTab:
+        if let store = store.scope(state: \.mainTab, action: \.mainTab) {
+          MainTabView(store: store)
+        }
+    }
   }
 }
