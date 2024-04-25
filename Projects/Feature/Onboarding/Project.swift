@@ -3,10 +3,10 @@ import ProjectDescriptionHelpers
 import DependencyPlugin
 
 let project = Project.makeModule(
-  name: ModulePath.Feature.name+ModulePath.Feature.Home.rawValue,
+  name: ModulePath.Feature.name+ModulePath.Feature.Onboarding.rawValue,
   targets: [
     .feature(
-      interface: .Home,
+      interface: .Onboarding,
       factory: .init(
         dependencies: [
           .domain
@@ -14,31 +14,31 @@ let project = Project.makeModule(
       )
     ),
     .feature(
-      implements: .Home,
+      implements: .Onboarding,
       factory: .init(
         dependencies: [
-          .feature(interface: .Home)
+          .feature(interface: .Onboarding)
         ]
       )
     ),
     .feature(
-      testing: .Home,
+      testing: .Onboarding,
       factory: .init(
         dependencies: [
-          .feature(interface: .Home)
+          .feature(interface: .Onboarding)
         ]
       )
     ),
     .feature(
-      tests: .Home,
+      tests: .Onboarding,
       factory: .init(
         dependencies: [
-          .feature(testing: .Home)
+          .feature(testing: .Onboarding)
         ]
       )
     ),
     .feature(
-      example: .Home,
+      example: .Onboarding,
       factory: .init(
         infoPlist: .extendingDefault(
           with: [
@@ -52,7 +52,7 @@ let project = Project.makeModule(
           ]
         ),
         dependencies: [
-          .feature(interface: .Home)
+          .feature(interface: .Onboarding)
         ],
         configurations: [.debug, .release]
       )
