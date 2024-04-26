@@ -10,19 +10,36 @@ import SwiftUI
 import ComposableArchitecture
 
 public struct OnboardingRootView: View {
-  private let store: StoreOf<OnboardingRootStore>
+  @Bindable private var store: StoreOf<OnboardingRootStore>
   
   public init(store: StoreOf<OnboardingRootStore>) {
     self.store = store
   }
   
   public var body: some View {
-    OnboardingIntroView(
-      store: store.scope(
-        state: \.intro,
-        action: \.intro
+    NavigationStack(
+      path: $store.scope(
+        state: \.path,
+        action: \.path
       )
-    )
+    ) {
+      OnboardingIntroView(
+        store: store.scope(
+          state: \.intro,
+          action: \.intro
+        )
+      )
+    } destination: { store in
+      switch store.state {
+        case .profile:
+          if let store = store.scope(
+            state: \.profile,
+            action: \.profile
+          ) {
+            OnboardingProfileView(store: store)
+          }
+      }
+    }
     .onAppear {
       store.send(.onAppear)
     }

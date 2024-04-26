@@ -33,7 +33,9 @@ public struct OnboardingIntroView: View {
       store.send(.onAppear)
     }
   }
-  
+}
+
+extension OnboardingIntroView {
   private var onboardingIntroView: some View {
     VStack(spacing : 82) {
       TabView(

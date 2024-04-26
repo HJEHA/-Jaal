@@ -22,7 +22,12 @@ public struct MyPageRootView: View {
   }
   
   public var body: some View {
-    NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+    NavigationStack(
+      path: $store.scope(
+        state: \.path,
+        action: \.path
+      )
+    ) {
       VStack(alignment: .leading) {
         HStack {
           title

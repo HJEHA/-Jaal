@@ -17,18 +17,33 @@ extension OnboardingRootStore {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
         case .onAppear:
-          
           return .none
           
-        case .intro:
+        case let .path(action):
+          switch action {
+            case .element(id: _, action: .profile(.goToAvatar)):
+              return .none
+            
+            default:
+              return .none
+          }
           
+        case .intro(.goToProfile):
+          state.path.append(.profile(.init()))
+          return .none
+          
+        default:
           return .none
       }
     }
     
     self.init(
       reducer: reducer,
-      onboardingIntroStore: OnboardingIntroStore()
+      onboardingIntroStore: OnboardingIntroStore(),
+      onboardingProfileStore: OnboardingProfileStore(),
+      path: Path(
+        onboardingProfileStore: OnboardingProfileStore()
+      )
     )
   }
 }
