@@ -9,6 +9,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import CoreUserDefaults
+
 public struct HomeRootView: View {
   private let store: StoreOf<HomeRootStore>
   
@@ -22,6 +24,7 @@ public struct HomeRootView: View {
     }
     .onAppear {
       store.send(.onAppear)
+      JaalUserDefaults.isOnboarding = true
     }
   }
 }

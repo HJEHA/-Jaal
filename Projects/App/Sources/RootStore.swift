@@ -30,20 +30,24 @@ public struct RootStore {
   }
   
   public var body: some ReducerOf<Self> {
-    Scope(state: \.mainTab, action: /Action.mainTab) {
-      MainTabStore()
-    }
-    Scope(state: \.onboarding, action: /Action.onboarding) {
-      OnboardingRootStore()
-    }
     Reduce { state, action in
       switch action {
         case .mainTab:
           return .none
           
-        case .onboarding:
+        case .onboarding(.goToMain):
+          state = .mainTab(.init())
+          return .none
+          
+        default:
           return .none
       }
+    }
+    .ifCaseLet(/State.onboarding, action: /Action.onboarding) {
+      OnboardingRootStore()
+    }
+    .ifCaseLet(/State.mainTab, action: /Action.mainTab) {
+      MainTabStore()
     }
   }
 }

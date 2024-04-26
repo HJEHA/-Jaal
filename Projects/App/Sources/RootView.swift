@@ -16,11 +16,17 @@ struct RootView: View {
   var body: some View {
     switch store.state {
       case .onboarding:
-        if let store = store.scope(state: \.onboarding, action: \.onboarding) {
+        if let store = store.scope(
+          state: \.onboarding,
+          action: \.onboarding
+        ) {
           OnboardingRootView(store: store)
         }
       case .mainTab:
-        if let store = store.scope(state: \.mainTab, action: \.mainTab) {
+        if let store = store.scope(
+          state: \.mainTab,
+          action: \.mainTab
+        ) {
           MainTabView(store: store)
         }
     }
