@@ -65,5 +65,5 @@ public struct JaalUserDefaults {
   public static var headID: Int
   
   @UserDefault(key: "faceID", defaultValue: 0)
-  public static var face: Int
+  public static var faceID: Int
 }

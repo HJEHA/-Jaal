@@ -22,8 +22,14 @@ extension OnboardingRootStore {
         case let .path(action):
           switch action {
             case .element(id: _, action: .profile(.goToAvatar)):
+              state.path.append(.avatar(.init()))
               return .none
             
+            case .element(id: _, action: .avatar(.goToMain)):
+              return .run { send in
+                await send(.goToMain)
+              }
+              
             default:
               return .none
           }
@@ -41,8 +47,10 @@ extension OnboardingRootStore {
       reducer: reducer,
       onboardingIntroStore: OnboardingIntroStore(),
       onboardingProfileStore: OnboardingProfileStore(),
+      onboardingAvatarStore: OnboardingAvatarStore(),
       path: Path(
-        onboardingProfileStore: OnboardingProfileStore()
+        onboardingProfileStore: OnboardingProfileStore(),
+        onboardingAvatarStore: OnboardingAvatarStore()
       )
     )
   }

@@ -38,6 +38,13 @@ public struct OnboardingRootView: View {
           ) {
             OnboardingProfileView(store: store)
           }
+        case .avatar:
+          if let store = store.scope(
+            state: \.avatar,
+            action: \.avatar
+          ) {
+            OnboardingAvatarView(store: store)
+          }
       }
     }
     .onAppear {

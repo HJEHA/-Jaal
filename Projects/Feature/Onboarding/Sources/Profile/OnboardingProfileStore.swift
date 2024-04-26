@@ -25,7 +25,6 @@ extension OnboardingProfileStore {
           
         case .goToAvatar:
           JaalUserDefaults.name = state.name
-          print(JaalUserDefaults.name)
           
           return .none
       }
