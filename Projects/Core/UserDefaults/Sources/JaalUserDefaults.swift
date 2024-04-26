@@ -58,6 +58,9 @@ public struct JaalUserDefaults {
   @UserDefault(key: "name", defaultValue: "")
   public static var name: String
   
+  @UserDefault(key: "skinID", defaultValue: 0)
+  public static var skinID: Int
+  
   @UserDefault(key: "headID", defaultValue: 0)
   public static var headID: Int
   
