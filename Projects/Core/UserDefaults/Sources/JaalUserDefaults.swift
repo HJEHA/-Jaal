@@ -55,6 +55,9 @@ public struct JaalUserDefaults {
   @UserDefault(key: "isOnboarding", defaultValue: true)
   public static var isOnboarding: Bool
   
+  @UserDefault(key: "name", defaultValue: "")
+  public static var name: String
+  
   @UserDefault(key: "headID", defaultValue: 0)
   public static var headID: Int
   
