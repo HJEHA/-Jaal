@@ -1,0 +1,154 @@
+//
+//  Heads.swift
+//  SharedDesignSystem
+//
+//  Created by 황제하 on 4/26/24.
+//
+
+import UIKit
+
+public enum Heads: CaseIterable {
+  case head0
+  case head1
+  case head2
+  case head3
+  case head4
+  case head5
+  case head6
+  case head7
+  case head8
+  case head9
+  case head10
+  case head11
+  case head12
+  case head13
+  case head14
+  case head15
+  case head16
+  case head17
+  case head18
+  case head19
+  case head20
+  case head21
+  case head22
+  case head23
+  case head24
+  case head25
+  case head26
+  case head27
+  case head28
+  case head29
+  case head30
+  case head31
+  case head32
+  case head33
+  case head34
+  case head35
+  case head36
+  case head37
+  case head38
+  case head39
+  case head40
+  case head41
+  case head42
+  case head43
+  case head44
+  case head45
+  
+  public var image: UIImage {
+    switch self {
+      case .head0:
+        return SharedDesignSystemAsset.head0.image
+      case .head1:
+        return SharedDesignSystemAsset.head1.image
+      case .head2:
+        return SharedDesignSystemAsset.head2.image
+      case .head3:
+        return SharedDesignSystemAsset.head3.image
+      case .head4:
+        return SharedDesignSystemAsset.head4.image
+      case .head5:
+        return SharedDesignSystemAsset.head5.image
+      case .head6:
+        return SharedDesignSystemAsset.head6.image
+      case .head7:
+        return SharedDesignSystemAsset.head7.image
+      case .head8:
+        return SharedDesignSystemAsset.head8.image
+      case .head9:
+        return SharedDesignSystemAsset.head9.image
+      case .head10:
+        return SharedDesignSystemAsset.head10.image
+      case .head11:
+        return SharedDesignSystemAsset.head11.image
+      case .head12:
+        return SharedDesignSystemAsset.head12.image
+      case .head13:
+        return SharedDesignSystemAsset.head13.image
+      case .head14:
+        return SharedDesignSystemAsset.head14.image
+      case .head15:
+        return SharedDesignSystemAsset.head15.image
+      case .head16:
+        return SharedDesignSystemAsset.head16.image
+      case .head17:
+        return SharedDesignSystemAsset.head17.image
+      case .head18:
+        return SharedDesignSystemAsset.head18.image
+      case .head19:
+        return SharedDesignSystemAsset.head19.image
+      case .head20:
+        return SharedDesignSystemAsset.head20.image
+      case .head21:
+        return SharedDesignSystemAsset.head21.image
+      case .head22:
+        return SharedDesignSystemAsset.head22.image
+      case .head23:
+        return SharedDesignSystemAsset.head23.image
+      case .head24:
+        return SharedDesignSystemAsset.head24.image
+      case .head25:
+        return SharedDesignSystemAsset.head25.image
+      case .head26:
+        return SharedDesignSystemAsset.head26.image
+      case .head27:
+        return SharedDesignSystemAsset.head27.image
+      case .head28:
+        return SharedDesignSystemAsset.head28.image
+      case .head29:
+        return SharedDesignSystemAsset.head29.image
+      case .head30:
+        return SharedDesignSystemAsset.head30.image
+      case .head31:
+        return SharedDesignSystemAsset.head31.image
+      case .head32:
+        return SharedDesignSystemAsset.head32.image
+      case .head33:
+        return SharedDesignSystemAsset.head33.image
+      case .head34:
+        return SharedDesignSystemAsset.head34.image
+      case .head35:
+        return SharedDesignSystemAsset.head35.image
+      case .head36:
+        return SharedDesignSystemAsset.head36.image
+      case .head37:
+        return SharedDesignSystemAsset.head37.image
+      case .head38:
+        return SharedDesignSystemAsset.head38.image
+      case .head39:
+        return SharedDesignSystemAsset.head39.image
+      case .head40:
+        return SharedDesignSystemAsset.head40.image
+      case .head41:
+        return SharedDesignSystemAsset.head41.image
+      case .head42:
+        return SharedDesignSystemAsset.head42.image
+      case .head43:
+        return SharedDesignSystemAsset.head43.image
+      case .head44:
+        return SharedDesignSystemAsset.head44.image
+      case .head45:
+        return SharedDesignSystemAsset.head45.image
+    }
+  }
+}
