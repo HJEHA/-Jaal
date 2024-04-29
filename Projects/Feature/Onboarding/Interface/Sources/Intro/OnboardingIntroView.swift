@@ -119,23 +119,33 @@ extension OnboardingIntroView {
   //TODO: - 이미지 제작
   private func firstTabView() -> some View {
     VStack {
-      Color.red
+      Spacer()
+      
+      SharedDesignSystemAsset.intro1.swiftUIImage
+        .scaleEffect(CGSize(width: 0.9, height: 0.9))
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(SharedDesignSystemAsset.blue.swiftUIColor)
   }
   
   private func secondTabView() -> some View {
     VStack {
+      Spacer()
+      
       Color.blue
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(SharedDesignSystemAsset.blue.swiftUIColor)
   }
   
   private func thirdTabView() -> some View {
     VStack {
+      Spacer()
+      
       Color.green
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(SharedDesignSystemAsset.blue.swiftUIColor)
   }
   
   private var goToProfile: some View {
