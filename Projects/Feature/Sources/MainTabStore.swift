@@ -15,6 +15,8 @@ import FeatureMeasurement
 import FeatureMeasurementInterface
 import FeatureMyPage
 import FeatureMyPageInterface
+import FeatureOnboarding
+import FeatureOnboardingInterface
 
 @Reducer
 public struct MainTabStore {
@@ -46,7 +48,10 @@ public struct MainTabStore {
       MeasurementRootStore()
     }
     Scope(state: \.myPage, action: /Action.myPage) {
-      MyPageRootStore()
+      MyPageRootStore(
+        onboardingProfile: OnboardingProfileStore(),
+        onboardingAvatar: OnboardingAvatarStore()
+      )
     }
     Reduce { state, action in
       switch action {
@@ -58,7 +63,6 @@ public struct MainTabStore {
           
         case let .selectionChanged(selection):
           state.selection = selection
-          print(selection)
           return .none
           
         case .myPage:

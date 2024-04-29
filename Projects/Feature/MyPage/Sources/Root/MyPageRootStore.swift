@@ -11,12 +11,16 @@ import SwiftData
 import ComposableArchitecture
 
 import FeatureMyPageInterface
+import FeatureOnboardingInterface
 import DomainActivity
 import DomainActivityInterface
 import SharedUtil
 
 extension MyPageRootStore {
-  public init() {
+  public init(
+    onboardingProfile: OnboardingProfileStore,
+    onboardingAvatar: OnboardingAvatarStore
+  ) {
     @Dependency(\.activityClient) var activityClient
     
     let reducer: Reduce<State, Action> = Reduce { state, action in
@@ -71,7 +75,15 @@ extension MyPageRootStore {
           
           return .none
           
-        case .path:
+        case .editProfileButtonTapped:
+          state.onboardingProfile = .init()
+          return .none
+        
+        case .editAvatarButtonTapped:
+          state.onboardingAvatar = .init()
+          return .none
+          
+        default:
           return .none
       }
     }
@@ -79,7 +91,9 @@ extension MyPageRootStore {
     self.init(
       reducer: reducer,
       calender: CalendarStore(),
-      activityDetail: ActivityDetailStore()
+      activityDetail: ActivityDetailStore(),
+      onboardingProfile: onboardingProfile,
+      onboardingAvatar: onboardingAvatar
     )
   }
 }

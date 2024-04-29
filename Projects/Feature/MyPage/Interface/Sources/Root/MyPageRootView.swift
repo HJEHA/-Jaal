@@ -9,6 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import FeatureOnboardingInterface
 import DomainActivityInterface
 import SharedDesignSystem
 
@@ -33,6 +34,8 @@ public struct MyPageRootView: View {
           title
           
           Spacer()
+          
+          menu
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
@@ -68,6 +71,26 @@ public struct MyPageRootView: View {
         .toolbarRole(.editor)
     }
     .tint(SharedDesignSystemAsset.blue.swiftUIColor)
+    .sheet(
+      item: $store.scope(
+        state: \.onboardingProfile,
+        action: \.onboardingProfile
+      )
+    ) { store in
+      NavigationStack {
+        OnboardingProfileView(store: store)
+      }
+    }
+    .sheet(
+      item: $store.scope(
+        state: \.onboardingAvatar,
+        action: \.onboardingAvatar
+      )
+    ) { store in
+      NavigationStack {
+        OnboardingAvatarView(store: store)
+      }
+    }
   }
 }
 
@@ -76,6 +99,28 @@ extension MyPageRootView {
   private var title: some View {
     Text("마이페이지")
       .modifier(GamtanFont(font: .bold, size: 24))
+  }
+  
+  private var menu: some View {
+    Menu {
+      Button("프로필 변경") {
+        store.send(.editProfileButtonTapped)
+      }
+      Button("아바타 변경") {
+        store.send(.editAvatarButtonTapped)
+      }
+      
+      Divider()
+      
+      Button(role: .destructive) {
+      } label: {
+        Label("초기화", systemImage: "trash")
+      }
+    } label: {
+      Image(systemName: "ellipsis.circle")
+        .resizable()
+        .frame(width: 20, height: 20)
+    }
   }
   
   private var measurementFilter: some View {

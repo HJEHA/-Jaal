@@ -9,6 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
+import FeatureOnboardingInterface
 import DomainActivityInterface
 import SharedUtil
 
@@ -18,15 +19,21 @@ public struct MyPageRootStore {
   private let reducer: Reduce<State, Action>
   private let calender: CalendarStore
   private let activityDetail: ActivityDetailStore
+  private let onboardingProfile: OnboardingProfileStore
+  private let onboardingAvatar: OnboardingAvatarStore
   
   public init(
     reducer: Reduce<State, Action>,
     calender: CalendarStore,
-    activityDetail: ActivityDetailStore
+    activityDetail: ActivityDetailStore,
+    onboardingProfile: OnboardingProfileStore,
+    onboardingAvatar: OnboardingAvatarStore
   ) {
     self.reducer = reducer
     self.calender = calender
     self.activityDetail = activityDetail
+    self.onboardingProfile = onboardingProfile
+    self.onboardingAvatar = onboardingAvatar
   }
   
   @ObservableState
@@ -37,6 +44,9 @@ public struct MyPageRootStore {
     
     public var activities: [Activity] = []
     public var path = StackState<ActivityDetailStore.State>()
+    
+    @Presents public var onboardingProfile: OnboardingProfileStore.State?
+    @Presents public var onboardingAvatar: OnboardingAvatarStore.State?
     
     public init() { }
   }
@@ -49,6 +59,12 @@ public struct MyPageRootStore {
       StackAction<ActivityDetailStore.State, ActivityDetailStore.Action>
     )
     case fetch
+    
+    case editProfileButtonTapped
+    case onboardingProfile(PresentationAction<OnboardingProfileStore.Action>)
+    
+    case editAvatarButtonTapped
+    case onboardingAvatar(PresentationAction<OnboardingAvatarStore.Action>)
   }
   
   public var body: some ReducerOf<Self> {
@@ -58,6 +74,12 @@ public struct MyPageRootStore {
     reducer
       .forEach(\.path, action: \.path) {
         activityDetail
+      }
+      .ifLet(\.$onboardingProfile, action: /Action.onboardingProfile) {
+        onboardingProfile
+      }
+      .ifLet(\.$onboardingAvatar, action: /Action.onboardingAvatar) {
+        onboardingAvatar
       }
   }
 }

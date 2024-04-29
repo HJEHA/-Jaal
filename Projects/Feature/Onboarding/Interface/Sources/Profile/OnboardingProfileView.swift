@@ -78,10 +78,7 @@ extension OnboardingProfileView {
           SharedDesignSystemAsset.oops.swiftUIImage
             .resizable()
             .frame(width: 30, height: 30)
-            .colorMultiply(
-              SharedDesignSystemAsset.orange.swiftUIColor
-            )
-          
+            
           Text("아바타 설정")
             .modifier(GamtanFont(font: .bold, size: 18))
             .foregroundColor(

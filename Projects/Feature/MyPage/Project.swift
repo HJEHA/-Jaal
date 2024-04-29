@@ -17,7 +17,8 @@ let project = Project.makeModule(
       implements: .MyPage,
       factory: .init(
         dependencies: [
-          .feature(interface: .MyPage)
+          .feature(interface: .MyPage),
+          .feature(interface: .Onboarding)
         ]
       )
     ),
