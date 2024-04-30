@@ -104,6 +104,17 @@ extension MyPageRootStore {
           state.onboardingAvatar = nil
           return .none
           
+        case .resetButtonTapped:
+          JaalUserDefaults.isOnboarding = true
+          JaalUserDefaults.name = ""
+          JaalUserDefaults.skinID = 0
+          JaalUserDefaults.headID = 0
+          JaalUserDefaults.faceID = 0
+          
+          try? activityClient.deleteAll()
+          
+          return .none
+          
         default:
           return .none
       }

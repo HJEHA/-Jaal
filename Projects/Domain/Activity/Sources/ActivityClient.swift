@@ -65,6 +65,14 @@ extension ActivityClient: DependencyKey {
       } catch {
         return Void()
       }
+    },
+    deleteAll: {
+      do {
+        let container = try ModelContainer(for: Activity.self)
+        container.deleteAllData()
+      } catch {
+        return Void()
+      }
     }
   )
 }

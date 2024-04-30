@@ -87,9 +87,21 @@ public struct MyPageRootView: View {
     ) { store in
       OnboardingAvatarView(store: store)
     }
+    .confirmationDialog(
+      "",
+      isPresented: $store.showResetActionSheet
+    ) {
+      Button("초기화", role: .destructive) {
+        store.send(.resetButtonTapped)
+      }
+      Button("취소", role: .cancel) {
+        store.showResetActionSheet = false
+      }
+    } message: {
+      Text("모든 측정 기록 및 이미지가 삭제됩니다.\n정말 초기화 하시겠습니까?")
+    }
   }
 }
-
 
 extension MyPageRootView {
   private var title: some View {
@@ -109,6 +121,7 @@ extension MyPageRootView {
       Divider()
       
       Button(role: .destructive) {
+        store.showResetActionSheet = true
       } label: {
         Label("초기화", systemImage: "trash")
       }

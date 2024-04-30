@@ -16,19 +16,22 @@ public struct ActivityClient {
   public var fetch: @Sendable (FetchDescriptor<Activity>) throws -> [Activity]
   public var add: @Sendable (Activity) throws -> Void
   public var delete: @Sendable (Activity) throws -> Void
+  public var deleteAll: @Sendable () throws -> Void
   
   public init(
     context: @escaping () -> ModelContext,
     fetchAll: @Sendable @escaping () -> [Activity],
     fetch: @Sendable @escaping (FetchDescriptor<Activity>) -> [Activity],
     add: @Sendable @escaping (Activity) -> Void,
-    delete: @Sendable @escaping (Activity) -> Void
+    delete: @Sendable @escaping (Activity) -> Void,
+    deleteAll: @Sendable @escaping () -> Void
   ) {
     self.context = context
     self.fetchAll = fetchAll
     self.fetch = fetch
     self.add = add
     self.delete = delete
+    self.deleteAll = deleteAll
   }
 }
 
@@ -38,6 +41,7 @@ extension ActivityClient: TestDependencyKey {
     fetchAll: unimplemented("\(Self.self).fetchAll"),
     fetch: unimplemented("\(Self.self).fetch"),
     add: unimplemented("\(Self.self).add"),
-    delete: unimplemented("\(Self.self).delete")
+    delete: unimplemented("\(Self.self).delete"),
+    deleteAll: unimplemented("\(Self.self).deleteAll")
   )
 }

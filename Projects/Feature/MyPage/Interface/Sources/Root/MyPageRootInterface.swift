@@ -48,10 +48,14 @@ public struct MyPageRootStore {
     @Presents public var onboardingProfile: OnboardingProfileStore.State?
     @Presents public var onboardingAvatar: OnboardingAvatarStore.State?
     
+    public var showResetActionSheet: Bool = false
+    
     public init() { }
   }
   
-  public enum Action: Equatable {
+  public enum Action: BindableAction, Equatable {
+    case binding(BindingAction<State>)
+    
     case appear
     case filterSelected(Int)
     case calendar(CalendarStore.Action)
@@ -65,9 +69,12 @@ public struct MyPageRootStore {
     
     case editAvatarButtonTapped
     case onboardingAvatar(PresentationAction<OnboardingAvatarStore.Action>)
+    
+    case resetButtonTapped
   }
   
   public var body: some ReducerOf<Self> {
+    BindingReducer()
     Scope(state: \.calendar, action: /Action.calendar) {
       calender
     }

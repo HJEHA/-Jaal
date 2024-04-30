@@ -32,7 +32,8 @@ public struct RootStore {
   public var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
-        case .mainTab:
+        case .mainTab(.myPage(.resetButtonTapped)):
+          state = .onboarding(.init())
           return .none
           
         case .onboarding(.goToMain):
