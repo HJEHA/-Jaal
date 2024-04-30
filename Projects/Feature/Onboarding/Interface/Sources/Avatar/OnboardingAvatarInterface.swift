@@ -23,6 +23,7 @@ public struct OnboardingAvatarStore {
     public var headID: Int = 0
     public var faceID: Int = 0
     public var isEdit: Bool = false
+    public var isScrollCenter: Bool = false
     
     public init(
       skinID: Int = 0,

@@ -24,7 +24,6 @@ public struct HomeRootView: View {
     }
     .onAppear {
       store.send(.onAppear)
-      JaalUserDefaults.isOnboarding = true
     }
   }
 }

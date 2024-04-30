@@ -97,83 +97,107 @@ extension OnboardingAvatarView {
   }
   
   private var skinColorSelecter: some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-      LazyHStack(spacing: 16) {
-        ForEach(0..<SkinColors.allCases.count, id: \.self) { index in
-          Button {
-            store.skinID = index
-          } label: {
-            Color(uiColor: SkinColors.allCases[index].color)
-              .frame(width: 100, height: 100)
-              .clipShape(RoundedRectangle(cornerRadius: 12))
-              .overlay {
-                if index == store.skinID {
-                  RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(Color.orange, lineWidth: 4)
+    ScrollViewReader { proxy in
+      ScrollView(.horizontal, showsIndicators: false) {
+        LazyHStack(spacing: 16) {
+          ForEach(0..<SkinColors.allCases.count, id: \.self) { index in
+            Button {
+              store.skinID = index
+            } label: {
+              Color(uiColor: SkinColors.allCases[index].color)
+                .frame(width: 100, height: 100)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay {
+                  if index == store.skinID {
+                    RoundedRectangle(cornerRadius: 12)
+                      .strokeBorder(Color.orange, lineWidth: 4)
+                  }
                 }
-              }
+            }
+            .id(index)
           }
         }
+        .padding(.horizontal, 16)
       }
-      .padding(.horizontal, 16)
+      .onAppear {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+          proxy.scrollTo(store.skinID, anchor: .center)
+        }
+      }
     }
   }
   
   private var headSelecter: some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-      LazyHStack(spacing: 16) {
-        ForEach(0..<Heads.allCases.count, id: \.self) { index in
-          Button {
-            store.headID = index
-          } label: {
-            ZStack {
-              RoundedRectangle(cornerRadius: 12)
-                .frame(width: 100, height: 100)
-                .foregroundColor(.white)
-                .overlay {
-                  if index == store.headID {
-                    RoundedRectangle(cornerRadius: 12)
-                      .strokeBorder(Color.orange, lineWidth: 4)
+    ScrollViewReader { proxy in
+      ScrollView(.horizontal, showsIndicators: false) {
+        LazyHStack(spacing: 16) {
+          ForEach(0..<Heads.allCases.count, id: \.self) { index in
+            Button {
+              store.headID = index
+            } label: {
+              ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                  .frame(width: 100, height: 100)
+                  .foregroundColor(.white)
+                  .overlay {
+                    if index == store.headID {
+                      RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(Color.orange, lineWidth: 4)
+                    }
                   }
-                }
-              
-              Image(uiImage: Heads.allCases[index].image)
-                .resizable()
-                .frame(width: 788 * headImageRate, height: 788 * headImageRate)
+                
+                Image(uiImage: Heads.allCases[index].image)
+                  .resizable()
+                  .frame(width: 788 * headImageRate, height: 788 * headImageRate)
+              }
             }
+            .id(index)
           }
         }
+        .padding(.horizontal, 16)
       }
-      .padding(.horizontal, 16)
+      .onAppear {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+          proxy.scrollTo(store.headID, anchor: .center)
+        }
+      }
     }
   }
   
   private var faceSelecter: some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-      LazyHStack(spacing: 16) {
-        ForEach(0..<Faces.allCases.count, id: \.self) { index in
-          Button {
-            store.faceID = index
-          } label: {
-            ZStack {
-              RoundedRectangle(cornerRadius: 12)
-                .frame(width: 100, height: 100)
-                .foregroundColor(.white)
-                .overlay {
-                  if index == store.faceID {
-                    RoundedRectangle(cornerRadius: 12)
-                      .strokeBorder(Color.orange, lineWidth: 4)
+    ScrollViewReader { proxy in
+      ScrollView(.horizontal, showsIndicators: false) {
+        LazyHStack(spacing: 16) {
+          ForEach(0..<Faces.allCases.count, id: \.self) { index in
+            Button {
+              store.faceID = index
+            } label: {
+              ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                  .frame(width: 100, height: 100)
+                  .foregroundColor(.white)
+                  .overlay {
+                    if index == store.faceID {
+                      RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(Color.orange, lineWidth: 4)
+                    }
                   }
-                }
-              
-              Image(uiImage: Faces.allCases[index].image)
-                .resizable()
-                .frame(width: 788 * headImageRate, height: 788 * headImageRate)
+                
+                Image(uiImage: Faces.allCases[index].image)
+                  .resizable()
+                  .frame(width: 788 * headImageRate, height: 788 * headImageRate)
+              }
             }
+            .id(index)
           }
         }
+        .padding(.horizontal, 16)
       }
-      .padding(.horizontal, 16)
+      .onAppear {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+          proxy.scrollTo(store.faceID, anchor: .center)
+        }
+      }
     }
   }
   

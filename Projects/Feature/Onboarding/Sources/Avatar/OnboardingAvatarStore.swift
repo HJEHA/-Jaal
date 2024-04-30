@@ -19,8 +19,12 @@ extension OnboardingAvatarStore {
       switch action {
         case .binding:
           return .none
+          
         case .onAppear:
+          state.isScrollCenter = true
+          
           return .none
+          
         case .doneButtonTapped:
           JaalUserDefaults.skinID = state.skinID
           JaalUserDefaults.headID = state.headID
