@@ -21,11 +21,11 @@ extension OnboardingRootStore {
           
         case let .path(action):
           switch action {
-            case .element(id: _, action: .profile(.goToAvatar)):
+            case .element(id: _, action: .profile(.doneButtonTapped)):
               state.path.append(.avatar(.init()))
               return .none
             
-            case .element(id: _, action: .avatar(.goToMain)):
+            case .element(id: _, action: .avatar(.doneButtonTapped)):
               return .run { send in
                 await send(.goToMain)
               }

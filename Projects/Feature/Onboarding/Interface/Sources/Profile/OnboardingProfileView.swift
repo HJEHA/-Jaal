@@ -55,18 +55,18 @@ public struct OnboardingProfileView: View {
 extension OnboardingProfileView {
   private var title: some View {
     HStack {
-      Text("프로필")
+      Text(store.isEdit ? "프로필 변경" : "프로필 설정")
         .modifier(GamtanFont(font: .bold, size: 24))
       
       Spacer()
     }
-    .padding(.vertical, 8)
+    .padding(.vertical, store.isEdit ? 24 : 8)
     .padding(.horizontal, 16)
   }
   
   private var goToAvatar: some View {
     Button(action: {
-      store.send(.goToAvatar)
+      store.send(.doneButtonTapped)
     }, label: {
       ZStack {
         RoundedRectangle(cornerRadius: isFocused ? 0 : 16)
@@ -75,18 +75,20 @@ extension OnboardingProfileView {
           )
         
         HStack {
-          SharedDesignSystemAsset.oops.swiftUIImage
-            .resizable()
-            .frame(width: 30, height: 30)
+          if store.isEdit == false {
+            SharedDesignSystemAsset.oops.swiftUIImage
+              .resizable()
+              .frame(width: 30, height: 30)
+          }
             
-          Text("아바타 설정")
+          Text(store.isEdit ? "변경하기" : "아바타 설정")
             .modifier(GamtanFont(font: .bold, size: 18))
             .foregroundColor(
               SharedDesignSystemAsset.orange.swiftUIColor
             )
         }
         
-        if store.goToAvatarButtonDisabled {
+        if store.doneButtonDisabled {
           RoundedRectangle(cornerRadius: isFocused ? 0 : 16)
             .foregroundColor(
               SharedDesignSystemAsset.gray100.swiftUIColor
@@ -96,7 +98,7 @@ extension OnboardingProfileView {
       }
       .frame(height: 56)
     })
-    .disabled(store.goToAvatarButtonDisabled)
+    .disabled(store.doneButtonDisabled)
   }
 }
 

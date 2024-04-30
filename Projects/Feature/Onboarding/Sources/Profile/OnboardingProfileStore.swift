@@ -23,7 +23,7 @@ extension OnboardingProfileStore {
         case .onAppear:
           return .none
           
-        case .goToAvatar:
+        case .doneButtonTapped:
           JaalUserDefaults.name = state.name
           
           return .none

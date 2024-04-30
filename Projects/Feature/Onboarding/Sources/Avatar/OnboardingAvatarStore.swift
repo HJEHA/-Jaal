@@ -26,10 +26,7 @@ extension OnboardingAvatarStore {
           JaalUserDefaults.headID = state.headID
           JaalUserDefaults.faceID = state.faceID
           JaalUserDefaults.isOnboarding = false
-          return .run { send in
-            await send(.goToMain)
-          }
-        case .goToMain:
+          
           return .none
       }
       

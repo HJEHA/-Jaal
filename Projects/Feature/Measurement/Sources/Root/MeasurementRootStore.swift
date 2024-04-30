@@ -31,13 +31,6 @@ extension MeasurementRootStore {
           state.measurement = .init()
           return .none
         
-        
-        case .measurement(.dismiss):
-          return .none
-          
-        case .measurement(.presented(.faceTracking(_))):
-          return .none
-          
         default:
           return .none
       }

@@ -49,12 +49,12 @@ public struct OnboardingAvatarView: View {
 extension OnboardingAvatarView {
   private var title: some View {
     HStack {
-      Text("아바타")
+      Text(store.isEdit ? "아바타 변경" : "아바타 설정")
         .modifier(GamtanFont(font: .bold, size: 24))
       
       Spacer()
     }
-    .padding(.vertical, 8)
+    .padding(.vertical, store.isEdit ? 24 : 8)
     .padding(.horizontal, 16)
   }
   
@@ -98,7 +98,7 @@ extension OnboardingAvatarView {
   
   private var skinColorSelecter: some View {
     ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: 16) {
+      LazyHStack(spacing: 16) {
         ForEach(0..<SkinColors.allCases.count, id: \.self) { index in
           Button {
             store.skinID = index
@@ -121,7 +121,7 @@ extension OnboardingAvatarView {
   
   private var headSelecter: some View {
     ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: 16) {
+      LazyHStack(spacing: 16) {
         ForEach(0..<Heads.allCases.count, id: \.self) { index in
           Button {
             store.headID = index
@@ -150,7 +150,7 @@ extension OnboardingAvatarView {
   
   private var faceSelecter: some View {
     ScrollView(.horizontal, showsIndicators: false) {
-      HStack(spacing: 16) {
+      LazyHStack(spacing: 16) {
         ForEach(0..<Faces.allCases.count, id: \.self) { index in
           Button {
             store.faceID = index
@@ -179,7 +179,7 @@ extension OnboardingAvatarView {
   
   private var goToMain: some View {
     Button(action: {
-      store.send(.goToMain)
+      store.send(.doneButtonTapped)
     }, label: {
       ZStack {
         RoundedRectangle(cornerRadius: 16)
@@ -187,7 +187,7 @@ extension OnboardingAvatarView {
             SharedDesignSystemAsset.beige.swiftUIColor
           )
         
-        Text("시작하기")
+        Text(store.isEdit ? "변경하기" : "시작하기")
           .modifier(GamtanFont(font: .bold, size: 18))
           .foregroundColor(
             SharedDesignSystemAsset.orange.swiftUIColor

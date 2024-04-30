@@ -22,15 +22,25 @@ public struct OnboardingAvatarStore {
     public var skinID: Int = 0
     public var headID: Int = 0
     public var faceID: Int = 0
+    public var isEdit: Bool = false
     
-    public init() { }
+    public init(
+      skinID: Int = 0,
+      headID: Int = 0,
+      faceID: Int = 0,
+      isEdit: Bool = false
+    ) {
+      self.skinID = skinID
+      self.headID = headID
+      self.faceID = faceID
+      self.isEdit = isEdit
+    }
   }
   
   public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case onAppear
     case doneButtonTapped
-    case goToMain
   }
   
   public var body: some ReducerOf<Self> {

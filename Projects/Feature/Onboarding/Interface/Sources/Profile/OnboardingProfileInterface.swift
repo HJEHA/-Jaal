@@ -22,17 +22,24 @@ public struct OnboardingProfileStore {
     public var name: String = ""
     public var placeholder: String = "이름을 입력해주세요"
     
-    public var goToAvatarButtonDisabled: Bool {
+    public var doneButtonDisabled: Bool {
       return !(name.count > 0 && name.count <= 8)
     }
+    public var isEdit: Bool = false
     
-    public init() { }
+    public init(
+      name: String = "",
+      isEdit: Bool = false
+    ) {
+      self.name = name
+      self.isEdit = isEdit
+    }
   }
   
   public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case onAppear
-    case goToAvatar
+    case doneButtonTapped
   }
   
   public var body: some ReducerOf<Self> {

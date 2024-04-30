@@ -77,9 +77,7 @@ public struct MyPageRootView: View {
         action: \.onboardingProfile
       )
     ) { store in
-      NavigationStack {
-        OnboardingProfileView(store: store)
-      }
+      OnboardingProfileView(store: store)
     }
     .sheet(
       item: $store.scope(
@@ -87,9 +85,7 @@ public struct MyPageRootView: View {
         action: \.onboardingAvatar
       )
     ) { store in
-      NavigationStack {
-        OnboardingAvatarView(store: store)
-      }
+      OnboardingAvatarView(store: store)
     }
   }
 }
