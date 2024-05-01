@@ -13,6 +13,7 @@ import ARKit
 import ComposableArchitecture
 
 import SharedDesignSystem
+import CoreUserDefaults
 
 public struct FaceTrackingView: View {
   public let store: StoreOf<FaceTrackingStore>
@@ -83,38 +84,43 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   
   func faceAnchor() -> AnchorEntity {
     let faceAnchor = AnchorEntity(.face)
-    let faceNode = createFaceNode()
+    let faceNode = createFaceNode(
+      "faceTexture\(JaalUserDefaults.faceID)"
+    )
+    let headNode = createFaceNode(
+      "headTexture\(JaalUserDefaults.headID)"
+    )
+    faceAnchor.addChild(headNode)
     faceAnchor.addChild(faceNode)
     return faceAnchor
   }
   
-  func createFaceNode() -> Entity {
+  func createFaceNode(_ name: String) -> Entity {
     let faceNode = Entity()
     
     let plane = MeshResource.generatePlane(
-      width: 0.25,
-      height: 0.25,
-      cornerRadius: 100
+      width: 0.3,
+      height: 0.3
     )
-    let material = createMaterial()
-    let planeModel = ModelComponent(mesh: plane, materials: [material])
+    let material = createMaterial(name)
+    let planeModel = ModelComponent(
+      mesh: plane,
+      materials: [material]
+    )
     faceNode.components.set(planeModel)
     
-    faceNode.position = [0, 0, 0.1]
-    faceNode.transform.rotation = simd_quatf(
-      angle: .pi,
-      axis: [0, 0, 1]
-    )
+    faceNode.position = [-0.01, 0.03, 0.07]
     return faceNode
   }
   
-  func createMaterial() -> SimpleMaterial { 
+  func createMaterial(_ name: String) -> SimpleMaterial {
+    let color = SkinColors.allCases[JaalUserDefaults.skinID].color
     var material = SimpleMaterial()
     material.color = .init(
-      tint: .white.withAlphaComponent(0.999),
+      tint: color.withAlphaComponent(0.999),
       texture: .init(
         try! .load(
-          named: "oops_png",
+          named: name,
           in: SharedDesignSystemResources.bundle
         )
       )
