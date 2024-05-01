@@ -22,7 +22,16 @@ public struct OnboardingAvatarView: View {
     VStack(alignment: .center) {
       title
       
-      avatar
+      HStack(alignment: .bottom) {
+        
+        Spacer()
+        
+        avatar
+        
+        shuffle
+          .padding(.bottom, 8)
+      }
+      .padding(.horizontal, 16)
       
       selecters
       
@@ -84,6 +93,27 @@ extension OnboardingAvatarView {
     .clipShape(RoundedRectangle(cornerRadius: 16))
   }
   
+  private var shuffle: some View {
+    Button {
+      store.send(.shuffleButtonTapped, animation: .easeInOut)
+    } label: {
+      HStack {
+        Image(systemName: "shuffle")
+          .resizable()
+          .foregroundColor(
+            SharedDesignSystemAsset.orange.swiftUIColor
+          )
+          .frame(width: 16, height: 16)
+        
+        Text("무작위")
+          .modifier(GamtanFont(font: .bold, size: 16))
+          .foregroundColor(
+            SharedDesignSystemAsset.orange.swiftUIColor
+          )
+      }
+    }
+  }
+  
   private var selecters: some View {
     VStack {
       skinColorSelecter
@@ -117,11 +147,16 @@ extension OnboardingAvatarView {
         }
         .padding(.horizontal, 16)
       }
-      .onAppear {
+      .onChange(of: store.isScrollCenter, { _, newValue in
+        guard newValue == true else {
+          return
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
           proxy.scrollTo(store.skinID, anchor: .center)
+          store.isScrollCenter = false
         }
-      }
+      })
     }
   }
   
@@ -160,11 +195,16 @@ extension OnboardingAvatarView {
         }
         .padding(.horizontal, 16)
       }
-      .onAppear {
+      .onChange(of: store.isScrollCenter, { _, newValue in
+        guard newValue == true else {
+          return
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
           proxy.scrollTo(store.headID, anchor: .center)
+          store.isScrollCenter = false
         }
-      }
+      })
     }
   }
   
@@ -203,11 +243,16 @@ extension OnboardingAvatarView {
         }
         .padding(.horizontal, 16)
       }
-      .onAppear {
+      .onChange(of: store.isScrollCenter, { _, newValue in
+        guard newValue == true else {
+          return
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
           proxy.scrollTo(store.faceID, anchor: .center)
+          store.isScrollCenter = false
         }
-      }
+      })
     }
   }
   

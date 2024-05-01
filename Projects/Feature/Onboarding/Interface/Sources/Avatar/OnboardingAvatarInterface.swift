@@ -41,6 +41,7 @@ public struct OnboardingAvatarStore {
   public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     case onAppear
+    case shuffleButtonTapped
     case doneButtonTapped
   }
   

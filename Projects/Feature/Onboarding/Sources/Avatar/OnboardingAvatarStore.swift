@@ -11,6 +11,7 @@ import ComposableArchitecture
 
 import FeatureOnboardingInterface
 import CoreUserDefaults
+import SharedDesignSystem
 
 extension OnboardingAvatarStore {
   public init() {
@@ -21,6 +22,15 @@ extension OnboardingAvatarStore {
           return .none
           
         case .onAppear:
+          state.isScrollCenter = true
+          
+          return .none
+          
+        case .shuffleButtonTapped:
+          state.skinID = Int.random(in: SkinColors.allCases.indices)
+          state.headID = Int.random(in: Heads.allCases.indices)
+          state.faceID = Int.random(in: Faces.allCases.indices)
+          
           state.isScrollCenter = true
           
           return .none
