@@ -51,9 +51,6 @@ public enum Heads: CaseIterable {
   case head40
   case head41
   case head42
-  case head43
-  case head44
-  case head45
   
   public var image: UIImage {
     switch self {
@@ -143,12 +140,6 @@ public enum Heads: CaseIterable {
         return SharedDesignSystemAsset.head41.image
       case .head42:
         return SharedDesignSystemAsset.head42.image
-      case .head43:
-        return SharedDesignSystemAsset.head43.image
-      case .head44:
-        return SharedDesignSystemAsset.head44.image
-      case .head45:
-        return SharedDesignSystemAsset.head45.image
     }
   }
 }

@@ -14,12 +14,6 @@ import SharedDesignSystem
 public struct OnboardingAvatarView: View {
   @Bindable private var store: StoreOf<OnboardingAvatarStore>
   
-  private let imageRate = 0.3
-  
-  private let headImageRate = 0.12
-  private let faceImageRate = 0.24
-  private let accessoryImageRate = 0.2
-  
   public init(store: StoreOf<OnboardingAvatarStore>) {
     self.store = store
   }
@@ -71,19 +65,23 @@ extension OnboardingAvatarView {
             )
         )
       
-      Image(uiImage: Heads.allCases[store.headID].image)
-        .resizable()
-        .colorMultiply(
-          Color(uiColor: SkinColors.allCases[store.skinID].color)
-        )
-        .frame(width: 788 * imageRate, height: 788 * imageRate)
-      
-      Image(uiImage: Faces.allCases[store.faceID].image)
-        .resizable()
-        .frame(width: 284 * imageRate, height: 284 * imageRate)
-        .padding(.top, 36)
-        .padding(.leading, 34)
+      Group {
+        Image(uiImage: Heads.allCases[store.headID].image)
+          .resizable()
+          .colorMultiply(
+            Color(uiColor: SkinColors.allCases[store.skinID].color)
+          )
+          .frame(width: 100, height: 100)
+        
+        Image(uiImage: Faces.allCases[store.faceID].image)
+          .resizable()
+          .frame(width: 100, height: 100)
+      }
+      .scaleEffect(x: 4, y: 4, anchor: .center)
+      .padding(.top, 50)
+      .padding(.leading, 20)
     }
+    .clipShape(RoundedRectangle(cornerRadius: 16))
   }
   
   private var selecters: some View {
@@ -136,19 +134,25 @@ extension OnboardingAvatarView {
               store.headID = index
             } label: {
               ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                  .frame(width: 100, height: 100)
-                  .foregroundColor(.white)
-                  .overlay {
-                    if index == store.headID {
-                      RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.orange, lineWidth: 4)
-                    }
-                  }
+                Color.white
+                  .clipShape(RoundedRectangle(cornerRadius: 12))
+                  .padding(.vertical, 12)
+                  .padding(.horizontal, 6)
                 
                 Image(uiImage: Heads.allCases[index].image)
                   .resizable()
-                  .frame(width: 788 * headImageRate, height: 788 * headImageRate)
+                  .scaleEffect(x: 2, y: 2, anchor: .center)
+                  .frame(width: 100, height: 100)
+                  .padding(.top, 22)
+                  .padding(.leading, 10)
+              }
+              .frame(width: 100, height: 100)
+              .foregroundColor(.clear)
+              .overlay {
+                if index == store.headID {
+                  RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(Color.orange, lineWidth: 4)
+                }
               }
             }
             .id(index)
@@ -173,19 +177,25 @@ extension OnboardingAvatarView {
               store.faceID = index
             } label: {
               ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                  .frame(width: 100, height: 100)
-                  .foregroundColor(.white)
-                  .overlay {
-                    if index == store.faceID {
-                      RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.orange, lineWidth: 4)
-                    }
-                  }
+                Color.white
+                  .clipShape(RoundedRectangle(cornerRadius: 12))
+                  .padding(.vertical, 12)
+                  .padding(.horizontal, 6)
                 
                 Image(uiImage: Faces.allCases[index].image)
                   .resizable()
-                  .frame(width: 788 * headImageRate, height: 788 * headImageRate)
+                  .scaleEffect(x: 3.6, y: 3.6, anchor: .center)
+                  .frame(width: 100, height: 100)
+                  .padding(.top, 16)
+                  .padding(.trailing, 4)
+              }
+              .frame(width: 100, height: 100)
+              .foregroundColor(.clear)
+              .overlay {
+                if index == store.faceID {
+                  RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(Color.orange, lineWidth: 4)
+                }
               }
             }
             .id(index)
