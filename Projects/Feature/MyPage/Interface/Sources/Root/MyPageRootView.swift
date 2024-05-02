@@ -51,7 +51,11 @@ public struct MyPageRootView: View {
             state: \.activities,
             action: \.activities
           )
-        )
+        ) {
+          JaalEmptyView(
+            description: "앗! 측정 기록이 없습니다."
+          )
+        }
       }
       .background(SharedDesignSystemAsset.gray100.swiftUIColor)
       .onAppear {

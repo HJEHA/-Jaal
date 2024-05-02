@@ -63,6 +63,10 @@ public struct MainTabStore {
           state.selection = 2
           return .none
           
+        case .home(.goToMeamentsureButtonTapped):
+          state.selection = 1
+          return .none
+          
         case .measurement:
           return .none
           

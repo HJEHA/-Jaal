@@ -47,7 +47,18 @@ public struct HomeRootView: View {
             state: \.activities,
             action: \.activities
           )
-        )
+        ) {
+          VStack {
+            JaalEmptyView(
+              description: "앗! 측정 기록이 없습니다."
+            )
+            
+            goToMeamentsureButton
+          }
+        }
+        .frame(height: store.activities.activities.isEmpty ? 300 : 420)
+        
+        Spacer()
       }
       .background(SharedDesignSystemAsset.gray100.swiftUIColor)
       .onAppear {
@@ -86,6 +97,29 @@ extension HomeRootView {
           .renderingMode(.template)
           .resizable()
           .frame(width: 20, height: 20)
+          .foregroundColor(
+            SharedDesignSystemAsset.orange.swiftUIColor
+          )
+      }
+    }
+  }
+  
+  private var goToMeamentsureButton: some View {
+    Button{
+      store.send(.goToMeamentsureButtonTapped)
+    } label: {
+      HStack(spacing: 0) {
+      
+      Text("측정하러 가기")
+        .modifier(GamtanFont(font: .bold, size: 18))
+        .foregroundColor(
+          SharedDesignSystemAsset.orange.swiftUIColor
+        )
+        
+        SharedDesignSystemAsset.chevronRight.swiftUIImage
+          .renderingMode(.template)
+          .resizable()
+          .frame(width: 24, height: 24)
           .foregroundColor(
             SharedDesignSystemAsset.orange.swiftUIColor
           )

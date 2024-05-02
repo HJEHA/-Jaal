@@ -28,6 +28,7 @@ public struct JaalEmptyView: View {
       
       Text(description)
         .modifier(GamtanFont(font: .bold, size: 18))
+        .multilineTextAlignment(.center)
         .foregroundColor(
           SharedDesignSystemAsset.gray700.swiftUIColor
         )

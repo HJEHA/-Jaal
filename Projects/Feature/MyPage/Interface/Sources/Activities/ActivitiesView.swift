@@ -12,16 +12,21 @@ import ComposableArchitecture
 import DomainActivityInterface
 import SharedDesignSystem
 
-public struct ActivitiesView: View {
+public struct ActivitiesView<Content> : View where Content : View {
   
   @Bindable private var store: StoreOf<ActivitiesStore>
+  private var content: () -> Content
   
-  public init(store: StoreOf<ActivitiesStore>) {
+  public init(
+    store: StoreOf<ActivitiesStore>,
+    @ViewBuilder content: @escaping () -> Content
+  ) {
     self.store = store
+    self.content = content
   }
   
   public var body: some View {
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: 0) {
       measurementFilter
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
@@ -31,9 +36,7 @@ public struct ActivitiesView: View {
         
         Spacer()
       } else {
-        JaalEmptyView(
-          description: "앗! 측정 기록이 없습니다."
-        )
+        content()
       }
     }
   }
@@ -50,16 +53,24 @@ extension ActivitiesView {
   
   private var activitys: some View {
     ScrollView(.vertical) {
-      VStack(spacing: 8) {
+      LazyVStack(spacing: 0) {
         ForEach(store.activities) { activity in
           NavigationLink(
             state: ActivityDetailStore.State(activity: activity)
           ) {
             ActivityCell(activity: activity)
           }
+          .scrollTransition(
+            topLeading: .identity,
+            bottomTrailing: .animated.threshold(.visible(0.9))
+          ) { content, phase in
+            content
+              .opacity(phase.isIdentity ? 1 : 0.7)
+              .scaleEffect(phase.isIdentity ? 1 : 0.9)
+              .blur(radius: phase.isIdentity ? 0 : 1)
+          }
         }
       }
-      .padding(.bottom, 40)
     }
   }
 }
