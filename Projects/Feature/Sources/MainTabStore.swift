@@ -42,7 +42,11 @@ public struct MainTabStore {
   
   public var body: some ReducerOf<Self> {
     Scope(state: \.home, action: /Action.home) {
-      HomeRootStore()
+      HomeRootStore(
+        activities: ActivitiesStore(
+          activityDetail: ActivityDetailStore()
+        )
+      )
     }
     Scope(state: \.measurement, action: /Action.measurement) {
       MeasurementRootStore()

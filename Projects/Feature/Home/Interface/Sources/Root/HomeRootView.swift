@@ -9,21 +9,49 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import FeatureMyPageInterface
 import CoreUserDefaults
+import SharedDesignSystem
 
 public struct HomeRootView: View {
-  private let store: StoreOf<HomeRootStore>
+  @Bindable private var store: StoreOf<HomeRootStore>
   
   public init(store: StoreOf<HomeRootStore>) {
     self.store = store
   }
   
   public var body: some View {
-    VStack {
-      Text("홈")
+    NavigationStack(
+      path: $store.scope(
+        state: \.activities.path,
+        action: \.activities.path
+      )
+    ) {
+      VStack(alignment: .leading) {
+        title
+          .padding(.horizontal, 16)
+          .padding(.vertical, 8)
+                  
+        ActivitiesView(
+          store: store.scope(
+            state: \.activities,
+            action: \.activities
+          )
+        )
+      }
+      .onAppear {
+        store.send(.onAppear)
+      }
+    } destination: { store in
+      ActivityDetailView(store: store)
+        .toolbarRole(.editor)
     }
-    .onAppear {
-      store.send(.onAppear)
-    }
+  }
+}
+
+extension HomeRootView {
+  private var title: some View {
+    Text("홈")
+      .modifier(GamtanFont(font: .bold, size: 24))
   }
 }

@@ -16,7 +16,7 @@ public struct ActivitiesView: View {
   
   @Bindable private var store: StoreOf<ActivitiesStore>
   
-  init(store: StoreOf<ActivitiesStore>) {
+  public init(store: StoreOf<ActivitiesStore>) {
     self.store = store
   }
   

@@ -9,7 +9,8 @@ let project = Project.makeModule(
       interface: .Home,
       factory: .init(
         dependencies: [
-          .domain
+          .domain,
+          .feature(interface: .MyPage)
         ]
       )
     ),
@@ -17,7 +18,8 @@ let project = Project.makeModule(
       implements: .Home,
       factory: .init(
         dependencies: [
-          .feature(interface: .Home)
+          .feature(interface: .Home),
+          .feature(interface: .MyPage)
         ]
       )
     ),

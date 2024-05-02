@@ -15,11 +15,9 @@ import SharedDesignSystem
 
 public struct MyPageRootView: View {
   @Bindable private var store: StoreOf<MyPageRootStore>
-  private var viewStore: ViewStoreOf<MyPageRootStore>
   
   public init(store: StoreOf<MyPageRootStore>) {
     self.store = store
-    self.viewStore = ViewStore(store, observe: { $0 })
   }
   
   public var body: some View {
