@@ -31,7 +31,17 @@ public struct HomeRootView: View {
         title
           .padding(.horizontal, 16)
           .padding(.vertical, 8)
-                  
+              
+        HStack {
+          todayActivity
+          
+          Spacer()
+          
+          activityMoreButton
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        
         ActivitiesView(
           store: store.scope(
             state: \.activities,
@@ -39,6 +49,7 @@ public struct HomeRootView: View {
           )
         )
       }
+      .background(SharedDesignSystemAsset.gray100.swiftUIColor)
       .onAppear {
         store.send(.onAppear)
       }
@@ -53,5 +64,32 @@ extension HomeRootView {
   private var title: some View {
     Text("홈")
       .modifier(GamtanFont(font: .bold, size: 24))
+  }
+  
+  private var todayActivity: some View {
+    Text("오늘의 측정 기록")
+      .modifier(GamtanFont(font: .bold, size: 18))
+  }
+  
+  private var activityMoreButton: some View {
+    Button {
+      store.send(.activityMoreButtonTapped)
+    } label: {
+      HStack(spacing: 0) {
+        Text("모든 기록 보기")
+          .modifier(GamtanFont(font: .bold, size: 14))
+          .foregroundColor(
+            SharedDesignSystemAsset.orange.swiftUIColor
+          )
+        
+        SharedDesignSystemAsset.chevronRight.swiftUIImage
+          .renderingMode(.template)
+          .resizable()
+          .frame(width: 20, height: 20)
+          .foregroundColor(
+            SharedDesignSystemAsset.orange.swiftUIColor
+          )
+      }
+    }
   }
 }

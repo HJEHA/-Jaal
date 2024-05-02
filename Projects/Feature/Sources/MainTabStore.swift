@@ -59,7 +59,8 @@ public struct MainTabStore {
     }
     Reduce { state, action in
       switch action {
-        case .home:
+        case .home(.activityMoreButtonTapped):
+          state.selection = 2
           return .none
           
         case .measurement:
@@ -70,6 +71,9 @@ public struct MainTabStore {
           return .none
           
         case .myPage:
+          return .none
+          
+        default:
           return .none
       }
     }

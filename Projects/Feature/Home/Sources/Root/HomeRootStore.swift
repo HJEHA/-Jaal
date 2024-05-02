@@ -22,8 +22,10 @@ extension HomeRootStore {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
         case .onAppear:
+          return .run { send in
+            await send(.activities(.fetch(.now)))
+          }
           
-          return .none
         case .binding(_):
           return .none
         

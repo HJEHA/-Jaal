@@ -38,6 +38,7 @@ public struct HomeRootStore {
     
     case onAppear
     case activities(ActivitiesStore.Action)
+    case activityMoreButtonTapped
   }
   
   public var body: some ReducerOf<Self> {
