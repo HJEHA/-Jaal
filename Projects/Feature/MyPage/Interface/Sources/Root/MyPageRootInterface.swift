@@ -18,20 +18,20 @@ public struct MyPageRootStore {
   
   private let reducer: Reduce<State, Action>
   private let calender: CalendarStore
-  private let activityDetail: ActivityDetailStore
+  private let activities: ActivitiesStore
   private let onboardingProfile: OnboardingProfileStore
   private let onboardingAvatar: OnboardingAvatarStore
   
   public init(
     reducer: Reduce<State, Action>,
     calender: CalendarStore,
-    activityDetail: ActivityDetailStore,
+    activities: ActivitiesStore,
     onboardingProfile: OnboardingProfileStore,
     onboardingAvatar: OnboardingAvatarStore
   ) {
     self.reducer = reducer
     self.calender = calender
-    self.activityDetail = activityDetail
+    self.activities = activities
     self.onboardingProfile = onboardingProfile
     self.onboardingAvatar = onboardingAvatar
   }
@@ -39,11 +39,8 @@ public struct MyPageRootStore {
   @ObservableState
   public struct State: Equatable {
     public var calendar: CalendarStore.State = .init()
-    public var filterIndex: Int = 0
+    public var activities: ActivitiesStore.State = .init(selectedDate: .now)
     public var selectedDate: Date = .now
-    
-    public var activities: [Activity] = []
-    public var path = StackState<ActivityDetailStore.State>()
     
     @Presents public var onboardingProfile: OnboardingProfileStore.State?
     @Presents public var onboardingAvatar: OnboardingAvatarStore.State?
@@ -56,13 +53,9 @@ public struct MyPageRootStore {
   public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
     
-    case appear
-    case filterSelected(Int)
+    case onAppear
     case calendar(CalendarStore.Action)
-    case path(
-      StackAction<ActivityDetailStore.State, ActivityDetailStore.Action>
-    )
-    case fetch
+    case activities(ActivitiesStore.Action)
     
     case editProfileButtonTapped
     case onboardingProfile(PresentationAction<OnboardingProfileStore.Action>)
@@ -78,10 +71,10 @@ public struct MyPageRootStore {
     Scope(state: \.calendar, action: /Action.calendar) {
       calender
     }
+    Scope(state: \.activities, action: /Action.activities) {
+      activities
+    }
     reducer
-      .forEach(\.path, action: \.path) {
-        activityDetail
-      }
       .ifLet(\.$onboardingProfile, action: /Action.onboardingProfile) {
         onboardingProfile
       }

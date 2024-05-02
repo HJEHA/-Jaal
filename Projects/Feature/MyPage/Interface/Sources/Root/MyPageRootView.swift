@@ -25,8 +25,8 @@ public struct MyPageRootView: View {
   public var body: some View {
     NavigationStack(
       path: $store.scope(
-        state: \.path,
-        action: \.path
+        state: \.activities.path,
+        action: \.activities.path
       )
     ) {
       VStack(alignment: .leading) {
@@ -48,23 +48,16 @@ public struct MyPageRootView: View {
         )
         .padding(.vertical, 8)
         
-        measurementFilter
-          .padding(.horizontal, 16)
-          .padding(.vertical, 8)
-        
-        if store.activities.count > 0 {
-          activitys
-          
-          Spacer()
-        } else {
-          JaalEmptyView(
-            description: "앗! 측정 기록이 없습니다."
+        ActivitiesView(
+          store: store.scope(
+            state: \.activities,
+            action: \.activities
           )
-        }
+        )
       }
       .background(SharedDesignSystemAsset.gray100.swiftUIColor)
       .onAppear {
-        store.send(.appear)
+        store.send(.onAppear)
       }
     } destination: { store in
       ActivityDetailView(store: store)
@@ -129,32 +122,6 @@ extension MyPageRootView {
       Image(systemName: "ellipsis.circle")
         .resizable()
         .frame(width: 20, height: 20)
-    }
-  }
-  
-  private var measurementFilter: some View {
-    CustomSegmentedControl(
-      selection: viewStore.binding(
-        get: \.filterIndex,
-        send: MyPageRootStore.Action.filterSelected
-      ),
-      size: CGSize(width: UIScreen.main.bounds.width - 32, height: 52),
-      segmentLabels: MeasurementFilter.allCases.map { $0.title }
-    )
-  }
-  
-  private var activitys: some View {
-    ScrollView(.vertical) {
-      VStack(spacing: 8) {
-        ForEach(store.activities) { activity in
-          NavigationLink(
-            state: ActivityDetailStore.State(activity: activity)
-          ) {
-            ActivityCell(activity: activity)
-          }
-        }
-      }
-      .padding(.bottom, 40)
     }
   }
 }

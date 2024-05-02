@@ -21,7 +21,12 @@ extension CalendarStore {
           state.monthTitle = DateUtil.shared.toYearMonth(from: state.selectedDate)
           state.days = CalendarStore.days(state: &state)
           
-          return .send(.selectedToday(true))
+          if state.isFirstAppear == false {
+            state.isFirstAppear = true 
+            return .send(.selectedToday(true))
+          }
+          
+          return .none
           
         case let .changedMonth(value):
           

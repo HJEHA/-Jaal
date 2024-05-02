@@ -26,54 +26,15 @@ extension MyPageRootStore {
     
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
-        case .appear:
+        case .onAppear:
           return .none
           
-        case let .filterSelected(index):
-          state.filterIndex = index
+        case let .calendar(.selectedDate(date)):
+          state.selectedDate = date
+          state.activities.selectedDate = date
+          return .send(.activities(.fetch(date)))
           
-          return .send(.fetch)
-          
-        case let .calendar(action):
-          switch action {
-            case let .selectedDate(date):
-              state.selectedDate = date
-              return .send(.fetch)
-            default:
-              return .none
-          }
-          
-        case .fetch:
-          let date = DateUtil.shared.toYearMonthDay(from: state.selectedDate)
-          var predicate: Predicate<Activity>
-          if let mode = MeasurementFilter.toMeasurementMode(state.filterIndex) {
-            predicate = {
-              return #Predicate {
-                $0.dateString == date
-                && $0.measurementTitle == mode.title
-              }
-            }()
-          } else {
-            predicate = {
-              return #Predicate {
-                $0.dateString == date
-              }
-            }()
-          }
-          
-          let descriptor: FetchDescriptor<Activity> = .init(
-            predicate: predicate,
-            sortBy: [
-              .init(\.date, order: .reverse)
-            ]
-          )
-          
-          do {
-            state.activities = try activityClient.fetch(descriptor)
-          } catch {
-            state.activities = []
-          }
-          
+        case .activities:
           return .none
           
         case .editProfileButtonTapped:
@@ -123,7 +84,9 @@ extension MyPageRootStore {
     self.init(
       reducer: reducer,
       calender: CalendarStore(),
-      activityDetail: ActivityDetailStore(),
+      activities: ActivitiesStore(
+        activityDetail: ActivityDetailStore()
+      ),
       onboardingProfile: onboardingProfile,
       onboardingAvatar: onboardingAvatar
     )

@@ -25,6 +25,7 @@ public struct CalendarStore {
   
   @ObservableState
   public struct State: Equatable {
+    public var isFirstAppear: Bool = false
     public let calendar: Calendar = Calendar.current
     public var monthTitle: String = ""
     
