@@ -31,34 +31,47 @@ public struct HomeRootView: View {
         title
           .padding(.horizontal, 16)
           .padding(.vertical, 8)
-              
-        HStack {
-          todayActivity
-          
-          Spacer()
-          
-          activityMoreButton
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
         
-        ActivitiesView(
-          store: store.scope(
-            state: \.activities,
-            action: \.activities
-          )
-        ) {
-          VStack {
-            JaalEmptyView(
-              description: "앗! 측정 기록이 없습니다."
-            )
+        ScrollView {
+          VStack(alignment: .leading) {
+            HStack {
+              todayActivity
+              
+              Spacer()
+              
+              activityMoreButton
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
             
-            goToMeamentsureButton
+            ActivitiesView(
+              store: store.scope(
+                state: \.activities,
+                action: \.activities
+              )
+            ) {
+              VStack {
+                JaalEmptyView(
+                  description: "앗! 측정 기록이 없습니다."
+                )
+                
+                goToMeamentsureButton
+              }
+            }
+            .frame(maxHeight: store.activities.activities.isEmpty ? 240 : 260)
+            
+            tipTitle
+              .padding(.top, 24)
+              .padding(.horizontal, 16)
+            
+            tips
+              .padding(.vertical, 16)
+              .padding(.horizontal, 16)
+            
+            Spacer()
           }
         }
-        .frame(height: store.activities.activities.isEmpty ? 300 : 420)
-        
-        Spacer()
+        .scrollIndicators(.hidden)
       }
       .background(SharedDesignSystemAsset.gray100.swiftUIColor)
       .onAppear {
@@ -73,8 +86,9 @@ public struct HomeRootView: View {
 
 extension HomeRootView {
   private var title: some View {
-    Text("홈")
-      .modifier(GamtanFont(font: .bold, size: 24))
+    SharedDesignSystemAsset.logo.swiftUIImage
+      .resizable()
+      .frame(width: 100, height: 46)
   }
   
   private var todayActivity: some View {
@@ -125,5 +139,44 @@ extension HomeRootView {
           )
       }
     }
+  }
+  
+  private var tipTitle: some View {
+    Text("\(JaalUserDefaults.name)님을 위한 도움말")
+      .modifier(GamtanFont(font: .bold, size: 18))
+  }
+  
+  private var tips: some View {
+    ZStack {
+      SharedDesignSystemAsset.gray500.swiftUIColor
+        .opacity(0.2)
+      
+      VStack(alignment: .leading) {
+        TipCell(
+          show: $store.showTip1,
+          tip: .tip1
+        )
+        .onTapGesture {
+          store.showTip1.toggle()
+        }
+        
+        Divider()
+          .padding(.horizontal, 16)
+        
+        TipCell(
+          show: $store.showTip2,
+          tip: .tip2
+        )
+        
+        Divider()
+          .padding(.horizontal, 16)
+        
+        TipCell(
+          show: $store.showTip3,
+          tip: .tip3
+        )
+      }
+    }
+    .clipShape(RoundedRectangle(cornerRadius: 16))
   }
 }

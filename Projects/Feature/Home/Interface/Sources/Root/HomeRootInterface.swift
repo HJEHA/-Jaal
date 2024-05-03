@@ -30,6 +30,10 @@ public struct HomeRootStore {
   public struct State: Equatable {
     public var activities: ActivitiesStore.State = .init(selectedDate: .now)
     
+    public var showTip1: Bool = false
+    public var showTip2: Bool = false
+    public var showTip3: Bool = false
+    
     public init() { }
   }
   
