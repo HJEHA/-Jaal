@@ -109,7 +109,7 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
     )
     faceNode.components.set(planeModel)
     
-    faceNode.position = [-0.01, 0.03, 0.07]
+    faceNode.position = [0, 0.03, 0.07]
     return faceNode
   }
   

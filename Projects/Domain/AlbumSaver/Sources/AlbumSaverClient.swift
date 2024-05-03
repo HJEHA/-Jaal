@@ -11,6 +11,7 @@ import ComposableArchitecture
 
 import DomainAlbumSaverInterface
 import SharedUtil
+import SharedDesignSystem
 
 extension AlbumSaverClient: DependencyKey {
   public static let liveValue = AlbumSaverClient(
@@ -19,12 +20,16 @@ extension AlbumSaverClient: DependencyKey {
         throw AlbumSaverError.denied
       }
       
+      let watermarkImage = image.overlayWith(
+        image: SharedDesignSystemAsset.watermark.image
+      )
+      
       let completion = ImageSaver()
       return try await withCheckedThrowingContinuation { continuation in
         completion.continuation = continuation
         
         UIImageWriteToSavedPhotosAlbum(
-          image,
+          watermarkImage,
           completion,
           #selector(ImageSaver.image(_:didFinishSavingWithError:contextInfo:)),
           nil
@@ -48,7 +53,11 @@ extension AlbumSaverClient: DependencyKey {
           forKey: imagePaths[i]
         ) else { continue }
         
-        movieMaker.make(image)
+        let watermarkImage = image.overlayWith(
+          image: SharedDesignSystemAsset.watermark.image
+        )
+        
+        movieMaker.make(watermarkImage)
       }
       
       return try await withCheckedThrowingContinuation { continuation in

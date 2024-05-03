@@ -55,7 +55,9 @@ extension MeasurementStore {
               )
               
               return .run { [image, name] send in
-                let data = await imageProcess.toDataWithDownSample(image, 100)
+                let data = await imageProcess.toDataWithDownSample(
+                  image, 100
+                )
                 guard let data else {
                   return ()
                 }
