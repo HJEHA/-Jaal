@@ -66,4 +66,10 @@ public struct JaalUserDefaults {
   
   @UserDefault(key: "faceID", defaultValue: 0)
   public static var faceID: Int
+  
+  @UserDefault(
+    key: "lastMeasurementTitle",
+    defaultValue: "\(JaalUserDefaults.name)님의 측정"
+  )
+  public static var lastMeasurementTitle: String
 }

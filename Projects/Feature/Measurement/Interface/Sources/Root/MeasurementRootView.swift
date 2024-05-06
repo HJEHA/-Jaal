@@ -45,6 +45,10 @@ public struct MeasurementRootView: View {
         .focused($isFocused)
         .padding(.horizontal, 20)
         
+        titleNotice
+          .padding(.top, 4)
+          .padding(.horizontal, 20)
+        
         
         selectedMode
           .padding(.leading, 20)
@@ -84,6 +88,21 @@ extension MeasurementRootView {
   private var measurementTitle: some View {
     Text("제목")
       .modifier(GamtanFont(font: .bold, size: 20))
+  }
+  
+  private var titleNotice: some View {
+    HStack(spacing: 2) {
+      SharedDesignSystemAsset.info.swiftUIImage
+        .renderingMode(.template)
+        .resizable()
+        .frame(width: 14, height: 14)
+      
+      Text("입력이 없는 경우 이전에 입력했던 제목으로 저장됩니다.")
+        .modifier(GamtanFont(font: .bold, size: 14))
+    }
+    .foregroundColor(
+      SharedDesignSystemAsset.orange.swiftUIColor
+    )
   }
   
   private var selectedMode: some View {

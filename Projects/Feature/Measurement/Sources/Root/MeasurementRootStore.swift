@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import FeatureMeasurementInterface
+import CoreUserDefaults
 
 extension MeasurementRootStore {
   public init() {
@@ -28,8 +29,17 @@ extension MeasurementRootStore {
           return .none
         
         case .startButtonTapped:
+          var title: String
+          
+          if state.title.isEmpty {
+            title = JaalUserDefaults.lastMeasurementTitle
+          } else {
+            JaalUserDefaults.lastMeasurementTitle = state.title
+            title = state.title
+          }
+          
           state.measurement = .init(
-            title: state.title,
+            title: title,
             mode: state.selectedMode
           )
           return .none
