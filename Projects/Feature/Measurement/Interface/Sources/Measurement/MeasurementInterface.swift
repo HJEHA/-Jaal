@@ -29,6 +29,8 @@ public struct MeasurementStore {
   
   @ObservableState
   public struct State: Equatable {
+    public var mode: MeasurementMode
+    
     public var faceTracking: FaceTrackingStore.State = .init()
     public var brightness: BrightnessStore.State = .init()
     
@@ -47,7 +49,11 @@ public struct MeasurementStore {
     
     public var timeLapseData: [Timelapse] = []
     
-    public init() { }
+    public init(
+      mode: MeasurementMode
+    ) {
+      self.mode = mode
+    }
   }
   
   public enum Action: Equatable {

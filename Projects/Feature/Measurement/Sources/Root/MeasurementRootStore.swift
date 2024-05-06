@@ -28,7 +28,7 @@ extension MeasurementRootStore {
           return .none
         
         case .startButtonTapped:
-          state.measurement = .init()
+          state.measurement = .init(mode: state.selectedMode)
           return .none
         
         default:

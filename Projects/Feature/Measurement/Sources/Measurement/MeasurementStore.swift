@@ -137,7 +137,7 @@ extension MeasurementStore {
           do {
             let activity = Activity(
               title: "테스트",
-              measurementMode: .focus,
+              measurementMode: state.mode,
               activityDuration: state.time,
               blinkCount: state.eyeBlinkCount,
               timelapse: state.timeLapseData
