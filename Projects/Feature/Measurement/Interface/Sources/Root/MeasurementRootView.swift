@@ -54,7 +54,6 @@ public struct MeasurementRootView: View {
           .padding(.leading, 20)
           .padding(.top, 20)
         
-        
         HStack {
           modeSelectButton(store, mode: .normal)
           
@@ -62,6 +61,13 @@ public struct MeasurementRootView: View {
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)
+        
+        if store.selectedMode == .focus {
+          timerPicker
+            .padding(.horizontal, 20)
+            .padding(.top, 12)
+        }
+        
         
         Spacer()
       }
@@ -108,6 +114,29 @@ extension MeasurementRootView {
   private var selectedMode: some View {
     Text("모드 선택")
       .modifier(GamtanFont(font: .bold, size: 20))
+  }
+  
+  private var timerPicker: some View {
+    HStack {
+      Text("타이머 설정")
+        .modifier(GamtanFont(font: .bold, size: 20))
+      
+      Spacer()
+      
+      Menu {
+        Picker(selection: $store.selectedtimerPickerItem) {
+          ForEach(store.timerPickerItems, id: \.self) {
+            Text("\($0)분")
+          }
+        } label: {}
+      } label: {
+        Text("\(store.selectedtimerPickerItem)분")
+          .modifier(GamtanFont(font: .bold, size: 18))
+          .foregroundColor(
+            SharedDesignSystemAsset.blue.swiftUIColor
+          )
+      }
+    }
   }
   
   private var startButton: some View {
