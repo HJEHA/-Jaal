@@ -29,12 +29,16 @@ public struct MeasurementRootStore {
   public struct State: Equatable {
     @Presents public var measurement: MeasurementStore.State?
     
+    public var title: String = ""
+    public var placeholder: String = "제목을 입력해주세요"
     public var selectedMode: MeasurementMode = .normal
     
     public init() { }
   }
   
-  public enum Action: Equatable {
+  public enum Action: BindableAction, Equatable {
+    case binding(BindingAction<State>)
+    
     case measurement(PresentationAction<MeasurementStore.Action>)
     
     case onAppear
@@ -43,6 +47,7 @@ public struct MeasurementRootStore {
   }
   
   public var body: some ReducerOf<Self> {
+    BindingReducer()
     reducer
       .ifLet(\.$measurement, action: /Action.measurement) {
         measurement

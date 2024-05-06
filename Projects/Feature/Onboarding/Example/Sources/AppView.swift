@@ -1,10 +1,17 @@
 import SwiftUI
 
+import FeatureOnboarding
+import FeatureOnboardingInterface
+
 @main
 struct AppView: App {
   var body: some Scene {
     WindowGroup {
-      Text("Hello Tuist!")
+      OnboardingRootView(
+        store: .init(initialState: OnboardingRootStore.State()) {
+          OnboardingRootStore()
+        }
+      )
     }
   }
 }

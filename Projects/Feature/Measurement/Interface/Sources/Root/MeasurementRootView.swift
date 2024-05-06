@@ -14,6 +14,7 @@ import SharedDesignSystem
 
 public struct MeasurementRootView: View {
   @Bindable private var store: StoreOf<MeasurementRootStore>
+  @FocusState private var isFocused: Bool
   
   public init(store: StoreOf<MeasurementRootStore>) {
     self.store = store
@@ -32,9 +33,22 @@ public struct MeasurementRootView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
         
-        selectedMode
+        measurementTitle
           .padding(.leading, 20)
           .padding(.top, 12)
+        
+        JaalTextField(
+          isFocused: $isFocused,
+          text: $store.title
+        )
+        .setPlaceHolderText(store.placeholder)
+        .focused($isFocused)
+        .padding(.horizontal, 20)
+        
+        
+        selectedMode
+          .padding(.leading, 20)
+          .padding(.top, 20)
         
         
         HStack {
@@ -48,6 +62,9 @@ public struct MeasurementRootView: View {
         Spacer()
       }
       .background(SharedDesignSystemAsset.gray100.swiftUIColor)
+    }
+    .onTapGesture {
+      isFocused = false
     }
     .fullScreenCover(
       item: $store.scope(state: \.measurement, action: \.measurement)) { store in
@@ -64,6 +81,11 @@ extension MeasurementRootView {
       .modifier(GamtanFont(font: .bold, size: 24))
   }
   
+  private var measurementTitle: some View {
+    Text("제목")
+      .modifier(GamtanFont(font: .bold, size: 20))
+  }
+  
   private var selectedMode: some View {
     Text("모드 선택")
       .modifier(GamtanFont(font: .bold, size: 20))
@@ -71,6 +93,7 @@ extension MeasurementRootView {
   
   private var startButton: some View {
     Button(action: {
+      isFocused = false
       store.send(.startButtonTapped)
     }, label: {
       RoundedRectangle(cornerRadius: 16)
@@ -108,15 +131,15 @@ extension MeasurementRootView {
   
   @ViewBuilder
   private func modeSelectButton(
-    _ viewStore: StoreOf<MeasurementRootStore>,
+    _ store: StoreOf<MeasurementRootStore>,
     mode: MeasurementMode
   ) -> some View {
     Button(action: {
-      viewStore.send(.modeButtonTapped(mode))
+      store.send(.modeButtonTapped(mode))
     }, label: {
       RoundedRectangle(cornerRadius: 16)
         .foregroundColor(
-          viewStore.selectedMode == mode
+          store.selectedMode == mode
           ? SharedDesignSystemAsset.blue.swiftUIColor
           : SharedDesignSystemAsset.gray500.swiftUIColor
         )

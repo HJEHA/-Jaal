@@ -136,7 +136,7 @@ extension MeasurementStore {
         case .closeButtonTapped:
           do {
             let activity = Activity(
-              title: "테스트",
+              title: state.title,
               measurementMode: state.mode,
               activityDuration: state.time,
               blinkCount: state.eyeBlinkCount,
