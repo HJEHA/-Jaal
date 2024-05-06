@@ -33,7 +33,8 @@ public struct MeasurementRootStore {
     public var placeholder: String = "제목을 입력해주세요"
     public var selectedMode: MeasurementMode = .normal
     
-    public var selectedtimerPickerItem: Int = 5
+    public var selectedTimerPickerItem: Int = 5
+    public var selecteddrowsinessTimerPickerItem: Int = 5
     public var timerPickerItems: [Int] = [
     5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
     ]
