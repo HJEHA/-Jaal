@@ -72,6 +72,9 @@ public struct MeasurementRootView: View {
             .padding(.top, 20)
         }
         
+        saveTimeLapes
+          .padding(.horizontal, 20)
+          .padding(.top, 20)
         
         Spacer()
       }
@@ -163,6 +166,46 @@ extension MeasurementRootView {
             SharedDesignSystemAsset.blue.swiftUIColor
           )
       }
+    }
+  }
+  
+  private var saveTimeLapes: some View {
+    VStack(alignment: .leading) {
+      Button {
+        store.isSaveTimeLapes.toggle()
+      } label: {
+        HStack {
+          Text("타입 랩스 저장")
+            .modifier(GamtanFont(font: .bold, size: 20))
+            .foregroundColor(.black)
+          
+          Spacer()
+          
+          Image(
+            systemName: store.isSaveTimeLapes
+            ? "checkmark.square"
+            : "square"
+          )
+          .resizable()
+          .frame(width: 20, height: 20)
+          .foregroundColor(
+            SharedDesignSystemAsset.blue.swiftUIColor
+          )
+        }
+      }
+      
+      HStack(spacing: 2) {
+        SharedDesignSystemAsset.info.swiftUIImage
+          .renderingMode(.template)
+          .resizable()
+          .frame(width: 14, height: 14)
+        
+        Text("이미지는 기기에만 저장됩니다.")
+          .modifier(GamtanFont(font: .bold, size: 14))
+      }
+      .foregroundColor(
+        SharedDesignSystemAsset.orange.swiftUIColor
+      )
     }
   }
   
