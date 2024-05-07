@@ -35,12 +35,7 @@ public struct MeasurementView: View {
       )
       
       if store.isInitailing == true {
-          Text("\(store.initialTimerCount)")
-            .foregroundColor(
-              SharedDesignSystemAsset.blue.swiftUIColor
-            )
-            .modifier(SamlipFont(size: 100))
-            .padding(4)
+        initialTimer
       }
       
       VStack(alignment: .leading) {
@@ -93,6 +88,27 @@ extension MeasurementView {
           )
       }
     )
+  }
+  
+  private var initialTimer: some View {
+    VStack {
+      Text("\(store.initialTimerCount)")
+        .foregroundColor(
+          SharedDesignSystemAsset.blue.swiftUIColor
+        )
+        .modifier(SamlipFont(size: 100))
+        .padding(4)
+      
+      Text("바른 자세를\n유지해주세요")
+        .modifier(SamlipFont(size: 50))
+        .multilineTextAlignment(.center)
+        .padding(20)
+        .background(
+          SharedDesignSystemAsset.gray100.swiftUIColor
+            .opacity(0.5)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
   }
   
   private var timer: some View {
