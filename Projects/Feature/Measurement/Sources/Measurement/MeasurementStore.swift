@@ -13,6 +13,7 @@ import FeatureMeasurementInterface
 import DomainActivity
 import DomainActivityInterface
 import CoreImageProcss
+import CoreUserDefaults
 import SharedUtil
 
 extension MeasurementStore {
@@ -41,8 +42,7 @@ extension MeasurementStore {
               }
               
               return .none
-            case .snapshot:
-              return .none
+            
             case let .saveImage(image):
               guard let image else {
                 return .none
@@ -67,6 +67,9 @@ extension MeasurementStore {
                 )
                 await send(.saveTimeLapseResponse(timeLapse))
               }
+              
+            default:
+              return .none
           }
           
         case .appear:
@@ -107,7 +110,10 @@ extension MeasurementStore {
           state.time += 1
           state.timeString = TimeFormatter.toClockString(from: state.time)
           
-          if state.time % 3 == 0 {
+          
+          if state.time % 3 == 0
+              && JaalUserDefaults.isSaveTimeLapse == true
+          {
             return .send(.faceTracking(.snapshot))
           }
           
@@ -119,7 +125,7 @@ extension MeasurementStore {
           else {
             return .none
           }
-          //TODO: - 범위 조절 기능 추가(우측 화면 swipe)
+          
           if initialCenter.distance(to: center) > 0.1 {
             state.isWarning = true
           } else {
