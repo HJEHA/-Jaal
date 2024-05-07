@@ -42,6 +42,15 @@ public struct ActivityDetailStore {
       )
     }
     
+    var blinkPerMinute: Double {
+      let blinksPerMinute = (
+        Double(activity.blinkCount)
+        / Double(activity.activityDuration)
+      ) * 60
+      
+      return (Double(blinksPerMinute) * 100).rounded() * 0.01
+    }
+    
     var thumbnail: [Data] {
       return sortedTimeLapse.map { $0.thumbnail }
     }

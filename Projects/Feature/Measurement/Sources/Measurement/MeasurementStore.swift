@@ -32,6 +32,10 @@ extension MeasurementStore {
               return .none
               
             case let .eyeBlink(value):
+              if state.isInitailing == true {
+                return .none
+              }
+              
               if value == 0 {
                 state.isEyeClose = true
               } else {

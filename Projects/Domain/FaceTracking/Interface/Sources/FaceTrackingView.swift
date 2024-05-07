@@ -148,7 +148,7 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
     
     func bind() {
       eyeBlinkEvent
-        .throttle(for: 0.2, scheduler: RunLoop.main, latest: false)
+        .throttle(for: 0.1, scheduler: RunLoop.main, latest: false)
         .sink {
           self.eyeBlink = $0
         }

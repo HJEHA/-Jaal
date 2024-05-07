@@ -191,10 +191,9 @@ extension ActivityDetailView {
         Divider()
           .padding(.bottom, 8)
         
-        //TODO: - 1분 미만 미노출?
         makeDetailInfo(
           title: "분당 눈 깜빡임 수",
-          value: "\(store.activity.blinkCount)",
+          value: "\(store.blinkPerMinute)",
           color: SharedDesignSystemAsset.blue.swiftUIColor
         )
       }
