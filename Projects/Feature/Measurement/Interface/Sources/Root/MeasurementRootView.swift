@@ -72,7 +72,7 @@ public struct MeasurementRootView: View {
             .padding(.top, 20)
         }
         
-        saveTimeLapes
+        saveTimeLapse
           .padding(.horizontal, 20)
           .padding(.top, 20)
         
@@ -154,13 +154,13 @@ extension MeasurementRootView {
       Spacer()
       
       Menu {
-        Picker(selection: $store.selecteddrowsinessTimerPickerItem) {
+        Picker(selection: $store.selectedDrowsinessTimerPickerItem) {
           ForEach(store.timerPickerItems, id: \.self) {
             Text("\($0)초")
           }
         } label: {}
       } label: {
-        Text("\(store.selecteddrowsinessTimerPickerItem)초")
+        Text("\(store.selectedDrowsinessTimerPickerItem)초")
           .modifier(GamtanFont(font: .bold, size: 18))
           .foregroundColor(
             SharedDesignSystemAsset.blue.swiftUIColor
@@ -169,10 +169,10 @@ extension MeasurementRootView {
     }
   }
   
-  private var saveTimeLapes: some View {
+  private var saveTimeLapse: some View {
     VStack(alignment: .leading) {
       Button {
-        store.isSaveTimeLapes.toggle()
+        store.isSaveTimeLapse.toggle()
       } label: {
         HStack {
           Text("타입 랩스 저장")
@@ -182,7 +182,7 @@ extension MeasurementRootView {
           Spacer()
           
           Image(
-            systemName: store.isSaveTimeLapes
+            systemName: store.isSaveTimeLapse
             ? "checkmark.square"
             : "square"
           )

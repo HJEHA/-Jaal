@@ -37,6 +37,9 @@ extension MeasurementRootStore {
             JaalUserDefaults.lastMeasurementTitle = state.title
             title = state.title
           }
+          JaalUserDefaults.timerValue = state.selectedTimerPickerItem
+          JaalUserDefaults.drowsinessTimerValue = state.selectedDrowsinessTimerPickerItem
+          JaalUserDefaults.isSaveTimeLapse = state.isSaveTimeLapse
           
           state.measurement = .init(
             title: title,

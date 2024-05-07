@@ -72,4 +72,13 @@ public struct JaalUserDefaults {
     defaultValue: "\(JaalUserDefaults.name)님의 측정"
   )
   public static var lastMeasurementTitle: String
+  
+  @UserDefault(key: "timerValue", defaultValue: 5)
+  public static var timerValue: Int
+  
+  @UserDefault(key: "drowsinessTimerValue", defaultValue: 5)
+  public static var drowsinessTimerValue: Int
+  
+  @UserDefault(key: "isSaveTimeLapse", defaultValue: true)
+  public static var isSaveTimeLapse: Bool
 }

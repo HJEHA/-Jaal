@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import DomainActivityInterface
+import CoreUserDefaults
 
 @Reducer
 public struct MeasurementRootStore {
@@ -33,12 +34,12 @@ public struct MeasurementRootStore {
     public var placeholder: String = "제목을 입력해주세요"
     public var selectedMode: MeasurementMode = .normal
     
-    public var selectedTimerPickerItem: Int = 5
-    public var selecteddrowsinessTimerPickerItem: Int = 5
+    public var selectedTimerPickerItem: Int = JaalUserDefaults.timerValue
+    public var selectedDrowsinessTimerPickerItem: Int = JaalUserDefaults.drowsinessTimerValue
     public var timerPickerItems: [Int] = [
     5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
     ]
-    public var isSaveTimeLapes: Bool = true
+    public var isSaveTimeLapse: Bool = JaalUserDefaults.isSaveTimeLapse
     
     public init() { }
   }
