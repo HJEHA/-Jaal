@@ -129,6 +129,7 @@ extension MeasurementStore {
           if initialCenter.distance(to: center) > 0.1 {
             state.isWarning = true
           } else {
+            state.correctPoseTime += 1
             state.isWarning = false
           }
           
@@ -145,6 +146,7 @@ extension MeasurementStore {
               title: state.title,
               measurementMode: state.mode,
               activityDuration: state.time,
+              correctPoseTime: state.correctPoseTime,
               blinkCount: state.eyeBlinkCount,
               timelapse: state.timeLapseData
             )

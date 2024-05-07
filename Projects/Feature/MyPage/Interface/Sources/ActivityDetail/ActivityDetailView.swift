@@ -163,7 +163,9 @@ extension ActivityDetailView {
       VStack(alignment: .leading) {
         makeDetailInfo(
           title: "측정 시간",
-          value: TimeFormatter.toClockString(from: store.activity.activityDuration),
+          value: TimeFormatter.toClockString(
+            from: store.activity.activityDuration
+          ),
           color: color
         )
         
@@ -178,10 +180,11 @@ extension ActivityDetailView {
       }
       
       VStack(alignment: .leading) {
-        //TODO: - 측청 모듈에서 바른 자세 유지 시간 구하기
         makeDetailInfo(
           title: "바른 자세 시간",
-          value: TimeFormatter.toClockString(from: store.activity.activityDuration),
+          value: TimeFormatter.toClockString(
+            from: store.activity.correctPoseTime
+          ),
           color: color
         )
         
@@ -196,7 +199,7 @@ extension ActivityDetailView {
         )
       }
     }
-    .padding(.all, 16)
+    .padding(16)
     .background(SharedDesignSystemAsset.gray300.swiftUIColor)
     .clipShape(RoundedRectangle(cornerRadius: 16))
   }
