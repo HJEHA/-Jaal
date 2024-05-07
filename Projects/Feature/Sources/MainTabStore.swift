@@ -29,6 +29,7 @@ public struct MainTabStore {
     public var myPage: MyPageRootStore.State = .init()
     
     public var selection: Int = 0
+    public var newActivityBadge: String? = nil
     public init() {}
   }
   
@@ -67,14 +68,16 @@ public struct MainTabStore {
           state.selection = 1
           return .none
           
-        case .measurement:
-          return .none
+        case .measurement(.measurement(.presented(.saveActivity))):
+          state.newActivityBadge = "New"
+          return .send(.myPage(.calendar(.selectedDate(.now))))
           
         case let .selectionChanged(selection):
           state.selection = selection
           return .none
           
-        case .myPage:
+        case .myPage(.onAppear):
+          state.newActivityBadge = nil
           return .none
           
         default:

@@ -141,6 +141,13 @@ extension MeasurementStore {
           return .none
           
         case .closeButtonTapped:
+          if state.isInitailing == true {
+            return .none
+          }
+          
+          return .send(.saveActivity)
+          
+        case .saveActivity:
           do {
             let activity = Activity(
               title: state.title,

@@ -61,6 +61,7 @@ public struct MainTabView: View {
           action: \.myPage
         )
       )
+      .badge(store.newActivityBadge)
       .tabItem {
         Text("\(MainScene.myPage.title)")
         Image(systemName: "\(MainScene.myPage.imageName)")

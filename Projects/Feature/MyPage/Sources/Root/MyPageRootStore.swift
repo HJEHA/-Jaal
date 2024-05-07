@@ -34,9 +34,6 @@ extension MyPageRootStore {
           state.activities.selectedDate = date
           return .send(.activities(.fetch(date)))
           
-        case .activities:
-          return .none
-          
         case .editProfileButtonTapped:
           state.onboardingProfile = .init(
             name: JaalUserDefaults.name,
