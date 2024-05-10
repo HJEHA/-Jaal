@@ -31,7 +31,7 @@ public struct MeasurementRootStore {
     @Presents public var measurement: MeasurementStore.State?
     
     public var title: String = ""
-    public var placeholder: String = "제목을 입력해주세요"
+    public var placeholder: String = "이전 제목 (\(JaalUserDefaults.lastMeasurementTitle))"
     public var selectedMode: MeasurementMode = .normal
     
     public var selectedTimerPickerItem: Int = JaalUserDefaults.timerValue

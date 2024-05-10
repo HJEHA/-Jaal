@@ -110,7 +110,7 @@ extension MeasurementRootView {
         .resizable()
         .frame(width: 14, height: 14)
       
-      Text("입력이 없는 경우 이전에 입력했던 제목으로 저장됩니다.")
+      Text("입력이 없는 경우 이전 제목으로 저장됩니다.")
         .modifier(GamtanFont(font: .bold, size: 14))
     }
     .foregroundColor(
