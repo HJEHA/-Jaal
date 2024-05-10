@@ -88,7 +88,7 @@ extension HomeRootView {
   private var title: some View {
     SharedDesignSystemAsset.logo.swiftUIImage
       .resizable()
-      .frame(width: 100, height: 46)
+      .frame(width: 100, height: 33)
   }
   
   private var todayActivity: some View {
