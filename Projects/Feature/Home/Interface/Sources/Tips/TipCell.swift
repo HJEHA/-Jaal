@@ -24,7 +24,9 @@ public struct TipCell: View {
   
   public var body: some View {
     Button {
-      show.toggle()
+      withAnimation {
+        show.toggle()
+      }
     } label: {
       VStack(alignment: .leading) {
         HStack {
@@ -66,7 +68,8 @@ public struct TipCell: View {
             .foregroundColor(
               SharedDesignSystemAsset.gray700.swiftUIColor
             )
-            .padding(.top, 4)
+            .padding(.top, 8)
+            .transition(.scale(scale: 1, anchor: .top))
         }
       }
       .padding(16)

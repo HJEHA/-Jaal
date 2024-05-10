@@ -58,10 +58,10 @@ public struct HomeRootView: View {
                 goToMeamentsureButton
               }
             }
-            .frame(maxHeight: store.activities.activities.isEmpty ? 240 : 260)
+            .frame(height: 260)
             
             tipTitle
-              .padding(.top, 24)
+              .padding(.top, 36)
               .padding(.horizontal, 16)
             
             tips
@@ -175,8 +175,25 @@ extension HomeRootView {
           show: $store.showTip3,
           tip: .tip3
         )
+        
+        Divider()
+          .padding(.horizontal, 16)
+        
+        source
       }
     }
     .clipShape(RoundedRectangle(cornerRadius: 16))
+  }
+  
+  private var source: some View {
+    HStack {
+      Spacer()
+      
+      Text("출처: 국가건강정보포털(health.kdca.go.kr)")
+        .modifier(GamtanFont(font: .bold, size: 12))
+        .foregroundColor(SharedDesignSystemAsset.gray600.swiftUIColor)
+    }
+    .padding(.top, 8)
+    .padding([.horizontal, .bottom], 16)
   }
 }
