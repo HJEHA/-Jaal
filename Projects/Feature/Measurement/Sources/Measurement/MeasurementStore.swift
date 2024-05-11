@@ -27,26 +27,6 @@ extension MeasurementStore {
       switch action {
         case let .faceTracking(action):
           switch action {
-            case let .changedFaceCenter(center):
-              state.faceCenter = center
-              return .none
-              
-            case let .eyeBlink(value):
-              if state.isInitailing == true {
-                return .none
-              }
-              
-              if value == 0 {
-                state.isEyeClose = true
-              } else {
-                if state.isEyeClose == true {
-                  state.eyeBlinkCount += 1
-                }
-                state.isEyeClose = false
-              }
-              
-              return .none
-            
             case let .saveImage(image):
               guard let image else {
                 return .none
@@ -76,6 +56,14 @@ extension MeasurementStore {
               return .none
           }
           
+        case .eyeBlinked:
+          if state.isInitailing == true {
+            return .none
+          }
+          state.eyeBlinkCount += 1
+          
+          return .none
+          
         case .appear:
           return .send(.initialTimerStart)
           
@@ -91,7 +79,7 @@ extension MeasurementStore {
         case .initialTimerTicked:
           if state.initialTimerCount == 0 {
             state.isInitailing = false
-            state.initialFaceCenter = state.faceCenter
+            state.initialFaceCenter = state.sharedState.faceCenter
             return .concatenate([
               .send(.start),
               .cancel(id: CancelID.timer)
@@ -124,7 +112,7 @@ extension MeasurementStore {
           return .none
           
         case .faceDistance:
-          guard let center = state.faceCenter,
+          guard let center = state.sharedState.faceCenter,
                 let initialCenter = state.initialFaceCenter
           else {
             return .none
@@ -173,6 +161,9 @@ extension MeasurementStore {
       }
     }
     
-    self.init(reducer: reducer)
+    self.init(
+      reducer: reducer,
+      faceTracking: FaceTrackingStore()
+    )
   }
 }

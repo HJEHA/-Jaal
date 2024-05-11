@@ -58,7 +58,7 @@ public struct HomeRootView: View {
                 goToMeamentsureButton
               }
             }
-            .frame(height: 260)
+            .frame(maxHeight: 260)
             
             tipTitle
               .padding(.top, 36)

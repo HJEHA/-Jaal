@@ -9,7 +9,6 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import DomainFaceTrackingInterface
 import SharedDesignSystem
 
 public struct MeasurementView: View {
@@ -26,13 +25,6 @@ public struct MeasurementView: View {
       if store.isWarning == true {
         WarningScreen()
       }
-      
-      BrightnessView(
-        store: store.scope(
-          state: \.brightness,
-          action: \.brightness
-        )
-      )
       
       if store.isInitailing == true {
         initialTimer
@@ -60,6 +52,11 @@ public struct MeasurementView: View {
     }
     .onAppear {
       store.send(.appear)
+    }
+    .onChange(of: store.sharedState.isEyeClose) { _, newValue in
+      if newValue == false {
+        store.send(.eyeBlinked)
+      }
     }
   }
 }

@@ -26,7 +26,7 @@ extension HomeRootStore {
             await send(.activities(.fetch(.now)))
           }
           
-        case .binding(_):
+        case .binding:
           return .none
         
         default:
