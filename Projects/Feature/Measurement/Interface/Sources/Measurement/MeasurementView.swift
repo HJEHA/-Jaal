@@ -21,13 +21,16 @@ public struct MeasurementView: View {
   public var body: some View {
     ZStack {
       trackingView
-            
+      
       if store.isWarning == true {
         WarningScreen()
       }
       
-      if store.isInitailing == true {
-        initialTimer
+      if let startStore = store.scope(
+        state: \.measurementStart,
+        action: \.measurementStart
+      ) {
+        MeasurementStartView(store: startStore)
       }
       
       VStack(alignment: .leading) {
@@ -39,7 +42,7 @@ public struct MeasurementView: View {
           Spacer()
         }
         
-        if store.isInitailing == false {
+        if store.measurementStart == nil {
           timer
             .padding(.top, 20)
           
@@ -51,7 +54,7 @@ public struct MeasurementView: View {
       }
     }
     .onAppear {
-      store.send(.appear)
+      store.send(.onAppear)
     }
     .onChange(of: store.sharedState.isEyeClose) { _, newValue in
       if newValue == false {
@@ -85,27 +88,6 @@ extension MeasurementView {
           )
       }
     )
-  }
-  
-  private var initialTimer: some View {
-    VStack {
-      Text("\(store.initialTimerCount)")
-        .foregroundColor(
-          SharedDesignSystemAsset.blue.swiftUIColor
-        )
-        .modifier(SamlipFont(size: 100))
-        .padding(4)
-      
-      Text("바른 자세를\n유지해주세요")
-        .modifier(SamlipFont(size: 50))
-        .multilineTextAlignment(.center)
-        .padding(20)
-        .background(
-          SharedDesignSystemAsset.gray100.swiftUIColor
-            .opacity(0.5)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-    }
   }
   
   private var timer: some View {

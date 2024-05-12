@@ -10,20 +10,22 @@ import SwiftUI
 import ComposableArchitecture
 
 import DomainActivityInterface
-import SharedDesignSystem
 
 @Reducer
 public struct MeasurementStore {
   
   private let reducer: Reduce<State, Action>
   private let faceTracking: FaceTrackingStore
+  private let measurementStart: MeasurementStartStore
   
   public init(
     reducer: Reduce<State, Action>,
-    faceTracking: FaceTrackingStore
+    faceTracking: FaceTrackingStore,
+    measurementStart: MeasurementStartStore
   ) {
     self.reducer = reducer
     self.faceTracking = faceTracking
+    self.measurementStart = measurementStart
   }
   
   public enum CancelID {
@@ -50,11 +52,9 @@ public struct MeasurementStore {
         self.sharedState = newValue.sharedState
       }
     }
+    public var measurementStart: MeasurementStartStore.State?
     
-    public var isInitailing: Bool = false
-    public var initialTimerCount: Int = 5
     public var initialFaceCenter: SIMD3<Float>?
-    
     public var time: Int = 0
     public var correctPoseTime: Int = 0
     public var timeString: String = "00:00"
@@ -78,10 +78,9 @@ public struct MeasurementStore {
     case binding(BindingAction<State>)
     
     case faceTracking(FaceTrackingStore.Action)
+    case measurementStart(MeasurementStartStore.Action)
     
-    case appear
-    case initialTimerTicked
-    case initialTimerStart
+    case onAppear
     case start
     case timerTicked
     case faceDistance
@@ -93,9 +92,12 @@ public struct MeasurementStore {
   
   public var body: some ReducerOf<Self> {
     BindingReducer()
-    Scope(state: \.faceTracking, action: /Action.faceTracking) {
+    Scope(state: \.faceTracking, action: \.faceTracking) {
       faceTracking
     }
     reducer
+      .ifLet(\.measurementStart, action: \.measurementStart) {
+        measurementStart
+      }
   }
 }

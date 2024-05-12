@@ -56,40 +56,17 @@ extension MeasurementStore {
               return .none
           }
           
-        case .eyeBlinked:
-          if state.isInitailing == true {
-            return .none
-          }
-          state.eyeBlinkCount += 1
-          
+        case .onAppear:
+          state.measurementStart = .init()
           return .none
           
-        case .appear:
-          return .send(.initialTimerStart)
-          
-        case .initialTimerStart:
-          state.isInitailing = true
-          return .run { send in
-            for await _ in clock.timer(interval: .seconds(1)) {
-              await send(.initialTimerTicked)
-            }
-          }
-          .cancellable(id: CancelID.timer)
-          
-        case .initialTimerTicked:
-          if state.initialTimerCount == 0 {
-            state.isInitailing = false
-            state.initialFaceCenter = state.sharedState.faceCenter
-            return .concatenate([
-              .send(.start),
-              .cancel(id: CancelID.timer)
-            ])
-          }
-          
-          state.initialTimerCount -= 1
-          return .none
-          
+        case .measurementStart(.initialEnded):
+          return .send(.start)
+       
         case .start:
+          state.measurementStart = nil
+          state.initialFaceCenter = state.sharedState.faceCenter
+          
           return .run { send in
             for await _ in clock.timer(interval: .seconds(1)) {
               await send(.timerTicked)
@@ -127,13 +104,21 @@ extension MeasurementStore {
           
           return .none
           
+        case .eyeBlinked:
+          if state.measurementStart != nil {
+            return .none
+          }
+          state.eyeBlinkCount += 1
+          
+          return .none
+          
         case let .saveTimeLapseResponse(value):
           state.timeLapseData.append(value)
           
           return .none
           
         case .closeButtonTapped:
-          if state.isInitailing == true {
+          if state.measurementStart != nil {
             return .none
           }
           
@@ -163,7 +148,8 @@ extension MeasurementStore {
     
     self.init(
       reducer: reducer,
-      faceTracking: FaceTrackingStore()
+      faceTracking: FaceTrackingStore(),
+      measurementStart: MeasurementStartStore()
     )
   }
 }
