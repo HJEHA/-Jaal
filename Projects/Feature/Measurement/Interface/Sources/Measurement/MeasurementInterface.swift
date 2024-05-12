@@ -10,6 +10,8 @@ import SwiftUI
 import ComposableArchitecture
 
 import DomainActivityInterface
+import CoreUserDefaults
+import SharedUtil
 
 @Reducer
 public struct MeasurementStore {
@@ -57,12 +59,19 @@ public struct MeasurementStore {
     public var initialFaceCenter: SIMD3<Float>?
     public var time: Int = 0
     public var correctPoseTime: Int = 0
-    public var timeString: String = "00:00"
+    public var timeString: String {
+      switch mode {
+        case .normal:
+          return TimeFormatter.toClockString(from: time)
+        case .focus:
+          let totalTime = JaalUserDefaults.timerValue * 60
+          
+          return TimeFormatter.toClockString(from: totalTime - time)
+      }
+    }
     
     public var eyeBlinkCount = 0
-    
     public var isWarning: Bool = false
-    
     public var timeLapseData: [Timelapse] = []
     
     public init(
