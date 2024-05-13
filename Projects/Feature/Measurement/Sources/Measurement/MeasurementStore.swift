@@ -130,8 +130,9 @@ extension MeasurementStore {
           return .send(.saveActivity)
           
         case .saveActivity:
+          let activity: Activity
           do {
-            let activity = Activity(
+            activity = Activity(
               title: state.title,
               measurementMode: state.mode,
               activityDuration: state.time,
@@ -141,9 +142,10 @@ extension MeasurementStore {
             )
             try activityClient.add(activity)
           } catch { }
+          
           return .concatenate([
             .cancel(id: CancelID.timer),
-            .none
+            .send(.saveActivityCompleted(activity))
           ])
           
         default:

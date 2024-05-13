@@ -13,6 +13,7 @@ import FeatureMeasurementInterface
 import CoreUserDefaults
 
 extension MeasurementRootStore {
+  
   public init() {
     let reducer: Reduce<State, Action> = Reduce { state, action in
       switch action {
@@ -28,6 +29,15 @@ extension MeasurementRootStore {
           
           return .none
         
+        case let .measurement(.presented(.saveActivityCompleted(activity))):
+          state.end = .init(activity: activity)
+          return .none
+          
+        case .end(.closeButtonTapped):
+          state.end = nil
+          
+          return .none
+          
         case .startButtonTapped:
           var title: String
           
@@ -54,7 +64,8 @@ extension MeasurementRootStore {
     
     self.init(
       reducer: reducer,
-      measurement: MeasurementStore()
+      measurement: MeasurementStore(),
+      end: MeasurementEndStore()
     )
   }
 }

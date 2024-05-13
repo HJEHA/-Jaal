@@ -76,7 +76,7 @@ public struct ActivityDetailView: View {
 }
 
 extension ActivityDetailView {
-  func makeIcon(_ mode: MeasurementMode) -> some View {
+  private func makeIcon(_ mode: MeasurementMode) -> some View {
     let icon: Image
     
     switch mode {
@@ -108,7 +108,7 @@ extension ActivityDetailView {
     }
   }
   
-  var simpleInfoView: some View {
+  private var simpleInfoView: some View {
     HStack {
       makeIcon(store.activity.measurementMode)
         .padding(.leading, 16)
@@ -130,7 +130,7 @@ extension ActivityDetailView {
     }
   }
   
-  var title: some View {
+  private var title: some View {
     Text(store.activity.title)
       .modifier(GamtanFont(font: .bold, size: 18))
       .foregroundColor(
@@ -138,13 +138,13 @@ extension ActivityDetailView {
       )
   }
   
-  var mode: some View {
+  private var mode: some View {
     Text(store.activity.measurementMode.title)
       .modifier(GamtanFont(font: .bold, size: 16))
       .foregroundColor(color)
   }
   
-  var dateRange: some View {
+  private var dateRange: some View {
     return Text(store.dateRange)
       .modifier(GamtanFont(font: .bold, size: 18))
       .foregroundColor(
@@ -152,7 +152,7 @@ extension ActivityDetailView {
       )
   }
   
-  var infoTitle: some View {
+  private var infoTitle: some View {
     return Text("세부사항")
       .modifier(GamtanFont(font: .bold, size: 20))
       .foregroundColor(
@@ -160,7 +160,7 @@ extension ActivityDetailView {
       )
   }
   
-  var infoView: some View {
+  private var infoView: some View {
     HStack(spacing: 0) {
       VStack(alignment: .leading) {
         makeDetailInfo(
@@ -205,7 +205,7 @@ extension ActivityDetailView {
     .clipShape(RoundedRectangle(cornerRadius: 16))
   }
   
-  func makeDetailInfo(
+  private func makeDetailInfo(
     title: String,
     value: String,
     color: Color
@@ -223,7 +223,7 @@ extension ActivityDetailView {
     }
   }
   
-  var timeLapseTitle: some View {
+  private var timeLapseTitle: some View {
     Text("타입랩스")
       .modifier(GamtanFont(font: .bold, size: 20))
       .foregroundColor(
@@ -231,7 +231,7 @@ extension ActivityDetailView {
       )
   }
   
-  var timeLapseGridView: some View {
+  private var timeLapseGridView: some View {
     HStack(spacing: 0) {
       LazyVGrid(columns: columns) {
         ForEach((store.thumbnail.indices), id: \.self) { index in
@@ -248,7 +248,7 @@ extension ActivityDetailView {
     .clipShape(RoundedRectangle(cornerRadius: 16))
   }
   
-  func photoView(_ data: Data) -> some View {
+  private func photoView(_ data: Data) -> some View {
     return Image(uiImage: UIImage(data: data) ?? UIImage())
       .resizable()
       .aspectRatio(contentMode: .fill)

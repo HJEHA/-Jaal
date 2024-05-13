@@ -17,18 +17,22 @@ public struct MeasurementRootStore {
 
   private let reducer: Reduce<State, Action>
   private let measurement: MeasurementStore
+  private let end: MeasurementEndStore
   
   public init(
     reducer: Reduce<State, Action>,
-    measurement: MeasurementStore
+    measurement: MeasurementStore,
+    end: MeasurementEndStore
   ) {
     self.reducer = reducer
     self.measurement = measurement
+    self.end = end
   }
   
   @ObservableState
   public struct State: Equatable {
     @Presents public var measurement: MeasurementStore.State?
+    public var end: MeasurementEndStore.State?
     
     public var title: String = ""
     public var placeholder: String = "이전 제목 (\(JaalUserDefaults.lastMeasurementTitle))"
@@ -48,6 +52,7 @@ public struct MeasurementRootStore {
     case binding(BindingAction<State>)
     
     case measurement(PresentationAction<MeasurementStore.Action>)
+    case end(MeasurementEndStore.Action)
     
     case onAppear
     case modeButtonTapped(MeasurementMode)
@@ -59,6 +64,9 @@ public struct MeasurementRootStore {
     reducer
       .ifLet(\.$measurement, action: /Action.measurement) {
         measurement
+      }
+      .ifLet(\.end, action: \.end) {
+        end
       }
   }
 }

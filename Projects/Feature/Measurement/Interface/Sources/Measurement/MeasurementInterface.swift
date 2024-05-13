@@ -97,6 +97,7 @@ public struct MeasurementStore {
     case saveTimeLapseResponse(Timelapse)
     case closeButtonTapped
     case saveActivity
+    case saveActivityCompleted(Activity)
   }
   
   public var body: some ReducerOf<Self> {

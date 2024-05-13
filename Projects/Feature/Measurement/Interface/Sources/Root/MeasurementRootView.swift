@@ -21,74 +21,80 @@ public struct MeasurementRootView: View {
   }
   
   public var body: some View {
-    NavigationStack {
-      VStack(alignment: .leading) {
-        HStack {
-          title
+    ZStack {
+      NavigationStack {
+        VStack(alignment: .leading) {
+          HStack {
+            title
+            
+            Spacer()
+            
+            startButton
+          }
+          .padding(.horizontal, 16)
+          .padding(.vertical, 8)
+          
+          measurementTitle
+            .padding(.leading, 20)
+            .padding(.top, 12)
+          
+          JaalTextField(
+            isFocused: $isFocused,
+            text: $store.title
+          )
+          .setPlaceHolderText(store.placeholder)
+          .focused($isFocused)
+          .padding(.horizontal, 20)
+          
+          titleNotice
+            .padding(.top, 4)
+            .padding(.horizontal, 20)
+          
+          
+          selectedMode
+            .padding(.leading, 20)
+            .padding(.top, 20)
+          
+          HStack {
+            modeSelectButton(store, mode: .normal)
+            
+            modeSelectButton(store, mode: .focus)
+          }
+          .padding(.horizontal, 20)
+          .padding(.top, 8)
+          
+          if store.selectedMode == .focus {
+            timerPicker
+              .padding(.horizontal, 20)
+              .padding(.top, 20)
+            
+            drowsinessTimerPicker
+              .padding(.horizontal, 20)
+              .padding(.top, 20)
+          }
+          
+          saveTimeLapse
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
           
           Spacer()
-          
-          startButton
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        
-        measurementTitle
-          .padding(.leading, 20)
-          .padding(.top, 12)
-        
-        JaalTextField(
-          isFocused: $isFocused,
-          text: $store.title
-        )
-        .setPlaceHolderText(store.placeholder)
-        .focused($isFocused)
-        .padding(.horizontal, 20)
-        
-        titleNotice
-          .padding(.top, 4)
-          .padding(.horizontal, 20)
-        
-        
-        selectedMode
-          .padding(.leading, 20)
-          .padding(.top, 20)
-        
-        HStack {
-          modeSelectButton(store, mode: .normal)
-          
-          modeSelectButton(store, mode: .focus)
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 8)
-        
-        if store.selectedMode == .focus {
-          timerPicker
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
-          
-          drowsinessTimerPicker
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
-        }
-        
-        saveTimeLapse
-          .padding(.horizontal, 20)
-          .padding(.top, 20)
-        
-        Spacer()
+        .background(SharedDesignSystemAsset.gray100.swiftUIColor)
       }
-      .background(SharedDesignSystemAsset.gray100.swiftUIColor)
-    }
-    .onTapGesture {
-      isFocused = false
-    }
-    .fullScreenCover(
-      item: $store.scope(state: \.measurement, action: \.measurement)) { store in
-        NavigationStack {
-          MeasurementView(store: store)
-        }
+      .onTapGesture {
+        isFocused = false
       }
+      .fullScreenCover(
+        item: $store.scope(state: \.measurement, action: \.measurement)) { store in
+          NavigationStack {
+            MeasurementView(store: store)
+          }
+        }
+      
+      if let endStore = store.scope(state: \.end, action: \.end) {
+        MeasurementEndView(store: endStore)
+      }
+    }
   }
 }
 
