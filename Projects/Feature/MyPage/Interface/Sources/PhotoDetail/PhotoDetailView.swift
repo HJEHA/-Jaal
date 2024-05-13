@@ -110,9 +110,9 @@ extension PhotoDetailView {
             ) ?? UIImage()
             Image(uiImage: image)
               .resizable()
+              .aspectRatio(contentMode: .fill)
+              .scaleEffect(0.7)
               .frame(width: UIScreen.main.bounds.width)
-              .scaledToFit()
-              .scaleEffect(0.8)
               .id(index)
           }
         }
