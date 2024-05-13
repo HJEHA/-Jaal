@@ -49,12 +49,14 @@ public struct ActivityDetailView: View {
           infoView
             .padding(.horizontal, 16)
           
-          timeLapseTitle
-            .padding(.leading, 16)
-            .padding(.top, 20)
-          
-          timeLapseGridView
-            .padding(.horizontal, 16)
+          if store.activity.timelapse.isEmpty == false {
+            timeLapseTitle
+              .padding(.leading, 16)
+              .padding(.top, 20)
+            
+            timeLapseGridView
+              .padding(.horizontal, 16)
+          }
           
           Spacer()
         }
