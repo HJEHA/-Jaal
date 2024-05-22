@@ -114,6 +114,33 @@ extension MeasurementStore {
             return .none
           }
           state.eyeBlinkCount += 1
+          state.isSleep = false
+          state.sleepTime = KUUserDefaults.sleepTimerValue
+          
+          return .concatenate([
+            .cancel(id: CancelID.sleepTimer),
+            .none
+          ])
+          
+        case .sleepTimerStart:
+          guard state.mode == .focus else {
+            return .none
+          }
+          
+          return .run { send in
+            for await _ in clock.timer(interval: .seconds(1)) {
+              await send(.sleepTimerTicked)
+            }
+          }
+          .cancellable(id: CancelID.sleepTimer)
+          
+        case .sleepTimerTicked:
+          state.sleepTime -= 1
+          
+          if state.sleepTime <= 0 {
+            state.isSleep = true
+            UIDevice.vibrate()
+          }
           
           return .none
           

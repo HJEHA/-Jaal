@@ -22,7 +22,9 @@ public struct MeasurementView: View {
     ZStack {
       trackingView
       
-      if store.isWarning == true {
+      if store.isWarning == true
+          || store.isSleep == true
+      {
         WarningScreen()
       }
       
@@ -59,6 +61,8 @@ public struct MeasurementView: View {
     .onChange(of: store.sharedState.isEyeClose) { _, newValue in
       if newValue == false {
         store.send(.eyeBlinked)
+      } else {
+        store.send(.sleepTimerStart)
       }
     }
   }

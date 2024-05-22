@@ -76,8 +76,8 @@ public struct KUUserDefaults {
   @UserDefault(key: "timerValue", defaultValue: 5)
   public static var timerValue: Int
   
-  @UserDefault(key: "drowsinessTimerValue", defaultValue: 5)
-  public static var drowsinessTimerValue: Int
+  @UserDefault(key: "sleepTimerValue", defaultValue: 5)
+  public static var sleepTimerValue: Int
   
   @UserDefault(key: "isSaveTimeLapse", defaultValue: true)
   public static var isSaveTimeLapse: Bool
@@ -90,7 +90,7 @@ public struct KUUserDefaults {
     KUUserDefaults.faceID = 0
     KUUserDefaults.lastMeasurementTitle = "\(KUUserDefaults.name)님의 측정"
     KUUserDefaults.timerValue = 5
-    KUUserDefaults.drowsinessTimerValue = 5
+    KUUserDefaults.sleepTimerValue = 5
     KUUserDefaults.isSaveTimeLapse = true
   }
 }

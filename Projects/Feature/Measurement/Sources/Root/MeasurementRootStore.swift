@@ -48,7 +48,7 @@ extension MeasurementRootStore {
             title = state.title
           }
           KUUserDefaults.timerValue = state.selectedTimerPickerItem
-          KUUserDefaults.drowsinessTimerValue = state.selectedDrowsinessTimerPickerItem
+          KUUserDefaults.sleepTimerValue = state.selectedSleepTimerPickerItem
           KUUserDefaults.isSaveTimeLapse = state.isSaveTimeLapse
           
           state.measurement = .init(

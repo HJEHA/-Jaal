@@ -68,7 +68,7 @@ public struct MeasurementRootView: View {
               .padding(.horizontal, 20)
               .padding(.top, 20)
             
-            drowsinessTimerPicker
+            sleepTimerPicker
               .padding(.horizontal, 20)
               .padding(.top, 20)
           }
@@ -152,7 +152,7 @@ extension MeasurementRootView {
     }
   }
   
-  private var drowsinessTimerPicker: some View {
+  private var sleepTimerPicker: some View {
     HStack {
       Text("졸음방지 설정")
         .modifier(GamtanFont(font: .bold, size: 20))
@@ -160,13 +160,13 @@ extension MeasurementRootView {
       Spacer()
       
       Menu {
-        Picker(selection: $store.selectedDrowsinessTimerPickerItem) {
+        Picker(selection: $store.selectedSleepTimerPickerItem) {
           ForEach(store.timerPickerItems, id: \.self) {
             Text("\($0)초")
           }
         } label: {}
       } label: {
-        Text("\(store.selectedDrowsinessTimerPickerItem)초")
+        Text("\(store.selectedSleepTimerPickerItem)초")
           .modifier(GamtanFont(font: .bold, size: 18))
           .foregroundColor(
             SharedDesignSystemAsset.blue.swiftUIColor

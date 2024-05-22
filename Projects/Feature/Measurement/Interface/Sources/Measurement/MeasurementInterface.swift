@@ -32,6 +32,7 @@ public struct MeasurementStore {
   
   public enum CancelID {
     case timer
+    case sleepTimer
   }
   
   @ObservableState
@@ -71,6 +72,8 @@ public struct MeasurementStore {
     }
     
     public var eyeBlinkCount = 0
+    public var sleepTime: Int = KUUserDefaults.sleepTimerValue
+    public var isSleep: Bool = false
     public var isWarning: Bool = false
     public var timeLapseData: [Timelapse] = []
     
@@ -94,6 +97,8 @@ public struct MeasurementStore {
     case timerTicked
     case faceDistance
     case eyeBlinked
+    case sleepTimerStart
+    case sleepTimerTicked
     case saveTimeLapseResponse(Timelapse)
     case closeButtonTapped
     case saveActivity
