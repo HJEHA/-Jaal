@@ -64,7 +64,7 @@ public struct MeasurementStore {
         case .normal:
           return TimeFormatter.toClockString(from: time)
         case .focus:
-          let totalTime = JaalUserDefaults.timerValue * 60
+          let totalTime = KUUserDefaults.timerValue * 60
           
           return TimeFormatter.toClockString(from: totalTime - time)
       }

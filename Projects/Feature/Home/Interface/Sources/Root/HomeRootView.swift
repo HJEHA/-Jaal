@@ -142,7 +142,7 @@ extension HomeRootView {
   }
   
   private var tipTitle: some View {
-    Text("\(JaalUserDefaults.name)님을 위한 도움말")
+    Text("\(KUUserDefaults.name)님을 위한 도움말")
       .modifier(GamtanFont(font: .bold, size: 18))
   }
   

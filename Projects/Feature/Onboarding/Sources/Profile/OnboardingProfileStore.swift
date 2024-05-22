@@ -24,7 +24,7 @@ extension OnboardingProfileStore {
           return .none
           
         case .doneButtonTapped:
-          JaalUserDefaults.name = state.name
+          KUUserDefaults.name = state.name
           
           return .none
       }

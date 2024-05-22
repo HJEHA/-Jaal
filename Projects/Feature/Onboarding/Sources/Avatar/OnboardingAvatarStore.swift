@@ -36,10 +36,10 @@ extension OnboardingAvatarStore {
           return .none
           
         case .doneButtonTapped:
-          JaalUserDefaults.skinID = state.skinID
-          JaalUserDefaults.headID = state.headID
-          JaalUserDefaults.faceID = state.faceID
-          JaalUserDefaults.isOnboarding = false
+          KUUserDefaults.skinID = state.skinID
+          KUUserDefaults.headID = state.headID
+          KUUserDefaults.faceID = state.faceID
+          KUUserDefaults.isOnboarding = false
           
           return .none
       }

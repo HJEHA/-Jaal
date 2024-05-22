@@ -1,5 +1,5 @@
 //
-//  JaalUserDefaults.swift
+//  KUUserDefaults.swift
 //  CoreUserDefaults
 //
 //  Created by 황제하 on 4/24/24.
@@ -51,7 +51,7 @@ extension Optional : OptionalProtocol {
   }
 }
 
-public struct JaalUserDefaults {
+public struct KUUserDefaults {
   @UserDefault(key: "isOnboarding", defaultValue: true)
   public static var isOnboarding: Bool
   
@@ -69,7 +69,7 @@ public struct JaalUserDefaults {
   
   @UserDefault(
     key: "lastMeasurementTitle",
-    defaultValue: "\(JaalUserDefaults.name)님의 측정"
+    defaultValue: "\(KUUserDefaults.name)님의 측정"
   )
   public static var lastMeasurementTitle: String
   
@@ -81,4 +81,16 @@ public struct JaalUserDefaults {
   
   @UserDefault(key: "isSaveTimeLapse", defaultValue: true)
   public static var isSaveTimeLapse: Bool
+  
+  public static func reset() {
+    KUUserDefaults.isOnboarding = true
+    KUUserDefaults.name = ""
+    KUUserDefaults.skinID = 0
+    KUUserDefaults.headID = 0
+    KUUserDefaults.faceID = 0
+    KUUserDefaults.lastMeasurementTitle = "\(KUUserDefaults.name)님의 측정"
+    KUUserDefaults.timerValue = 5
+    KUUserDefaults.drowsinessTimerValue = 5
+    KUUserDefaults.isSaveTimeLapse = true
+  }
 }

@@ -57,7 +57,7 @@ extension MeasurementStore {
           }
           
         case .onAppear:
-          JaalUserDefaults.timerValue = 1
+          KUUserDefaults.timerValue = 1
           state.measurementStart = .init()
           return .none
           
@@ -80,13 +80,13 @@ extension MeasurementStore {
           state.time += 1
           
           if state.mode == .focus
-              && (JaalUserDefaults.timerValue * 60) == state.time
+              && (KUUserDefaults.timerValue * 60) == state.time
           {
             return .send(.saveActivity)
           }
           
           if state.time % 3 == 0
-             && JaalUserDefaults.isSaveTimeLapse == true
+             && KUUserDefaults.isSaveTimeLapse == true
           {
             return .send(.faceTracking(.snapshot))
           }

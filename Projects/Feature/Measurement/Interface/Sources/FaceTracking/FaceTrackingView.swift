@@ -77,10 +77,10 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   func faceAnchor() -> AnchorEntity {
     let faceAnchor = AnchorEntity(.face)
     let faceNode = createFaceNode(
-      "faceTexture\(JaalUserDefaults.faceID)"
+      "faceTexture\(KUUserDefaults.faceID)"
     )
     let headNode = createFaceNode(
-      "headTexture\(JaalUserDefaults.headID)"
+      "headTexture\(KUUserDefaults.headID)"
     )
     faceAnchor.addChild(headNode)
     faceAnchor.addChild(faceNode)
@@ -106,7 +106,7 @@ private struct FaceTrackerViewContainer: UIViewRepresentable {
   }
   
   func createMaterial(_ name: String) -> SimpleMaterial {
-    let color = SkinColors.allCases[JaalUserDefaults.skinID].color
+    let color = SkinColors.allCases[KUUserDefaults.skinID].color
     var material = SimpleMaterial()
     material.color = .init(
       tint: color.withAlphaComponent(0.999),

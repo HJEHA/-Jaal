@@ -16,7 +16,7 @@ public struct RootStore {
     case mainTab(MainTabStore.State)
     
     public init() {
-      if JaalUserDefaults.isOnboarding == true {
+      if KUUserDefaults.isOnboarding == true {
         self = .onboarding(.init())
       } else {
         self = .mainTab(.init())

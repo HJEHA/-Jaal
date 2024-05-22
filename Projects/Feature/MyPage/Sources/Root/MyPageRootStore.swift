@@ -36,38 +36,34 @@ extension MyPageRootStore {
           
         case .editProfileButtonTapped:
           state.onboardingProfile = .init(
-            name: JaalUserDefaults.name,
+            name: KUUserDefaults.name,
             isEdit: true
           )
           return .none
         
         case .editAvatarButtonTapped:
           state.onboardingAvatar = .init(
-            skinID: JaalUserDefaults.skinID,
-            headID: JaalUserDefaults.headID,
-            faceID: JaalUserDefaults.faceID,
+            skinID: KUUserDefaults.skinID,
+            headID: KUUserDefaults.headID,
+            faceID: KUUserDefaults.faceID,
             isEdit: true
           )
           return .none
           
         case .onboardingProfile(.presented(.doneButtonTapped)):
-          JaalUserDefaults.name = state.onboardingProfile?.name ?? ""
+          KUUserDefaults.name = state.onboardingProfile?.name ?? ""
           state.onboardingProfile = nil
           return .none
           
         case .onboardingAvatar(.presented(.doneButtonTapped)):
-          JaalUserDefaults.skinID = state.onboardingAvatar?.skinID ?? 0
-          JaalUserDefaults.headID = state.onboardingAvatar?.headID ?? 0
-          JaalUserDefaults.faceID = state.onboardingAvatar?.faceID ?? 0
+          KUUserDefaults.skinID = state.onboardingAvatar?.skinID ?? 0
+          KUUserDefaults.headID = state.onboardingAvatar?.headID ?? 0
+          KUUserDefaults.faceID = state.onboardingAvatar?.faceID ?? 0
           state.onboardingAvatar = nil
           return .none
           
         case .resetButtonTapped:
-          JaalUserDefaults.isOnboarding = true
-          JaalUserDefaults.name = ""
-          JaalUserDefaults.skinID = 0
-          JaalUserDefaults.headID = 0
-          JaalUserDefaults.faceID = 0
+          KUUserDefaults.reset()
           
           try? activityClient.deleteAll()
           

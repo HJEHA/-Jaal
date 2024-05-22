@@ -35,15 +35,15 @@ public struct MeasurementRootStore {
     public var end: MeasurementEndStore.State?
     
     public var title: String = ""
-    public var placeholder: String = "이전 제목 (\(JaalUserDefaults.lastMeasurementTitle))"
+    public var placeholder: String = "이전 제목 (\(KUUserDefaults.lastMeasurementTitle))"
     public var selectedMode: MeasurementMode = .normal
     
-    public var selectedTimerPickerItem: Int = JaalUserDefaults.timerValue
-    public var selectedDrowsinessTimerPickerItem: Int = JaalUserDefaults.drowsinessTimerValue
+    public var selectedTimerPickerItem: Int = KUUserDefaults.timerValue
+    public var selectedDrowsinessTimerPickerItem: Int = KUUserDefaults.drowsinessTimerValue
     public var timerPickerItems: [Int] = [
     5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
     ]
-    public var isSaveTimeLapse: Bool = JaalUserDefaults.isSaveTimeLapse
+    public var isSaveTimeLapse: Bool = KUUserDefaults.isSaveTimeLapse
     
     public init() { }
   }
