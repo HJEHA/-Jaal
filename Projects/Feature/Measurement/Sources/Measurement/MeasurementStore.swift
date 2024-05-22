@@ -5,7 +5,7 @@
 //  Created by 황제하 on 4/2/24.
 //
 
-import Foundation
+import UIKit
 
 import ComposableArchitecture
 
@@ -57,7 +57,6 @@ extension MeasurementStore {
           }
           
         case .onAppear:
-          KUUserDefaults.timerValue = 1
           state.measurementStart = .init()
           return .none
           
@@ -102,6 +101,7 @@ extension MeasurementStore {
           
           if initialCenter.distance(to: center) > 0.1 {
             state.isWarning = true
+            UIDevice.vibrate()
           } else {
             state.correctPoseTime += 1
             state.isWarning = false
