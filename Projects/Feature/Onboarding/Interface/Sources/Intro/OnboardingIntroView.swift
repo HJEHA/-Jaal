@@ -37,24 +37,24 @@ public struct OnboardingIntroView: View {
 
 extension OnboardingIntroView {
   private var onboardingIntroView: some View {
-    VStack(spacing : 82) {
+    VStack(spacing : 40) {
       TabView(
         selection: $store.tabViewIndex
       ) {
-        firstTabView()
+        makeTabView(SharedDesignSystemAsset.intro1.swiftUIImage)
           .tag(0)
-        secondTabView()
+        makeTabView(SharedDesignSystemAsset.intro2.swiftUIImage)
           .tag(1)
-        thirdTabView()
+        makeTabView(SharedDesignSystemAsset.intro3.swiftUIImage)
           .tag(2)
       }
       .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-      .frame(height: 440)
+      .frame(height: 500)
       
       VStack(spacing : 12) {
         switch store.tabViewIndex {
           case 0:
-            Text("\"자세알리미\"를 통해서")
+            Text("\"KEEP UP\"를 통해서")
               .modifier(GamtanFont(font: .bold, size: 16))
               .foregroundColor(
                 SharedDesignSystemAsset.gray700.swiftUIColor
@@ -116,33 +116,11 @@ extension OnboardingIntroView {
     }
   }
   
-  //TODO: - 이미지 제작
-  private func firstTabView() -> some View {
+  private func makeTabView(_ image: Image) -> some View {
     VStack {
-      Spacer()
+      image
       
-      SharedDesignSystemAsset.intro1.swiftUIImage
-        .scaleEffect(CGSize(width: 0.9, height: 0.9))
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(SharedDesignSystemAsset.blue.swiftUIColor)
-  }
-  
-  private func secondTabView() -> some View {
-    VStack {
       Spacer()
-      
-      Color.blue
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(SharedDesignSystemAsset.blue.swiftUIColor)
-  }
-  
-  private func thirdTabView() -> some View {
-    VStack {
-      Spacer()
-      
-      Color.green
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(SharedDesignSystemAsset.blue.swiftUIColor)
