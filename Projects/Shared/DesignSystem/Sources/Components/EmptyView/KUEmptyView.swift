@@ -1,5 +1,5 @@
 //
-//  JaalEmptyView.swift
+//  KUEmptyView.swift
 //  SharedDesignSystem
 //
 //  Created by 황제하 on 4/24/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct JaalEmptyView: View {
+public struct KUEmptyView: View {
   
   private let description: String
   

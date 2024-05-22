@@ -51,7 +51,7 @@ public struct HomeRootView: View {
               )
             ) {
               VStack {
-                JaalEmptyView(
+                KUEmptyView(
                   description: "앗! 측정 기록이 없습니다."
                 )
                 

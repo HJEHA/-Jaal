@@ -38,7 +38,7 @@ public struct MeasurementRootView: View {
             .padding(.leading, 20)
             .padding(.top, 12)
           
-          JaalTextField(
+          KUTextField(
             isFocused: $isFocused,
             text: $store.title
           )

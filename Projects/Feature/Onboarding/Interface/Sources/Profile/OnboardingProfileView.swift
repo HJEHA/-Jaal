@@ -23,7 +23,7 @@ public struct OnboardingProfileView: View {
     VStack(alignment: .leading) {
       title
       
-      JaalTextField(
+      KUTextField(
         isFocused: $isFocused,
         text: $store.name
       )

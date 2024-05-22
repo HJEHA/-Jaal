@@ -1,5 +1,5 @@
 //
-//  JaalTextField.swift
+//  KUTextField.swift
 //  SharedDesignSystem
 //
 //  Created by 황제하 on 4/25/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct JaalTextField: View {
+public struct KUTextField: View {
   
   private var isFocused: FocusState<Bool>.Binding
   private var text: Binding<String>
@@ -100,7 +100,7 @@ public struct JaalTextField: View {
   }
   
 }
-public extension JaalTextField {
+public extension KUTextField {
   
   func setTitleText(_ titleText: String) -> Self {
     var copy = self
