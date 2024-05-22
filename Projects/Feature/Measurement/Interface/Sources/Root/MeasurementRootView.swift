@@ -85,16 +85,21 @@ public struct MeasurementRootView: View {
         isFocused = false
       }
       .fullScreenCover(
-        item: $store.scope(state: \.measurement, action: \.measurement)) { store in
-          NavigationStack {
-            MeasurementView(store: store)
-          }
+        item: $store.scope(
+          state: \.measurement,
+          action: \.measurement
+        )
+      ) { store in
+        NavigationStack {
+          MeasurementView(store: store)
         }
+      }
       
       if let endStore = store.scope(state: \.end, action: \.end) {
         MeasurementEndView(store: endStore)
       }
     }
+    .alert($store.scope(state: \.alert, action: \.alert))
   }
 }
 

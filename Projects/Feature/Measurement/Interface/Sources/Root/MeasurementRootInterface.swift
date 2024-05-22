@@ -45,6 +45,8 @@ public struct MeasurementRootStore {
     ]
     public var isSaveTimeLapse: Bool = KUUserDefaults.isSaveTimeLapse
     
+    @Presents public var alert: AlertState<Action.Alert>?
+    
     public init() { }
   }
   
@@ -57,6 +59,12 @@ public struct MeasurementRootStore {
     case onAppear
     case modeButtonTapped(MeasurementMode)
     case startButtonTapped
+    
+    case alert(PresentationAction<Alert>)
+    case showNotSupportedAlert
+    public enum Alert: Equatable {
+      case doneTapped
+    }
   }
   
   public var body: some ReducerOf<Self> {
@@ -68,5 +76,6 @@ public struct MeasurementRootStore {
       .ifLet(\.end, action: \.end) {
         end
       }
+      .ifLet(\.$alert, action: \.alert)
   }
 }
