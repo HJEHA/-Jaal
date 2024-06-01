@@ -25,6 +25,14 @@ extension MeasurementRootStore {
           state.selectedMode = mode
           return .none
         
+        case .measurement(.presented(.closeButtonTapped)):
+          if state.measurement?.measurementStart != nil {
+            state.measurement = nil
+            return .none
+          }
+          
+          return .none
+          
         case .measurement(.presented(.saveActivity)):
           state.measurement = nil
           
