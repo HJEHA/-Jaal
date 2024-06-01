@@ -57,6 +57,7 @@ extension MeasurementStore {
           }
           
         case .onAppear:
+          UIApplication.shared.isIdleTimerDisabled = true
           state.measurementStart = .init()
           return .none
           
@@ -150,6 +151,8 @@ extension MeasurementStore {
           return .none
           
         case .closeButtonTapped:
+          UIApplication.shared.isIdleTimerDisabled = false
+          
           if state.measurementStart != nil {
             return .none
           }
