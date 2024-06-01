@@ -70,14 +70,18 @@ public struct MainTabStore {
           
         case .measurement(.measurement(.presented(.saveActivity))):
           state.newActivityBadge = "New"
-          return .send(.myPage(.calendar(.selectedDate(.now))))
+          return .none
           
         case let .selectionChanged(selection):
           state.selection = selection
           return .none
           
         case .myPage(.onAppear):
-          state.newActivityBadge = nil
+          if state.newActivityBadge != nil {
+            state.newActivityBadge = nil
+            return .send(.myPage(.calendar(.selectedDate(.now))))
+          }
+          
           return .none
           
         default:
