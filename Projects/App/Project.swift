@@ -9,9 +9,6 @@ let targets: [Target] = [
     factory: .init(
       infoPlist: .extendingDefault(
         with: [
-          "UIRequiredDeviceCapabilities": [
-            .string("ARKit")
-          ],
           "UIUserInterfaceStyle": .string("Light"),
           "CFBundleShortVersionString": Project.Environment.marketingVersion,
           "CFBundleVersion": Project.Environment.buildVersion,
