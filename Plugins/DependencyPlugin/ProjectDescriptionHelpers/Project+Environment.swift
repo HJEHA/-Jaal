@@ -10,6 +10,6 @@ public extension Project {
     )
     public static let bundlePrefix = "com.jeha.waistup"
     public static let buildVersion = Plist.Value(stringLiteral: "1")
-    public static let marketingVersion = Plist.Value(stringLiteral: "1.0.0")
+    public static let marketingVersion = Plist.Value(stringLiteral: "1.1.0")
   }
 }

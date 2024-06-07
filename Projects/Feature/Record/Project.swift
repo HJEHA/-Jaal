@@ -3,46 +3,42 @@ import ProjectDescriptionHelpers
 import DependencyPlugin
 
 let project = Project.makeModule(
-  name: ModulePath.Feature.name+ModulePath.Feature.Home.rawValue,
+  name: ModulePath.Feature.name+ModulePath.Feature.Record.rawValue,
   targets: [
     .feature(
-      interface: .Home,
+      interface: .Record,
       factory: .init(
         dependencies: [
-          .domain,
-          .feature(interface: .Record),
-          .feature(interface: .Onboarding)
+          .domain
         ]
       )
     ),
     .feature(
-      implements: .Home,
+      implements: .Record,
       factory: .init(
         dependencies: [
-          .feature(interface: .Home),
-          .feature(interface: .Record),
-          .feature(interface: .Onboarding)
+          .feature(interface: .Record)
         ]
       )
     ),
     .feature(
-      testing: .Home,
+      testing: .Record,
       factory: .init(
         dependencies: [
-          .feature(interface: .Home)
+          .feature(interface: .Record)
         ]
       )
     ),
     .feature(
-      tests: .Home,
+      tests: .Record,
       factory: .init(
         dependencies: [
-          .feature(testing: .Home)
+          .feature(testing: .Record)
         ]
       )
     ),
     .feature(
-      example: .Home,
+      example: .Record,
       factory: .init(
         infoPlist: .extendingDefault(
           with: [
@@ -56,7 +52,7 @@ let project = Project.makeModule(
           ]
         ),
         dependencies: [
-          .feature(interface: .Home)
+          .feature(interface: .Record)
         ],
         configurations: [.debug, .release]
       )

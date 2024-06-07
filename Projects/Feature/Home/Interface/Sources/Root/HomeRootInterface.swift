@@ -9,25 +9,36 @@ import Foundation
 
 import ComposableArchitecture
 
-import FeatureMyPageInterface
+import FeatureOnboardingInterface
+import FeatureRecordInterface
 import DomainActivityInterface
 
 @Reducer
 public struct HomeRootStore {
   
   private let reducer: Reduce<State, Action>
+  private let onboardingProfile: OnboardingProfileStore
+  private let onboardingAvatar: OnboardingAvatarStore
   private let activities: ActivitiesStore
   
   public init(
     reducer: Reduce<State, Action>,
+    onboardingProfile: OnboardingProfileStore,
+    onboardingAvatar: OnboardingAvatarStore,
     activities: ActivitiesStore
   ) {
     self.reducer = reducer
+    self.onboardingProfile = onboardingProfile
+    self.onboardingAvatar = onboardingAvatar
     self.activities = activities
   }
   
   @ObservableState
   public struct State: Equatable {
+    @Presents public var onboardingProfile: OnboardingProfileStore.State?
+    @Presents public var onboardingAvatar: OnboardingAvatarStore.State?
+    public var showResetActionSheet: Bool = false
+    
     public var activities: ActivitiesStore.State = .init(selectedDate: .now)
     
     public var showTip1: Bool = false
@@ -39,6 +50,14 @@ public struct HomeRootStore {
   
   public enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
+    
+    case editProfileButtonTapped
+    case onboardingProfile(PresentationAction<OnboardingProfileStore.Action>)
+    
+    case editAvatarButtonTapped
+    case onboardingAvatar(PresentationAction<OnboardingAvatarStore.Action>)
+    
+    case resetButtonTapped
     
     case onAppear
     case activities(ActivitiesStore.Action)
@@ -52,5 +71,11 @@ public struct HomeRootStore {
       activities
     }
     reducer
+      .ifLet(\.$onboardingProfile, action: /Action.onboardingProfile) {
+        onboardingProfile
+      }
+      .ifLet(\.$onboardingAvatar, action: /Action.onboardingAvatar) {
+        onboardingAvatar
+      }
   }
 }

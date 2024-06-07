@@ -13,8 +13,8 @@ import FeatureHome
 import FeatureHomeInterface
 import FeatureMeasurement
 import FeatureMeasurementInterface
-import FeatureMyPage
-import FeatureMyPageInterface
+import FeatureRecord
+import FeatureRecordInterface
 import FeatureOnboarding
 import FeatureOnboardingInterface
 
@@ -26,7 +26,7 @@ public struct MainTabStore {
   public struct State: Equatable {
     public var home: HomeRootStore.State = .init()
     public var measurement: MeasurementRootStore.State = .init()
-    public var myPage: MyPageRootStore.State = .init()
+    public var myPage: RecordRootStore.State = .init()
     
     public var selection: Int = 0
     public var newActivityBadge: String? = nil
@@ -36,7 +36,7 @@ public struct MainTabStore {
   public enum Action: Equatable {
     case home(HomeRootStore.Action)
     case measurement(MeasurementRootStore.Action)
-    case myPage(MyPageRootStore.Action)
+    case myPage(RecordRootStore.Action)
     
     case selectionChanged(Int)
   }
@@ -44,6 +44,8 @@ public struct MainTabStore {
   public var body: some ReducerOf<Self> {
     Scope(state: \.home, action: /Action.home) {
       HomeRootStore(
+        onboardingProfile: OnboardingProfileStore(), 
+        onboardingAvatar: OnboardingAvatarStore(),
         activities: ActivitiesStore(
           activityDetail: ActivityDetailStore()
         )
@@ -53,10 +55,7 @@ public struct MainTabStore {
       MeasurementRootStore()
     }
     Scope(state: \.myPage, action: /Action.myPage) {
-      MyPageRootStore(
-        onboardingProfile: OnboardingProfileStore(),
-        onboardingAvatar: OnboardingAvatarStore()
-      )
+      RecordRootStore()
     }
     Reduce { state, action in
       switch action {

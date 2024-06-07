@@ -9,7 +9,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import FeatureMyPageInterface
+import FeatureRecordInterface
+import FeatureOnboardingInterface
 import CoreUserDefaults
 import SharedDesignSystem
 
@@ -28,9 +29,15 @@ public struct HomeRootView: View {
       )
     ) {
       VStack(alignment: .leading) {
-        title
-          .padding(.horizontal, 16)
-          .padding(.vertical, 8)
+        HStack {
+          title
+          
+          Spacer()
+          
+          menu
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
         
         ScrollView {
           VStack(alignment: .leading) {
@@ -81,6 +88,35 @@ public struct HomeRootView: View {
       ActivityDetailView(store: store)
         .toolbarRole(.editor)
     }
+    .sheet(
+      item: $store.scope(
+        state: \.onboardingProfile,
+        action: \.onboardingProfile
+      )
+    ) { store in
+      OnboardingProfileView(store: store)
+    }
+    .sheet(
+      item: $store.scope(
+        state: \.onboardingAvatar,
+        action: \.onboardingAvatar
+      )
+    ) { store in
+      OnboardingAvatarView(store: store)
+    }
+    .confirmationDialog(
+      "",
+      isPresented: $store.showResetActionSheet
+    ) {
+      Button("초기화", role: .destructive) {
+        store.send(.resetButtonTapped)
+      }
+      Button("취소", role: .cancel) {
+        store.showResetActionSheet = false
+      }
+    } message: {
+      Text("모든 측정 기록 및 이미지가 삭제됩니다.\n정말 초기화 하시겠습니까?")
+    }
   }
 }
 
@@ -89,6 +125,29 @@ extension HomeRootView {
     SharedDesignSystemAsset.logo.swiftUIImage
       .resizable()
       .frame(width: 120, height: 30)
+  }
+  
+  private var menu: some View {
+    Menu {
+      Button("프로필 변경") {
+        store.send(.editProfileButtonTapped)
+      }
+      Button("아바타 변경") {
+        store.send(.editAvatarButtonTapped)
+      }
+      
+      Divider()
+      
+      Button(role: .destructive) {
+        store.showResetActionSheet = true
+      } label: {
+        Label("초기화", systemImage: "trash")
+      }
+    } label: {
+      Image(systemName: "person.circle")
+        .resizable()
+        .frame(width: 24, height: 24)
+    }
   }
   
   private var todayActivity: some View {

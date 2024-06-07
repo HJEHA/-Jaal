@@ -12,7 +12,7 @@ import SharedDesignSystem
 public enum MainScene: Hashable {
   case home
   case measurement
-  case myPage
+  case record
   
   var title: String {
     switch self {
@@ -20,8 +20,8 @@ public enum MainScene: Hashable {
         return "홈"
       case .measurement:
         return "측정하기"
-      case .myPage:
-        return "MY"
+      case .record:
+        return "기록"
     }
   }
   
@@ -31,8 +31,8 @@ public enum MainScene: Hashable {
         return "house.fill"
       case .measurement:
         return "camera.fill"
-      case .myPage:
-        return "person.fill"
+      case .record:
+        return "list.bullet"
     }
   }
 }

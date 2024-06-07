@@ -25,7 +25,7 @@ public extension ModulePath {
     case Onboarding
     case Home
     case Measurement
-    case MyPage
+    case Record
     
     public static let name: String = "Feature"
   }

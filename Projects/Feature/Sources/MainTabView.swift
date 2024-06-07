@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 import FeatureHomeInterface
 import FeatureMeasurementInterface
-import FeatureMyPageInterface
+import FeatureRecordInterface
 import SharedDesignSystem
 
 public struct MainTabView: View {
@@ -63,8 +63,8 @@ public struct MainTabView: View {
       )
       .badge(store.newActivityBadge)
       .tabItem {
-        Text("\(MainScene.myPage.title)")
-        Image(systemName: "\(MainScene.myPage.imageName)")
+        Text("\(MainScene.record.title)")
+        Image(systemName: "\(MainScene.record.imageName)")
       }
       .tag(2)
     }
