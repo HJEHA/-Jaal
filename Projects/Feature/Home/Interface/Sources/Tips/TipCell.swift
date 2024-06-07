@@ -69,6 +69,7 @@ public struct TipCell: View {
               SharedDesignSystemAsset.gray700.swiftUIColor
             )
             .padding(.top, 8)
+            .minimumScaleFactor(0.2)
             .transition(.scale(scale: 1, anchor: .top))
         }
       }

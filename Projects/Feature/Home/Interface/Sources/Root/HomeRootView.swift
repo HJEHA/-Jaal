@@ -215,9 +215,6 @@ extension HomeRootView {
           show: $store.showTip1,
           tip: .tip1
         )
-        .onTapGesture {
-          store.showTip1.toggle()
-        }
         
         Divider()
           .padding(.horizontal, 16)
